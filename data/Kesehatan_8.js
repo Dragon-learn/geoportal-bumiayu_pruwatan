@@ -1,1 +1,0 @@
-var json_Kesehatan_8 = {"type":"FeatureCollection","name":"Kesehatan_8","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"id":null,"Nama":"APOTEK PRUWATAN SEHAT","Jenis":"Apotek","id_no":"1"},"geometry":{"type":"Point","coordinates":[108.983715985759943,-7.277665167168046]}}]}
