@@ -10,7 +10,6 @@
         <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
         <link rel="stylesheet" href="css/L.Control.Locate.min.css">
         <link rel="stylesheet" href="css/qgis2web.css">
-        <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
@@ -22,16 +21,6 @@
             padding: 0;
             margin: 0;
         }
-
-		<script>
-		    document.addEventListener('DOMContentLoaded', function() {
-		        var header = document.getElementById('main-header');
-		        if(header) {
-		            var headerHeight = header.offsetHeight + 'px';
-		            document.documentElement.style.setProperty('--header-height', headerHeight);
-		        }
-		    });
-		</script>
         </style>
         <title></title>
     </head>
@@ -1954,6 +1943,14 @@
         map.on("layerremove", function(){
             resetLabels([layer_Wilayah_Desa_Pruwatan_1,layer_Dukuh_Dusun_2,layer_Wilayah_RT_3,layer_Sungai_Pruwatan_4,layer_Jalan_Wilayah_Pruwatan_5,layer_Sekolah_7,layer_Kesehatan_8,layer_Masjid_9,layer_Balai_desa_10,layer_Rumahterdekat_11,layer_Kuburan_12,layer_RumahHisyam_13]);
         });
+		    document.addEventListener('DOMContentLoaded', function() {
+		        var header = document.getElementById('main-header');
+		        if(header) {
+		            var headerHeight = header.offsetHeight + 'px';
+		            document.documentElement.style.setProperty('--header-height', headerHeight);
+		            console.log('Header height set to:', headerHeight); // Optional debug
+		        }
+		    });
         </script>        
     </body>
 </html>
