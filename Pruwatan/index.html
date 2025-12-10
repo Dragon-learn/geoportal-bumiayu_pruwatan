@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
         html, body, #map {
             width: 100%;
@@ -45,17 +46,26 @@
 		    justify-content: space-between;
 		    flex-wrap: wrap;
 		">
-		    <!-- Logo Area -->
+		    <!-- Logo Area (Updated path to ./images/logo.png) -->
 		    <div class="logo-area" style="display: flex; align-items: center;">
-		        <img src="../assets/logo.png" alt="Logo Geoportal" style="height: 50px; margin-right: 15px;">
+		        <!-- Logo now loads from the Pruwatan/images folder -->
+		        <img src="./images/logo.png" alt="Logo Geoportal" style="height: 50px; margin-right: 15px;">
 		        <h1 style="margin: 0; font-size: 1.5em;">Geoportal Bumiayu Pruwatan</h1>
 		    </div>
-		    <!-- Navigation -->
+		    <!-- Navigation with Icons (Same as Beranda) -->
 		    <nav>
-		        <a href="../Beranda/" style="color: white; margin: 0 10px; text-decoration: none; font-weight: bold; padding: 5px 10px;">Beranda</a>
-		        <a href="../Bumiayu/" style="color: white; margin: 0 10px; text-decoration: none; font-weight: bold; padding: 5px 10px;">Peta Bumiayu</a>
-		        <a href="../Pruwatan/" style="color: white; margin: 0 10px; text-decoration: none; font-weight: bold; padding: 5px 10px; background: rgba(255,255,255,0.2); border-radius: 4px;">Peta Pruwatan</a>
-		        <a href="../Tentang/" style="color: white; margin: 0 10px; text-decoration: none; font-weight: bold; padding: 5px 10px;">Tentang</a>
+		        <a href="../Beranda/" style="color: white; margin: 0 10px; text-decoration: none; font-weight: bold; padding: 5px 10px;">
+		            <i class="fas fa-home"></i> Beranda
+		        </a>
+		        <a href="../Bumiayu/" style="color: white; margin: 0 10px; text-decoration: none; font-weight: bold; padding: 5px 10px;">
+		            <i class="fas fa-map"></i> Peta Bumiayu
+		        </a>
+		        <a href="../pruwatan/" style="color: white; margin: 0 10px; text-decoration: none; font-weight: bold; padding: 5px 10px; background: rgba(255,255,255,0.2); border-radius: 4px;">
+		            <i class="fas fa-map-marked-alt"></i> Peta Pruwatan
+		        </a>
+		        <a href="../Tentang/" style="color: white; margin: 0 10px; text-decoration: none; font-weight: bold; padding: 5px 10px;">
+		            <i class="fas fa-info-circle"></i> Tentang
+		        </a>
 		    </nav>
 		</header>
 		
