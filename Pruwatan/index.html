@@ -17,29 +17,24 @@
 		<style>
 			html, body {
 			    width: 100%;
-			    height: 100vh; /* Key: Use viewport height as the flex container */
+			    height: 100vh;
 			    padding: 0;
 			    margin: 0;
-			    /* Turn the body into a vertical flex container */
-			    display: flex;
-			    flex-direction: column;
+			    /* Turn the body into a simple 2-row grid */
+			    display: grid;
+			    grid-template-rows: auto 1fr; /* Row 1: auto height for header. Row 2: remaining space (1fr) for map */
 			}
 			
-			/* The header will be as tall as its content (wraps naturally on mobile) */
 			#main-header {
-			    /* Remove the fixed 'height: 80px;' */
-			    flex-shrink: 0; /* Prevents the header from shrinking */
+			    grid-row: 1;
 			    box-sizing: border-box;
 			}
 			
-			/* The map fills all remaining vertical space automatically */
 			#map {
+			    grid-row: 2;
 			    width: 100%;
-			    flex-grow: 1; /* This is the magic line */
 			    padding: 0;
 			    margin: 0;
-			    /* Optional: Prevents map from having a minimum height */
-			    min-height: 0;
 			}
 		</style>
         <title></title>
