@@ -194,28 +194,61 @@
         <!-- 1. PROJECT IDENTITY -->
         <section>
             <h3><i class="fas fa-bullseye"></i> Apa Ini?</h3>
-            <p><strong>Geoportal Bumiayu Pruwatan</strong> adalah portal web interaktif yang menyajikan data geospasial terkait wilayah Desa Pruwatan. Portal ini bertujuan untuk memudahkan akses terhadap informasi tata ruang, fasilitas umum, dan batas administrasi dalam format yang visual dan mudah dipahami.</p>
+            <p><strong>Geoportal Bumiayu Pruwatan</strong> adalah portal web interaktif yang menyajikan data geospasial terkait wilayah Desa Pruwatan dan Kecamatan Bumiayu. Portal ini bertujuan untuk memudahkan akses terhadap informasi tata ruang, fasilitas umum, dan batas administrasi dalam format yang visual dan mudah dipahami.</p>
         </section>
 
-        <!-- 2. DEVELOPER & INSTITUTION INFO -->
-        <section class="dev-intro">
-            <h3><i class="fas fa-user-graduate"></i> Pengembang & Institusi</h3>
-            <p>Proyek akademik ini dikembangkan oleh:</p>
-            
-            <div class="logo-container">
-                <!-- University/Institution Logo -->
-                <img src="./images/logo-universitas.jpg" alt="Logo Universitas" class="institution-logo">
-                <!-- Your Profile Photo (Optional) -->
-                <img src="./images/foto-profil.jpg" alt="Foto Haidar Hisyam" class="profile-pic">
-            </div>
-
-            <div class="dev-info">
-                <p><strong>Haidar Hisyam</strong></p>
-                <p>Program Studi: Sistem Informasi</p>
-                <p>Kelas: SI23B</p>
-                <p>NIM: 23SA21A007</p>
-                <p>Institusi: Univeristas AMIKOM</p>
-                <p>Email: <a href="mailto:haidarhisyam1823@gmail.com">haidarhisyam1823@gmail.com</a></p>
+        <!-- 2. DEVELOPER & INSTITUTION INFO (IN A CARD) -->
+        <section>
+            <div class="info-card" style="
+                border: 1px solid #e0e0e0;
+                border-radius: 12px;
+                padding: 2rem;
+                margin-top: 1rem;
+                background: white;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+                text-align: center;
+            ">
+                <h3 style="color: #2c5530; margin-bottom: 1.5rem;">
+                    <i class="fas fa-user-graduate"></i> Pengembang & Institusi
+                </h3>
+                <p>Proyek akademik ini dikembangkan oleh:</p>
+                
+                <div class="logo-container" style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 30px;
+                    margin: 1.5rem 0;
+                ">
+                    <!-- University/Institution Logo -->
+                    <img src="./images/logo-universitas.png" alt="Logo Universitas" style="height: 80px; width: auto;">
+                    <!-- Your Profile Photo (Optional) -->
+                    <img src="./images/foto-profil.jpg" alt="Foto Haidar Hisyam" style="
+                        height: 120px;
+                        width: 120px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        border: 4px solid #2c5530;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                    ">
+                </div>
+        
+                <div class="dev-info" style="
+                    margin-top: 1.5rem;
+                    padding: 1.5rem;
+                    background-color: #f8f9fa;
+                    border-radius: 8px;
+                    text-align: left;
+                    display: inline-block;
+                ">
+                    <p><strong>Haidar Hisyam Anwar</strong></p>
+                    <p>NIM: 23SA21A007</p>
+                    <p>Kelas: SI23B</p>
+                    <p>Program Studi: Sistem Informassi</p>
+                    <p>Institusi: Universitas AMIKOM Purwokerto</p>
+                    <p>Email: <a href="mailto:haidarhisyam1823@gmail.com">haidarhisyam1823@gmail.com</a></p>
+                </div>
             </div>
         </section>
 
@@ -271,8 +304,6 @@
             <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
                 <li>Survei lapangan dan pengukuran langsung</li>
                 <li>OpenStreetMap (data jalan dan sungai)</li>
-                <li>Badan Informasi Geospasial (BIG) [jika digunakan]</li>
-                <li>Pemerintah Desa Pruwatan [jika tersedia]</li>
             </ul>
             <p style="margin-top: 0.5rem; font-style: italic; color: #555;">*Data mungkin belum lengkap dan akan terus diperbarui.</p>
         </section>
