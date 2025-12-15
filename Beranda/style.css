@@ -206,16 +206,3 @@ footer a {
         align-items: center;
     }
 }
-
-#main-header {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000; /* Ensures it stays above other elements */
-    /* Keep your existing background-color, padding, etc. */
-}
-
-/* Add padding to the body EQUAL to the header's height to push content down */
-body {
-    padding-top: 80px; /* Must match your header's actual height */
-}
