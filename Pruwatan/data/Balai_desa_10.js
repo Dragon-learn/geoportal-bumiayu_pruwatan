@@ -1,0 +1,1 @@
+var json_Balai_desa_10 = {"type":"FeatureCollection","name":"Balai_desa_10","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"id":"1","Nama":"Balai Desa Pruwatan"},"geometry":{"type":"Point","coordinates":[108.98344053036783,-7.277869653272054]}}]}
