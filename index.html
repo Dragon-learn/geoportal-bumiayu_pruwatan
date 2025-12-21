@@ -5,126 +5,206 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Selamat Datang — Geoportal Bumiayu Pruwatan</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+  <!-- canonical to the Beranda (adjust if necessary) -->
+  <link rel="canonical" href="https://dragon-learn.github.io/geoportal-bumiayu_pruwatan/Beranda/">
 
-  <!-- Optional: auto-redirect if user doesn't press button -->
-  <meta http-equiv="refresh" content="6; url=/Beranda/">
+  <!-- fallback meta refresh (longer than JS redirect so animation plays) -->
+  <meta http-equiv="refresh" content="6; url=./Beranda/">
+
+  <!-- fonts (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg-accent: linear-gradient(180deg, rgba(16,24,32,0.55), rgba(16,24,32,0.65));
-      --primary: #2F7A49; /* change to preferred color */
-      --accent: #F2994A;
-      --muted: rgba(255,255,255,0.85);
+      --primary: #2F7A49;
+      --muted-on-dark: rgba(255,255,255,0.92);
       --glass: rgba(255,255,255,0.06);
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
-    html,body{height:100%;margin:0}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial}
     .hero{
-      height:100vh;
-      width:100%;
-      display:grid;
-      place-items:center;
-      color:var(--muted);
-      text-align:center;
-      background:
-        var(--bg-accent),
-        url('Beranda/assets/beranda-snapshot.jpg') center/cover no-repeat;
-      background-blend-mode: overlay;
-    }
-    /* fallback if no snapshot: subtle gradient */
-    @media (prefers-reduced-motion: no-preference){
-      .hero h1{ animation: fadeInUp 900ms ease forwards; opacity:0; transform:translateY(8px) }
-      .hero p{ animation: fadeInUp 1100ms 150ms ease forwards; opacity:0; transform:translateY(8px) }
-      .cta{ animation: fadeInUp 1300ms 300ms ease forwards; opacity:0; transform:translateY(8px) }
-    }
-    @keyframes fadeInUp{
-      to{ opacity:1; transform:translateY(0) }
-    }
-
-    .card{
-      max-width:880px;
-      padding:38px 28px;
-      border-radius:18px;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 8px 30px rgba(2,6,23,0.45);
-    }
-    h1{
-      font-family: "Poppins", "Inter", sans-serif;
-      font-weight:700;
-      font-size: clamp(1.8rem, 4.8vw, 3.4rem);
-      margin:0 0 8px;
-      letter-spacing: -0.02em;
-    }
-    p.lead{
-      margin:0 0 18px;
-      color:rgba(255,255,255,0.92);
-      font-size:1.03rem;
-    }
-    .cta{
-      display:inline-flex;
-      gap:12px;
+      min-height:100vh;
+      display:flex;
       align-items:center;
-      padding:12px 20px;
-      font-weight:600;
-      border-radius:999px;
-      text-decoration:none;
-      background: linear-gradient(90deg,var(--primary), #3FA374);
-      color:white;
-      box-shadow: 0 6px 18px rgba(47,122,73,0.28);
-      transform: translateY(0);
-      transition: transform .16s ease, box-shadow .16s ease;
-    }
-    .cta:hover{ transform: translateY(-4px); box-shadow: 0 18px 36px rgba(47,122,73,0.16) }
-    .sub{
-      display:block;
-      margin-top:12px;
-      font-size:0.84rem;
-      color:rgba(255,255,255,0.7);
-    }
-    .meta{
-      font-size:0.78rem;
-      color:rgba(255,255,255,0.55);
-      margin-top:10px;
+      justify-content:center;
+      background:
+        linear-gradient(180deg, rgba(6,12,20,0.48), rgba(6,12,20,0.62)),
+        url('beranda-snapshot.jpeg') center/cover no-repeat;
+      background-blend-mode: overlay;
+      color:var(--muted-on-dark);
+      overflow:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    /* small screen */
-    @media (max-width:560px){
-      .card{ padding:28px; border-radius:14px }
-      .meta{ font-size:0.72rem }
+    /* subtle drifting shapes (pure CSS) */
+    .floating {
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .float-dot{
+      position:absolute;
+      width:18vmin; height:18vmin;
+      max-width:220px; max-height:220px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 40%);
+      filter: blur(36px);
+      transform: translate3d(0,0,0);
+      opacity:0.85;
+      animation: floatMove 12s linear infinite;
+    }
+    .float-dot.x2{ left:10%; top:12%; animation-duration:16s; transform-origin:center; }
+    .float-dot.x3{ right:6%; bottom:10%; animation-duration:18s; opacity:0.9; }
+
+    @keyframes floatMove {
+      0%{ transform: translateY(0) translateX(0) }
+      50%{ transform: translateY(-18px) translateX(8px) }
+      100%{ transform: translateY(0) translateX(0) }
+    }
+
+    /* hero card */
+    .card{
+      width:min(920px, 94%);
+      padding:36px;
+      border-radius:16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      backdrop-filter: blur(6px) saturate(1.05);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      display:flex;
+      gap:22px;
+      align-items:center;
+      transform-style: preserve-3d;
+      /* initial transform for parallax */
+      transform: translateZ(0);
+    }
+
+    .left{
+      width:130px; height:130px; display:flex; align-items:center; justify-content:center;
+      flex:0 0 130px; position:relative;
+    }
+
+    /* pin drop SVG */
+    .pin{
+      width:86px; height:86px; transform-origin:center;
+      animation: pinDrop 900ms cubic-bezier(.22,.9,.32,1) forwards;
+      transform: translateY(-160px) scale(.98);
+      opacity:0;
+    }
+    @keyframes pinDrop {
+      0%{ transform: translateY(-160px) scale(.98); opacity:0 }
+      60%{ transform: translateY(18px) scale(1.04); opacity:1 }
+      100%{ transform: translateY(0) scale(1); }
+    }
+    /* tiny bounce shadow */
+    .pin-shadow{ width:58px; height:14px; border-radius:50%; background:rgba(0,0,0,0.35);
+      position:absolute; bottom:12px; left:calc(50% - 29px); transform:scale(.6); filter: blur(6px);
+      animation: shadowPulse 900ms cubic-bezier(.22,.9,.32,1) forwards;
+      opacity:0;
+    }
+    @keyframes shadowPulse {
+      0%{ transform: scale(.2); opacity:0 }
+      60%{ transform: scale(.9); opacity:0.6 }
+      100%{ transform: scale(1); opacity:0.55 }
+    }
+
+    .content h1{ margin:0; font-size:clamp(1.4rem,3.8vw,2.4rem); letter-spacing:-0.02em; font-weight:600; color:var(--muted-on-dark) }
+    .content p{ margin:8px 0 0; color: rgba(255,255,255,0.78) }
+
+    .cta{
+      display:inline-flex; gap:10px; align-items:center;
+      margin-top:16px;
+      padding:10px 18px; text-decoration:none; border-radius:999px;
+      font-weight:600; background: linear-gradient(90deg,var(--primary), #3FA374);
+      color:white; box-shadow: 0 10px 26px rgba(47,122,73,0.18);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .cta:hover{ transform: translateY(-4px); box-shadow: 0 22px 36px rgba(47,122,73,0.14) }
+
+    .meta{ font-size:0.85rem; margin-top:8px; color:rgba(255,255,255,0.62) }
+
+    /* reduced-motion fallback */
+    @media (prefers-reduced-motion: reduce) {
+      .pin, .pin-shadow, .float-dot, .card, .cta { animation: none !important; transition: none !important; }
+    }
+
+    /* small screens */
+    @media (max-width:640px){
+      .card{ padding:22px; gap:14px }
+      .left{ width:92px; height:92px; flex:0 0 92px }
+      .pin{ width:64px; height:64px }
     }
   </style>
 </head>
 <body>
-  <main class="hero">
-    <section class="card" role="region" aria-label="Selamat datang">
-      <h1>Selamat Datang di Geoportal Bumiayu Pruwatan</h1>
-      <p class="lead">Satu peta untuk data spasial terpadu — peta interaktif, unduh data, dan pencarian lokasi.</p>
+  <main class="hero" id="hero">
+    <div class="floating" aria-hidden="true">
+      <div class="float-dot x2"></div>
+      <div class="float-dot x3"></div>
+    </div>
 
-      <a class="cta" id="enterBtn" href="/Beranda/" aria-label="Masuk ke Beranda">
-        <!-- SVG icon -->
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    <section class="card" id="card" role="region" aria-label="Selamat datang">
+      <div class="left" aria-hidden="true">
+        <!-- PIN SVG (simple marker) -->
+        <svg class="pin" viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#FF8A65"/>
+              <stop offset="1" stop-color="#F2994A"/>
+            </linearGradient>
+          </defs>
+          <path d="M32 4c-7.2 0-13 5.8-13 13 0 10.2 13 29 13 29s13-18.8 13-29c0-7.2-5.8-13-13-13z" fill="url(#g1)"/>
+          <circle cx="32" cy="17" r="6.6" fill="#fff" />
         </svg>
-        Masuk ke Beranda
-      </a>
+        <div class="pin-shadow" aria-hidden="true"></div>
+      </div>
 
-      <div class="meta">Halaman akan diarahkan otomatis dalam <span id="countdown">6</span> detik.</div>
-      <div class="sub">Atau klik tombol jika ingin langsung melanjutkan.</div>
+      <div class="content">
+        <h1>Selamat Datang di Geoportal Bumiayu Pruwatan</h1>
+        <p>Data spasial — peta interaktif, pencarian lokasi, dan unduhan data. Halaman akan diarahkan otomatis.</p>
+
+        <a id="enterBtn" class="cta" href="./Beranda/" role="link">Masuk ke Beranda →</a>
+        <div class="meta" id="countdownMeta">Mengalihkan dalam <strong id="count">4</strong> detik. Klik tombol untuk langsung masuk.</div>
+      </div>
     </section>
   </main>
 
   <script>
-    // countdown + graceful redirect (already have meta refresh, but keep JS for visible timer)
-    let t = 6; const el = document.getElementById('countdown');
-    const interval = setInterval(()=> {
-      t--; el.textContent = t;
-      if(t<=0){ clearInterval(interval); /* no-op: meta refresh will handle */ }
-    },1000);
+    // JS redirect after animation (4s). Meta fallback is 6s.
+    (function(){
+      // countdown UI
+      let t = 4;
+      const countEl = document.getElementById('count');
+      const interval = setInterval(()=> {
+        t--; if(t<=0){ clearInterval(interval); }
+        if(countEl) countEl.textContent = Math.max(0,t);
+      }, 1000);
 
-    // accessibility: focus button for keyboard users
-    document.getElementById('enterBtn').focus();
+      // redirect after 4s (shows animation)
+      setTimeout(()=> { window.location.href = './Beranda/'; }, 4000);
+
+      // parallax effect (simple, very light)
+      const card = document.getElementById('card');
+      const hero = document.getElementById('hero');
+      let supportsPointer = window.matchMedia('(pointer:fine)').matches;
+
+      if (card && supportsPointer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        hero.addEventListener('pointermove', function(ev){
+          const r = hero.getBoundingClientRect();
+          const px = (ev.clientX - r.left) / r.width - 0.5;
+          const py = (ev.clientY - r.top) / r.height - 0.5;
+          // small translate/rotate based on pointer
+          card.style.transform = `translate3d(${px * 8}px, ${py * 8}px, 0)`;
+        });
+        hero.addEventListener('pointerleave', function(){ card.style.transform = 'translate3d(0,0,0)'; });
+      }
+
+      // accessibility: focus CTA then blur so keyboard users can tab
+      const enterBtn = document.getElementById('enterBtn');
+      if (enterBtn) {
+        enterBtn.focus({preventScroll:true});
+      }
+    })();
   </script>
 </body>
 </html>
