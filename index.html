@@ -1,13 +1,130 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <title>Redirecting to Beranda...</title>
-    <!-- CRITICAL: Redirect to the LIVE SITE path -->
-    <meta http-equiv="refresh" content="0; url=./Beranda/">
-    <link rel="canonical" href="https://dragon-learn.github.io/geoportal-bumiayu_pruwatan/Beranda/">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Selamat Datang — Geoportal Bumiayu Pruwatan</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+
+  <!-- Optional: auto-redirect if user doesn't press button -->
+  <meta http-equiv="refresh" content="6; url=/Beranda/">
+
+  <style>
+    :root{
+      --bg-accent: linear-gradient(180deg, rgba(16,24,32,0.55), rgba(16,24,32,0.65));
+      --primary: #2F7A49; /* change to preferred color */
+      --accent: #F2994A;
+      --muted: rgba(255,255,255,0.85);
+      --glass: rgba(255,255,255,0.06);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0}
+    .hero{
+      height:100vh;
+      width:100%;
+      display:grid;
+      place-items:center;
+      color:var(--muted);
+      text-align:center;
+      background:
+        var(--bg-accent),
+        url('Beranda/assets/beranda-snapshot.jpg') center/cover no-repeat;
+      background-blend-mode: overlay;
+    }
+    /* fallback if no snapshot: subtle gradient */
+    @media (prefers-reduced-motion: no-preference){
+      .hero h1{ animation: fadeInUp 900ms ease forwards; opacity:0; transform:translateY(8px) }
+      .hero p{ animation: fadeInUp 1100ms 150ms ease forwards; opacity:0; transform:translateY(8px) }
+      .cta{ animation: fadeInUp 1300ms 300ms ease forwards; opacity:0; transform:translateY(8px) }
+    }
+    @keyframes fadeInUp{
+      to{ opacity:1; transform:translateY(0) }
+    }
+
+    .card{
+      max-width:880px;
+      padding:38px 28px;
+      border-radius:18px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.45);
+    }
+    h1{
+      font-family: "Poppins", "Inter", sans-serif;
+      font-weight:700;
+      font-size: clamp(1.8rem, 4.8vw, 3.4rem);
+      margin:0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    p.lead{
+      margin:0 0 18px;
+      color:rgba(255,255,255,0.92);
+      font-size:1.03rem;
+    }
+    .cta{
+      display:inline-flex;
+      gap:12px;
+      align-items:center;
+      padding:12px 20px;
+      font-weight:600;
+      border-radius:999px;
+      text-decoration:none;
+      background: linear-gradient(90deg,var(--primary), #3FA374);
+      color:white;
+      box-shadow: 0 6px 18px rgba(47,122,73,0.28);
+      transform: translateY(0);
+      transition: transform .16s ease, box-shadow .16s ease;
+    }
+    .cta:hover{ transform: translateY(-4px); box-shadow: 0 18px 36px rgba(47,122,73,0.16) }
+    .sub{
+      display:block;
+      margin-top:12px;
+      font-size:0.84rem;
+      color:rgba(255,255,255,0.7);
+    }
+    .meta{
+      font-size:0.78rem;
+      color:rgba(255,255,255,0.55);
+      margin-top:10px;
+    }
+
+    /* small screen */
+    @media (max-width:560px){
+      .card{ padding:28px; border-radius:14px }
+      .meta{ font-size:0.72rem }
+    }
+  </style>
 </head>
 <body>
-    <p>If you are not redirected, please <a href="./Beranda/">click here to go to the Beranda page</a>.</p>
+  <main class="hero">
+    <section class="card" role="region" aria-label="Selamat datang">
+      <h1>Selamat Datang di Geoportal Bumiayu Pruwatan</h1>
+      <p class="lead">Satu peta untuk data spasial terpadu — peta interaktif, unduh data, dan pencarian lokasi.</p>
+
+      <a class="cta" id="enterBtn" href="/Beranda/" aria-label="Masuk ke Beranda">
+        <!-- SVG icon -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        Masuk ke Beranda
+      </a>
+
+      <div class="meta">Halaman akan diarahkan otomatis dalam <span id="countdown">6</span> detik.</div>
+      <div class="sub">Atau klik tombol jika ingin langsung melanjutkan.</div>
+    </section>
+  </main>
+
+  <script>
+    // countdown + graceful redirect (already have meta refresh, but keep JS for visible timer)
+    let t = 6; const el = document.getElementById('countdown');
+    const interval = setInterval(()=> {
+      t--; el.textContent = t;
+      if(t<=0){ clearInterval(interval); /* no-op: meta refresh will handle */ }
+    },1000);
+
+    // accessibility: focus button for keyboard users
+    document.getElementById('enterBtn').focus();
+  </script>
 </body>
 </html>
