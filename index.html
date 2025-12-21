@@ -6,17 +6,19 @@
   <title>Geoportal Bumiayu Pruwatan — Earth Navigation</title>
   <link rel="canonical" href="https://dragon-learn.github.io/geoportal-bumiayu_pruwatan/Beranda/">
   
-  <!-- Cosmic Fonts -->
+  <!-- Required Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
+  
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&family=Rajdhani:wght@500;600&display=swap" rel="stylesheet">
   
   <style>
-    /* COSMIC EARTH VARIABLES */
+    /* COSMIC VARIABLES */
     :root {
       --cosmic-deep: #0a0e17;
       --earth-blue: #1e90ff;
-      --earth-green: #32cd32;
-      --earth-brown: #8b4513;
-      --earth-cloud: rgba(255, 255, 255, 0.8);
       --star-light: #ffffff;
       --indonesia-glow: #ff4444;
       --asteroid-color: #8b7355;
@@ -56,120 +58,74 @@
       50% { opacity: 1; transform: scale(1.1); }
     }
 
-    /* ROTATING EARTH CONTAINER */
-    .earth-container {
+    /* 3D EARTH CONTAINER */
+    #earthContainer {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 500px;
-      height: 500px;
-      z-index: 1;
-      transition: all 3s cubic-bezier(0.2, 0.8, 0.3, 1);
-    }
-
-    .earth {
-      position: absolute;
       width: 100%;
       height: 100%;
-      border-radius: 50%;
-      background: 
-        radial-gradient(circle at 30% 30%, var(--earth-blue) 0%, #0a3d62 70%),
-        repeating-radial-gradient(circle at 30% 30%, transparent 0, rgba(32, 178, 170, 0.1) 2px);
-      box-shadow: 
-        inset 0 0 100px rgba(255, 255, 255, 0.3),
-        0 0 100px rgba(30, 144, 255, 0.5);
-      overflow: hidden;
-      transform-style: preserve-3d;
-      animation: rotateEarth 120s linear infinite;
+      z-index: 1;
     }
 
-    @keyframes rotateEarth {
-      from { transform: rotateY(0deg); }
-      to { transform: rotateY(360deg); }
-    }
-
-    /* EARTH DETAILS */
-    .earth-continent {
-      position: absolute;
-      background: var(--earth-green);
-      border-radius: 50% / 30%;
-      opacity: 0.7;
-    }
-
-    .earth-cloud {
-      position: absolute;
-      background: var(--earth-cloud);
-      border-radius: 50%;
-      filter: blur(2px);
-      opacity: 0.3;
+    #earthContainer canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
     /* INDONESIA HIGHLIGHT */
     .indonesia-highlight {
-      position: absolute;
-      width: 60px;
-      height: 30px;
-      background: rgba(255, 68, 68, 0.3);
+      position: fixed;
+      width: 80px;
+      height: 40px;
+      background: rgba(255, 68, 68, 0.2);
       border-radius: 50% / 40%;
       top: 52%;
       left: 73%;
       transform: translate(-50%, -50%);
       box-shadow: 
-        0 0 40px var(--indonesia-glow),
-        inset 0 0 20px rgba(255, 255, 255, 0.5);
+        0 0 60px var(--indonesia-glow),
+        inset 0 0 30px rgba(255, 255, 255, 0.3);
       opacity: 0;
       z-index: 2;
+      pointer-events: none;
       transition: opacity 1s;
     }
 
-    .earth-container.zoom-in .indonesia-highlight {
+    .zoom-in .indonesia-highlight {
       opacity: 1;
       animation: pulseIndonesia 2s ease-in-out infinite;
     }
 
     @keyframes pulseIndonesia {
-      0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
+      0%, 100% { 
+        opacity: 0.3; 
+        transform: translate(-50%, -50%) scale(1); 
+      }
+      50% { 
+        opacity: 0.7; 
+        transform: translate(-50%, -50%) scale(1.2); 
+      }
     }
 
-    /* ASTEROIDS */
+    /* ASTEROID STYLES */
     .asteroid {
-      position: fixed;
-      width: var(--size);
-      height: var(--size);
-      background: radial-gradient(circle at 30% 30%, 
-        var(--asteroid-color), 
-        #5d4037 70%);
+      position: absolute;
       border-radius: 50%;
-      z-index: 3;
       pointer-events: auto;
       cursor: pointer;
-      box-shadow: 
-        0 0 20px rgba(139, 115, 85, 0.5),
-        inset 0 0 10px rgba(255, 255, 255, 0.1);
       transition: all 0.3s;
-      transform: rotate(0deg);
-    }
-
-    .asteroid::after {
-      content: '';
-      position: absolute;
-      width: 30%;
-      height: 30%;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      top: 20%;
-      left: 20%;
-      filter: blur(1px);
+      z-index: 3;
     }
 
     .asteroid:hover {
-      transform: scale(1.2);
+      transform: scale(1.1);
       box-shadow: 
-        0 0 40px rgba(255, 193, 7, 0.8),
-        0 0 80px rgba(255, 193, 7, 0.3);
-      filter: brightness(1.5);
+        0 0 25px rgba(255, 193, 7, 0.6),
+        inset 0 0 15px rgba(255, 255, 255, 0.2) !important;
+      filter: brightness(1.3);
     }
 
     .asteroid-hit {
@@ -178,8 +134,14 @@
     }
 
     @keyframes asteroidFlyAway {
-      0% { transform: translate(0, 0) scale(1); opacity: 1; }
-      100% { transform: translate(var(--fly-x, 200px), var(--fly-y, -200px)) scale(0); opacity: 0; }
+      0% { 
+        transform: translate(0, 0) scale(1); 
+        opacity: 1; 
+      }
+      100% { 
+        transform: translate(var(--fly-x, 200px), var(--fly-y, -200px)) scale(0); 
+        opacity: 0; 
+      }
     }
 
     /* CONTROL PANEL */
@@ -188,21 +150,21 @@
       bottom: 60px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(10, 14, 23, 0.8);
+      background: rgba(10, 14, 23, 0.85);
       backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 30px 50px;
       z-index: 10;
-      border: 1px solid rgba(30, 144, 255, 0.3);
+      border: 1px solid rgba(30, 144, 255, 0.4);
       box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 20px 60px rgba(0, 0, 0, 0.6),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
       text-align: center;
       min-width: 500px;
       transition: opacity 1s;
     }
 
-    .earth-container.zoom-in .control-panel {
+    .zoom-in .control-panel {
       opacity: 0;
       pointer-events: none;
     }
@@ -235,10 +197,12 @@
       padding: 18px 40px;
       border-radius: 12px;
       text-decoration: none;
+      border: none;
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.3rem;
       font-weight: 600;
       letter-spacing: 1px;
+      cursor: pointer;
       transition: all 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
       border: 1px solid rgba(30, 144, 255, 0.5);
       position: relative;
@@ -297,7 +261,7 @@
       transition: opacity 0.5s;
     }
 
-    .earth-container.zoom-in .loading-bar {
+    .zoom-in .loading-bar {
       opacity: 1;
     }
 
@@ -350,13 +314,25 @@
       opacity: 1;
     }
 
+    /* ASTEROID INFO */
+    .asteroid-info {
+      position: absolute;
+      background: rgba(10, 14, 23, 0.9);
+      color: var(--earth-blue);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 100;
+      border: 1px solid rgba(30, 144, 255, 0.3);
+      white-space: nowrap;
+      transform: translate(-50%, -100%);
+    }
+
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      .earth-container {
-        width: 300px;
-        height: 300px;
-      }
-      
       .control-panel {
         min-width: 90%;
         padding: 20px;
@@ -372,15 +348,20 @@
       }
       
       .asteroid {
-        pointer-events: none; /* Disable on mobile for better UX */
+        pointer-events: none;
+      }
+      
+      .nav-cta {
+        padding: 15px 30px;
+        font-size: 1.1rem;
       }
     }
 
     /* REDUCED MOTION */
     @media (prefers-reduced-motion: reduce) {
-      .earth,
+      .star,
       .asteroid,
-      .star {
+      .indonesia-highlight {
         animation: none !important;
       }
       
@@ -395,15 +376,16 @@
   <!-- Starfield -->
   <div class="starfield" id="starfield"></div>
   
-  <!-- Earth Container -->
-  <div class="earth-container" id="earthContainer">
-    <div class="earth" id="earth"></div>
-    <div class="indonesia-highlight" id="indonesiaHighlight"></div>
-  </div>
+  <!-- 3D Earth Container -->
+  <div id="earthContainer"></div>
   
-  <!-- Asteroids will be generated by JS -->
+  <!-- Indonesia Highlight -->
+  <div class="indonesia-highlight" id="indonesiaHighlight"></div>
   
-  <!-- Zoomed View (Initially Hidden) -->
+  <!-- Asteroid Container (for 2D asteroids) -->
+  <div id="asteroidContainer"></div>
+  
+  <!-- Zoomed View -->
   <div class="zoomed-view" id="zoomedView">
     <div class="indonesia-map"></div>
   </div>
@@ -426,279 +408,532 @@
   </div>
 
   <script>
-    (function() {
-      // Get elements
-      const earthContainer = document.getElementById('earthContainer');
-      const earth = document.getElementById('earth');
-      const starfield = document.getElementById('starfield');
-      const navigateBtn = document.getElementById('navigateBtn');
-      const loadingProgress = document.getElementById('loadingProgress');
-      const indonesiaHighlight = document.getElementById('indonesiaHighlight');
-      const zoomedView = document.getElementById('zoomedView');
-      
-      // Create starfield
-      for (let i = 0; i < 150; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
+    // ======================
+    // 3D EARTH IMPLEMENTATION
+    // ======================
+    
+    let scene, camera, renderer, earth;
+    let isZooming = false;
+    let autoRotationEnabled = true;
+    
+    function initEarth3D() {
+        // 1. Create scene
+        scene = new THREE.Scene();
         
-        const size = Math.random() * 2 + 0.5;
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        const duration = Math.random() * 4 + 2;
-        const delay = Math.random() * 5;
+        // 2. Create camera
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
         
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = `${x}%`;
-        star.style.top = `${y}%`;
-        star.style.setProperty('--duration', `${duration}s`);
-        star.style.animationDelay = `${delay}s`;
-        star.style.opacity = Math.random() * 0.7 + 0.3;
+        // 3. Create renderer
+        renderer = new THREE.WebGLRenderer({ 
+            alpha: true, 
+            antialias: true,
+            powerPreference: "high-performance"
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
         
-        starfield.appendChild(star);
-      }
-      
-      // Create Earth details
-      function createEarthDetails() {
-        // Continents (simplified)
-        const continents = [
-          { width: '25%', height: '40%', left: '30%', top: '30%', color: 'var(--earth-green)' },
-          { width: '15%', height: '30%', left: '15%', top: '50%', color: 'var(--earth-brown)' },
-          { width: '20%', height: '35%', left: '60%', top: '40%', color: 'var(--earth-green)' },
-          { width: '12%', height: '25%', left: '75%', top: '55%', color: 'var(--earth-green)' } // Asia/Indonesia area
-        ];
+        const earthContainer = document.getElementById('earthContainer');
+        earthContainer.appendChild(renderer.domElement);
         
-        continents.forEach(continent => {
-          const continentEl = document.createElement('div');
-          continentEl.className = 'earth-continent';
-          continentEl.style.width = continent.width;
-          continentEl.style.height = continent.height;
-          continentEl.style.left = continent.left;
-          continentEl.style.top = continent.top;
-          continentEl.style.background = continent.color;
-          earth.appendChild(continentEl);
+        // 4. Add lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 3, 5);
+        scene.add(directionalLight);
+        
+        // 5. Load Earth model
+        const loader = new THREE.GLTFLoader();
+        
+        loader.load(
+            './assets/3d-models/low-poly_earth.glb', // Your uploaded model path
+            function(gltf) {
+                earth = gltf.scene;
+                
+                // Adjust scale and position
+                earth.scale.set(1.5, 1.5, 1.5);
+                earth.position.set(0, 0, 0);
+                
+                // Enable shadows if needed
+                earth.traverse(function(node) {
+                    if (node.isMesh) {
+                        node.castShadow = true;
+                        node.receiveShadow = true;
+                    }
+                });
+                
+                scene.add(earth);
+                
+                // Start animation
+                animate();
+            },
+            // Loading progress callback
+            function(xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+            // Error callback
+            function(error) {
+                console.error('Error loading Earth model:', error);
+                // Fallback: Create a basic sphere
+                createFallbackEarth();
+            }
+        );
+        
+        // 6. Handle window resize
+        window.addEventListener('resize', onWindowResize);
+    }
+    
+    function createFallbackEarth() {
+        // Create a simple sphere as fallback
+        const geometry = new THREE.SphereGeometry(1, 32, 32);
+        const material = new THREE.MeshPhongMaterial({
+            color: 0x1e90ff,
+            shininess: 30,
+            specular: 0x111111
         });
         
-        // Clouds
-        for (let i = 0; i < 8; i++) {
-          const cloud = document.createElement('div');
-          cloud.className = 'earth-cloud';
-          
-          const size = Math.random() * 60 + 30;
-          const x = Math.random() * 100;
-          const y = Math.random() * 100;
-          
-          cloud.style.width = `${size}px`;
-          cloud.style.height = `${size * 0.6}px`;
-          cloud.style.left = `${x}%`;
-          cloud.style.top = `${y}%`;
-          cloud.style.animation = `moveCloud ${30 + Math.random() * 30}s linear infinite`;
-          
-          earth.appendChild(cloud);
+        earth = new THREE.Mesh(geometry, material);
+        scene.add(earth);
+        animate();
+    }
+    
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        // Auto-rotate Earth if enabled
+        if (earth && autoRotationEnabled && !isZooming) {
+            earth.rotation.y += 0.001; // Very slow rotation
         }
         
-        // Add cloud animation
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = `
-          @keyframes moveCloud {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(100px); }
-          }
-        `;
-        document.head.appendChild(styleSheet);
-      }
-      
-      // Create asteroids
-      function createAsteroids(count) {
-        for (let i = 0; i < count; i++) {
-          setTimeout(() => {
+        renderer.render(scene, camera);
+    }
+    
+    // ======================
+    // ASTEROID SYSTEM
+    // ======================
+    
+    class AsteroidSystem {
+        constructor() {
+            this.asteroids = [];
+            this.speeds = [0.3, 0.4, 0.5]; // Slow speeds
+            this.container = document.getElementById('asteroidContainer');
+            this.infoElements = [];
+            
+            if (!this.container) {
+                this.container = document.createElement('div');
+                this.container.id = 'asteroidContainer';
+                this.container.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    z-index: 3;
+                `;
+                document.body.appendChild(this.container);
+            }
+            
+            this.spawnAsteroids(8);
+        }
+        
+        createAsteroid() {
             const asteroid = document.createElement('div');
             asteroid.className = 'asteroid';
             
-            const size = Math.random() * 40 + 20;
-            const startX = Math.random() * 100;
-            const startY = Math.random() * 100;
-            const speed = Math.random() * 2 + 1;
-            const angle = Math.random() * Math.PI * 2;
+            // Random size (20-35px)
+            const size = 20 + Math.random() * 15;
             
-            asteroid.style.setProperty('--size', `${size}px`);
-            asteroid.style.left = `${startX}%`;
-            asteroid.style.top = `${startY}%`;
-            asteroid.dataset.speed = speed;
-            asteroid.dataset.angle = angle;
+            // Random starting position (off-screen)
+            const startPositions = [
+                { left: '-50px', top: `${Math.random() * 100}%`, dir: { x: 1, y: 0 } }, // From left to right
+                { left: 'calc(100% + 50px)', top: `${Math.random() * 100}%`, dir: { x: -1, y: 0 } }, // Right to left
+                { left: `${Math.random() * 100}%`, top: '-50px', dir: { x: 0, y: 1 } }, // Top to bottom
+                { left: `${Math.random() * 100}%`, top: 'calc(100% + 50px)', dir: { x: 0, y: -1 } } // Bottom to top
+            ];
             
-            // Add random rotation
-            asteroid.style.animation = `rotateAsteroid ${5 + Math.random() * 10}s linear infinite`;
+            const start = startPositions[Math.floor(Math.random() * 4)];
             
-            // Add click handler
-            asteroid.addEventListener('click', handleAsteroidClick);
+            // Random speed (slow)
+            const speed = this.speeds[Math.floor(Math.random() * this.speeds.length)];
             
-            document.body.appendChild(asteroid);
+            // Random asteroid type
+            const asteroidTypes = [
+                { color1: '#8b7355', color2: '#5d4037', name: 'Stone' },
+                { color1: '#696969', color2: '#4a4a4a', name: 'Iron' },
+                { color1: '#8b4513', color2: '#654321', name: 'Rocky' }
+            ];
             
-            // Start movement
-            moveAsteroid(asteroid);
+            const type = asteroidTypes[Math.floor(Math.random() * asteroidTypes.length)];
             
-          }, i * 500); // Stagger creation
+            // Apply styles
+            asteroid.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${start.left};
+                top: ${start.top};
+                background: radial-gradient(circle at 30% 30%, ${type.color1}, ${type.color2} 70%);
+                border-radius: 50%;
+                pointer-events: auto;
+                cursor: pointer;
+                box-shadow: 
+                    0 0 15px rgba(139, 115, 85, 0.5),
+                    inset 0 0 8px rgba(255, 255, 255, 0.1);
+                transition: transform 0.3s, box-shadow 0.3s;
+                z-index: 3;
+            `;
+            
+            // Add asteroid texture details
+            asteroid.innerHTML = `
+                <div style="
+                    position: absolute;
+                    width: 30%;
+                    height: 30%;
+                    background: rgba(255, 255, 255, 0.15);
+                    border-radius: 50%;
+                    top: 20%;
+                    left: 20%;
+                    filter: blur(0.5px);
+                "></div>
+                <div style="
+                    position: absolute;
+                    width: 20%;
+                    height: 20%;
+                    background: rgba(0, 0, 0, 0.2);
+                    border-radius: 50%;
+                    bottom: 30%;
+                    right: 25%;
+                "></div>
+            `;
+            
+            // Create info element
+            const info = document.createElement('div');
+            info.className = 'asteroid-info';
+            info.textContent = `${type.name} Asteroid`;
+            info.style.display = 'none';
+            document.body.appendChild(info);
+            this.infoElements.push({ asteroid, info });
+            
+            // Add event listeners
+            asteroid.addEventListener('mouseenter', () => this.showAsteroidInfo(asteroid, info));
+            asteroid.addEventListener('mouseleave', () => this.hideAsteroidInfo(info));
+            asteroid.addEventListener('click', (e) => this.handleAsteroidClick(e, asteroid));
+            
+            // Add to DOM
+            this.container.appendChild(asteroid);
+            
+            // Store asteroid data
+            const asteroidData = {
+                element: asteroid,
+                direction: start.dir,
+                speed: speed,
+                size: size,
+                info: info
+            };
+            
+            this.asteroids.push(asteroidData);
+            this.animateAsteroid(asteroidData);
         }
         
-        // Add rotation animation
-        const asteroidStyleSheet = document.createElement('style');
-        asteroidStyleSheet.textContent = `
-          @keyframes rotateAsteroid {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
-        `;
-        document.head.appendChild(asteroidStyleSheet);
-      }
-      
-      // Move asteroid in random direction
-      function moveAsteroid(asteroid) {
-        let x = parseFloat(asteroid.style.left);
-        let y = parseFloat(asteroid.style.top);
-        let speed = parseFloat(asteroid.dataset.speed);
-        let angle = parseFloat(asteroid.dataset.angle);
-        
-        function updatePosition() {
-          // Update position
-          x += Math.cos(angle) * speed;
-          y += Math.sin(angle) * speed;
-          
-          // Bounce off edges
-          if (x < 0 || x > 100) {
-            angle = Math.PI - angle;
-            x = x < 0 ? 0 : 100;
-          }
-          
-          if (y < 0 || y > 100) {
-            angle = -angle;
-            y = y < 0 ? 0 : 100;
-          }
-          
-          // Apply new position
-          asteroid.style.left = `${x}%`;
-          asteroid.style.top = `${y}%`;
-          
-          // Continue animation if asteroid is still active
-          if (!asteroid.classList.contains('asteroid-hit')) {
-            requestAnimationFrame(updatePosition);
-          }
-        }
-        
-        updatePosition();
-      }
-      
-      // Handle asteroid click
-      function handleAsteroidClick(e) {
-        const asteroid = e.target;
-        
-        // Don't trigger if already hit
-        if (asteroid.classList.contains('asteroid-hit')) return;
-        
-        // Mark as hit
-        asteroid.classList.add('asteroid-hit');
-        
-        // Random fly away direction
-        const flyX = (Math.random() - 0.5) * 400;
-        const flyY = (Math.random() - 0.5) * 400;
-        
-        asteroid.style.setProperty('--fly-x', `${flyX}px`);
-        asteroid.style.setProperty('--fly-y', `${flyY}px`);
-        
-        // Remove after animation
-        setTimeout(() => {
-          if (asteroid.parentNode) {
-            asteroid.parentNode.removeChild(asteroid);
-          }
-        }, 1500);
-      }
-      
-      // Navigate to Indonesia
-      function navigateToIndonesia() {
-        // Disable button during animation
-        navigateBtn.disabled = true;
-        
-        // Stop Earth rotation and zoom
-        earth.style.animation = 'none';
-        earthContainer.classList.add('zoom-in');
-        
-        // Calculate rotation to show Indonesia (approx 110° E)
-        // Since Earth starts at 0° and Indonesia is at ~110° East
-        const indonesiaRotation = 110; // degrees
-        
-        // Rotate Earth to show Indonesia
-        earth.style.transform = `rotateY(${indonesiaRotation}deg)`;
-        
-        // Zoom in
-        setTimeout(() => {
-          earthContainer.style.transform = 'translate(-50%, -50%) scale(2.5)';
-          
-          // Show loading progress
-          setTimeout(() => {
-            loadingProgress.style.width = '100%';
-            
-            // After loading complete, show zoomed view
+        showAsteroidInfo(asteroid, info) {
+            const rect = asteroid.getBoundingClientRect();
+            info.style.left = `${rect.left + rect.width / 2}px`;
+            info.style.top = `${rect.top - 10}px`;
+            info.style.display = 'block';
             setTimeout(() => {
-              zoomedView.classList.add('active');
-              
-              // After showing Indonesia view, redirect to Beranda
-              setTimeout(() => {
-                window.location.href = './Beranda/';
-              }, 3000); // 3 seconds to view Indonesia
-              
-            }, 1000); // Wait for loading bar to complete
-          }, 500);
-        }, 1000); // Wait for Earth to rotate
-      }
-      
-      // Initialize
-      createEarthDetails();
-      createAsteroids(12); // Create 12 asteroids
-      
-      // Event listeners
-      navigateBtn.addEventListener('click', navigateToIndonesia);
-      
-      // Keyboard navigation
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          navigateBtn.click();
+                info.style.opacity = '1';
+            }, 10);
         }
-        if (e.key === 'Escape') {
-          window.location.href = './Beranda/';
-        }
-      });
-      
-      // Focus management
-      navigateBtn.focus({ preventScroll: true });
-      
-      navigateBtn.addEventListener('focus', () => {
-        navigateBtn.style.outline = '2px solid var(--earth-blue)';
-        navigateBtn.style.outlineOffset = '4px';
-      });
-      
-      navigateBtn.addEventListener('blur', () => {
-        navigateBtn.style.outline = 'none';
-      });
-      
-      // Auto-navigate after 45 seconds (increased for viewing)
-      setTimeout(() => {
-        if (!earthContainer.classList.contains('zoom-in')) {
-          navigateToIndonesia();
-        }
-      }, 45000);
-      
-      // Create occasional new asteroids
-      setInterval(() => {
-        // Count current asteroids
-        const asteroidCount = document.querySelectorAll('.asteroid:not(.asteroid-hit)').length;
         
-        // Add more if we're running low
-        if (asteroidCount < 6) {
-          createAsteroids(3);
+        hideAsteroidInfo(info) {
+            info.style.opacity = '0';
+            setTimeout(() => {
+                info.style.display = 'none';
+            }, 300);
         }
-      }, 10000);
-      
-    })();
+        
+        animateAsteroid(asteroid) {
+            let posX = asteroid.element.style.left.includes('%') ? 
+                (parseFloat(asteroid.element.style.left) / 100) * window.innerWidth :
+                parseFloat(asteroid.element.style.left);
+            
+            let posY = asteroid.element.style.top.includes('%') ? 
+                (parseFloat(asteroid.element.style.top) / 100) * window.innerHeight :
+                parseFloat(asteroid.element.style.top);
+            
+            const move = () => {
+                // Update position
+                posX += asteroid.direction.x * asteroid.speed;
+                posY += asteroid.direction.y * asteroid.speed;
+                
+                asteroid.element.style.left = `${posX}px`;
+                asteroid.element.style.top = `${posY}px`;
+                
+                // Update info position if visible
+                if (asteroid.info.style.display === 'block') {
+                    this.showAsteroidInfo(asteroid.element, asteroid.info);
+                }
+                
+                // Check if asteroid is off-screen (with 100px buffer)
+                const buffer = 100;
+                if (
+                    posX < -buffer || 
+                    posX > window.innerWidth + buffer ||
+                    posY < -buffer || 
+                    posY > window.innerHeight + buffer
+                ) {
+                    // Remove asteroid
+                    this.removeAsteroid(asteroid);
+                    // Spawn new one after delay
+                    setTimeout(() => this.createAsteroid(), 1000);
+                } else {
+                    requestAnimationFrame(move);
+                }
+            };
+            
+            move();
+        }
+        
+        handleAsteroidClick(event, asteroidElement) {
+            event.stopPropagation();
+            
+            // Find asteroid data
+            const asteroid = this.asteroids.find(a => a.element === asteroidElement);
+            if (!asteroid) return;
+            
+            // Random new direction
+            const angle = Math.random() * Math.PI * 2;
+            asteroid.direction = {
+                x: Math.cos(angle),
+                y: Math.sin(angle)
+            };
+            
+            // Increase speed temporarily
+            const originalSpeed = asteroid.speed;
+            asteroid.speed *= 2.5;
+            
+            // Visual feedback
+            asteroid.element.classList.add('asteroid-hit');
+            asteroid.element.style.setProperty('--fly-x', `${Math.cos(angle) * 300}px`);
+            asteroid.element.style.setProperty('--fly-y', `${Math.sin(angle) * 300}px`);
+            
+            // Hide info
+            this.hideAsteroidInfo(asteroid.info);
+            
+            // Remove after animation
+            setTimeout(() => {
+                this.removeAsteroid(asteroid);
+                // Create new asteroid
+                setTimeout(() => this.createAsteroid(), 500);
+            }, 1500);
+        }
+        
+        removeAsteroid(asteroid) {
+            if (asteroid.element.parentNode) {
+                asteroid.element.parentNode.removeChild(asteroid.element);
+            }
+            if (asteroid.info.parentNode) {
+                asteroid.info.parentNode.removeChild(asteroid.info);
+            }
+            this.asteroids = this.asteroids.filter(a => a !== asteroid);
+            this.infoElements = this.infoElements.filter(i => i.asteroid !== asteroid.element);
+        }
+        
+        spawnAsteroids(count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => this.createAsteroid(), i * 800);
+            }
+        }
+        
+        clearAll() {
+            this.asteroids.forEach(asteroid => this.removeAsteroid(asteroid));
+        }
+    }
+    
+    // ======================
+    // NAVIGATION & ZOOM EFFECT
+    // ======================
+    
+    function navigateToIndonesia() {
+        if (isZooming) return;
+        isZooming = true;
+        autoRotationEnabled = false;
+        
+        const navigateBtn = document.getElementById('navigateBtn');
+        const loadingProgress = document.getElementById('loadingProgress');
+        const indonesiaHighlight = document.getElementById('indonesiaHighlight');
+        const zoomedView = document.getElementById('zoomedView');
+        const earthContainer = document.getElementById('earthContainer');
+        
+        // Disable button
+        navigateBtn.disabled = true;
+        navigateBtn.style.opacity = '0.5';
+        
+        // Add zoom class to body
+        document.body.classList.add('zoom-in');
+        
+        // Show Indonesia highlight
+        indonesiaHighlight.style.display = 'block';
+        
+        // Start Earth zoom animation
+        if (earth) {
+            // Store initial positions
+            const initialPosition = camera.position.clone();
+            const initialRotation = earth.rotation.clone();
+            
+            // Calculate target position for Indonesia view
+            // Indonesia is approximately at 110° East, 5° South
+            const targetRotation = {
+                y: initialRotation.y + (110 * Math.PI / 180) // Convert 110° to radians
+            };
+            
+            // Animate camera and Earth
+            const startTime = Date.now();
+            const duration = 4000; // 4 seconds
+            
+            function zoomAnimation() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function
+                const ease = 1 - Math.pow(1 - progress, 3);
+                
+                // Rotate Earth to show Indonesia
+                if (earth) {
+                    earth.rotation.y = initialRotation.y + (targetRotation.y - initialRotation.y) * ease;
+                }
+                
+                // Zoom camera
+                camera.position.z = initialPosition.z - (initialPosition.z * 0.7) * ease;
+                
+                // Update loading progress
+                loadingProgress.style.width = `${progress * 100}%`;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(zoomAnimation);
+                } else {
+                    // Show zoomed view
+                    setTimeout(() => {
+                        zoomedView.classList.add('active');
+                        
+                        // Hide Earth and asteroids
+                        earthContainer.style.opacity = '0';
+                        asteroidSystem.clearAll();
+                        
+                        // Redirect after showing Indonesia
+                        setTimeout(() => {
+                            window.location.href = './Beranda/';
+                        }, 3000);
+                    }, 500);
+                }
+            }
+            
+            zoomAnimation();
+        } else {
+            // Fallback if Earth model didn't load
+            loadingProgress.style.width = '100%';
+            setTimeout(() => {
+                zoomedView.classList.add('active');
+                setTimeout(() => {
+                    window.location.href = './Beranda/';
+                }, 3000);
+            }, 1000);
+        }
+    }
+    
+    // ======================
+    // STARFIELD CREATION
+    // ======================
+    
+    function createStarfield() {
+        const starfield = document.getElementById('starfield');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            const size = Math.random() * 1.5 + 0.5;
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const duration = Math.random() * 4 + 2;
+            const delay = Math.random() * 5;
+            
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.setProperty('--duration', `${duration}s`);
+            star.style.animationDelay = `${delay}s`;
+            star.style.opacity = Math.random() * 0.7 + 0.3;
+            
+            starfield.appendChild(star);
+        }
+    }
+    
+    // ======================
+    // INITIALIZATION
+    // ======================
+    
+    let asteroidSystem;
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        // Create starfield
+        createStarfield();
+        
+        // Initialize 3D Earth
+        initEarth3D();
+        
+        // Initialize asteroid system
+        asteroidSystem = new AsteroidSystem();
+        
+        // Setup navigation button
+        const navigateBtn = document.getElementById('navigateBtn');
+        navigateBtn.addEventListener('click', navigateToIndonesia);
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                navigateBtn.click();
+            }
+            if (e.key === 'Escape') {
+                window.location.href = './Beranda/';
+            }
+        });
+        
+        // Focus management
+        navigateBtn.focus({ preventScroll: true });
+        
+        navigateBtn.addEventListener('focus', () => {
+            navigateBtn.style.outline = '2px solid var(--earth-blue)';
+            navigateBtn.style.outlineOffset = '4px';
+        });
+        
+        navigateBtn.addEventListener('blur', () => {
+            navigateBtn.style.outline = 'none';
+        });
+        
+        // Auto-navigate after 60 seconds
+        setTimeout(() => {
+            if (!isZooming) {
+                navigateToIndonesia();
+            }
+        }, 60000);
+    });
+    
+    // Handle mobile touch
+    if ('ontouchstart' in window) {
+        document.querySelectorAll('.asteroid').forEach(asteroid => {
+            asteroid.style.pointerEvents = 'none';
+        });
+    }
   </script>
 </body>
 </html>
