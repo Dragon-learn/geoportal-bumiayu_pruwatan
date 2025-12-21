@@ -5,203 +5,295 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Selamat Datang — Geoportal Bumiayu Pruwatan</title>
 
-  <!-- canonical to the Beranda (adjust if necessary) -->
+  <!-- canonical -->
   <link rel="canonical" href="https://dragon-learn.github.io/geoportal-bumiayu_pruwatan/Beranda/">
 
-  <!-- fallback meta refresh (longer than JS redirect so animation plays) -->
-  <meta http-equiv="refresh" content="6; url=./Beranda/">
+  <!-- fallback meta refresh (longer than JS so animation plays) -->
+  <meta http-equiv="refresh" content="8; url=./Beranda/">
 
-  <!-- fonts (optional) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --primary: #2F7A49;
-      --muted-on-dark: rgba(255,255,255,0.92);
-      --glass: rgba(255,255,255,0.06);
+      --muted-on-dark: rgba(255,255,255,0.95);
+      --card-bg: rgba(255,255,255,0.04);
+      --glass-blur: 6px;
+      --max-card-w: 940px;
     }
+
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:var(--muted-on-dark);-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+
+    /* HERO - background + gentle zoom (breath) */
     .hero{
       min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      background:
-        linear-gradient(180deg, rgba(6,12,20,0.48), rgba(6,12,20,0.62)),
-        url('beranda-snapshot.jpeg') center/cover no-repeat;
-      background-blend-mode: overlay;
-      color:var(--muted-on-dark);
+      background: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.02), transparent 8%),
+                  linear-gradient(180deg, rgba(6,12,20,0.46), rgba(6,12,20,0.68));
+      position:relative;
       overflow:hidden;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+    }
+    /* background image layer */
+    .bg {
+      position:absolute; inset:0; z-index:0; background:
+        url('beranda-snapshot.png') center/cover no-repeat;
+      transform-origin:center;
+      filter: blur(14px) saturate(.9) contrast(.98);
+      opacity:0.96;
+      will-change: transform, opacity;
+      animation: bgBreath 10s ease-in-out infinite;
+    }
+    @keyframes bgBreath {
+      0%{ transform: scale(1); opacity:0.98 }
+      50%{ transform: scale(1.03); opacity:0.995 }
+      100%{ transform: scale(1); opacity:0.98 }
     }
 
-    /* subtle drifting shapes (pure CSS) */
-    .floating {
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      overflow:hidden;
-    }
+    /* floating decorative shapes */
+    .float-layer{ position:absolute; inset:0; pointer-events:none; z-index:1; }
     .float-dot{
-      position:absolute;
-      width:18vmin; height:18vmin;
-      max-width:220px; max-height:220px;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 40%);
-      filter: blur(36px);
-      transform: translate3d(0,0,0);
-      opacity:0.85;
-      animation: floatMove 12s linear infinite;
+      position:absolute; width:140px; height:140px; border-radius:50%;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.06), transparent 40%);
+      filter: blur(28px); opacity:0.9;
+      animation: floatSlow linear infinite;
     }
-    .float-dot.x2{ left:10%; top:12%; animation-duration:16s; transform-origin:center; }
-    .float-dot.x3{ right:6%; bottom:10%; animation-duration:18s; opacity:0.9; }
+    .float-dot.x1{ left:6%; top:10%; animation-duration:18s; }
+    .float-dot.x2{ right:4%; top:18%; animation-duration:20s; transform:scale(.95); }
+    .float-dot.x3{ left:12%; bottom:8%; animation-duration:24s; transform:scale(.8); filter: blur(34px); }
 
-    @keyframes floatMove {
-      0%{ transform: translateY(0) translateX(0) }
-      50%{ transform: translateY(-18px) translateX(8px) }
-      100%{ transform: translateY(0) translateX(0) }
+    @keyframes floatSlow{
+      0%{ transform: translateY(0) }
+      50%{ transform: translateY(-24px) translateX(6px) }
+      100%{ transform: translateY(0) }
     }
 
-    /* hero card */
+    /* CARD centered and fixed width to solve off-centering */
+    .card-wrap{
+      position:relative; z-index:2; width:100%; display:flex; justify-content:center; padding:28px;
+    }
     .card{
-      width:min(920px, 94%);
-      padding:36px;
-      border-radius:16px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      backdrop-filter: blur(6px) saturate(1.05);
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      display:flex;
-      gap:22px;
-      align-items:center;
-      transform-style: preserve-3d;
-      /* initial transform for parallax */
-      transform: translateZ(0);
+      width: min(var(--max-card-w), 96%);
+      display:flex; gap:22px; align-items:center; padding:28px 28px;
+      border-radius:16px; background:var(--card-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      box-shadow: 0 14px 40px rgba(4,10,20,0.6);
+      transform-style:preserve-3d;
+      transition: transform .18s ease, box-shadow .18s ease;
     }
+    /* center alignment of inner elements - fixes off-centering */
+    .left { flex:0 0 120px; display:flex; align-items:center; justify-content:center; position:relative; }
+    .content { flex:1 1 auto; min-width:0 }
 
-    .left{
-      width:130px; height:130px; display:flex; align-items:center; justify-content:center;
-      flex:0 0 130px; position:relative;
+    /* PIN SVG + shadow */
+    .pin {
+      width:92px; height:92px; transform-origin:center center;
+      animation: pinDrop 850ms cubic-bezier(.22,.9,.32,1) 200ms both;
+      will-change: transform;
     }
-
-    /* pin drop SVG */
-    .pin{
-      width:86px; height:86px; transform-origin:center;
-      animation: pinDrop 900ms cubic-bezier(.22,.9,.32,1) forwards;
-      transform: translateY(-160px) scale(.98);
-      opacity:0;
+    .pin-shadow{
+      width:72px; height:12px; border-radius:50%; background:rgba(0,0,0,0.35);
+      position:absolute; bottom:18px; left:calc(50% - 36px); filter: blur(6px);
+      transform-origin:center; opacity:0; animation: shadowPulse 850ms cubic-bezier(.22,.9,.32,1) 200ms both;
     }
     @keyframes pinDrop {
-      0%{ transform: translateY(-160px) scale(.98); opacity:0 }
-      60%{ transform: translateY(18px) scale(1.04); opacity:1 }
-      100%{ transform: translateY(0) scale(1); }
-    }
-    /* tiny bounce shadow */
-    .pin-shadow{ width:58px; height:14px; border-radius:50%; background:rgba(0,0,0,0.35);
-      position:absolute; bottom:12px; left:calc(50% - 29px); transform:scale(.6); filter: blur(6px);
-      animation: shadowPulse 900ms cubic-bezier(.22,.9,.32,1) forwards;
-      opacity:0;
+      0%{ transform: translateY(-220px) scale(.98) rotate(-6deg); opacity:0 }
+      65%{ transform: translateY(16px) scale(1.06) rotate(4deg); opacity:1 }
+      100%{ transform: translateY(0) scale(1) rotate(0) }
     }
     @keyframes shadowPulse {
       0%{ transform: scale(.2); opacity:0 }
-      60%{ transform: scale(.9); opacity:0.6 }
-      100%{ transform: scale(1); opacity:0.55 }
+      60%{ transform: scale(0.96); opacity:.6 }
+      100%{ transform: scale(1); opacity:.55 }
     }
 
-    .content h1{ margin:0; font-size:clamp(1.4rem,3.8vw,2.4rem); letter-spacing:-0.02em; font-weight:600; color:var(--muted-on-dark) }
-    .content p{ margin:8px 0 0; color: rgba(255,255,255,0.78) }
+    /* idle wiggle after drop (small and elegant) */
+    .pin.idle { animation: none; }
+    .pin.idle-wiggle { animation: wiggle 2200ms ease-in-out infinite; transform-origin:center bottom; }
+    @keyframes wiggle {
+      0%{ transform: translateY(0) rotate(0deg) }
+      25%{ transform: translateY(-3px) rotate(-2deg) }
+      50%{ transform: translateY(0) rotate(0deg) }
+      75%{ transform: translateY(-3px) rotate(2deg) }
+      100%{ transform: translateY(0) rotate(0deg) }
+    }
 
+    /* HEADLINE - letter-by-letter */
+    .headline{ font-family:Poppins,Inter, system-ui; font-weight:700; font-size:clamp(1.5rem,4.5vw,2.8rem); margin:0; line-height:1.02; display:block; overflow:visible; }
+    .headline .char{ display:inline-block; transform-origin:center; opacity:0; transform: translateY(8px) rotateX(14deg) scale(.98); animation: letterIn .55s cubic-bezier(.2,.9,.3,1) forwards; }
+    @keyframes letterIn {
+      to{ opacity:1; transform: translateY(0) rotateX(0deg) scale(1) }
+    }
+
+    /* Subtitle words slide and fade */
+    .subtitle{ margin:10px 0 0; color:rgba(255,255,255,0.85); font-size:1rem; opacity:0; transform:translateY(6px); animation: subIn 750ms 420ms cubic-bezier(.2,.9,.3,1) forwards; }
+    @keyframes subIn { to{ opacity:1; transform:translateY(0) } }
+
+    /* CTA with sheen */
     .cta{
-      display:inline-flex; gap:10px; align-items:center;
-      margin-top:16px;
-      padding:10px 18px; text-decoration:none; border-radius:999px;
-      font-weight:600; background: linear-gradient(90deg,var(--primary), #3FA374);
-      color:white; box-shadow: 0 10px 26px rgba(47,122,73,0.18);
-      transition: transform .18s ease, box-shadow .18s ease;
+      display:inline-flex; gap:10px; align-items:center; margin-top:14px; text-decoration:none;
+      padding:10px 18px; border-radius:999px; font-weight:700; color:white;
+      background: linear-gradient(90deg,var(--primary), #3FA374); position:relative; overflow:hidden;
+      box-shadow: 0 12px 28px rgba(47,122,73,0.16);
     }
-    .cta:hover{ transform: translateY(-4px); box-shadow: 0 22px 36px rgba(47,122,73,0.14) }
-
-    .meta{ font-size:0.85rem; margin-top:8px; color:rgba(255,255,255,0.62) }
-
-    /* reduced-motion fallback */
-    @media (prefers-reduced-motion: reduce) {
-      .pin, .pin-shadow, .float-dot, .card, .cta { animation: none !important; transition: none !important; }
+    .cta::after{
+      content:""; position:absolute; inset:0; left:-40%; width:40%; transform:skewX(-18deg) translateX(0);
+      background: linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.28), rgba(255,255,255,0.05));
+      transform-origin:left; transition:transform .85s cubic-bezier(.2,.9,.3,1);
     }
+    .cta:hover::after{ transform: translateX(200%); } /* sheen sweep on hover */
+
+    /* small meta text */
+    .meta{ margin-top:8px; font-size:0.87rem; color:rgba(255,255,255,0.72) }
 
     /* small screens */
-    @media (max-width:640px){
-      .card{ padding:22px; gap:14px }
-      .left{ width:92px; height:92px; flex:0 0 92px }
-      .pin{ width:64px; height:64px }
+    @media (max-width:720px){
+      .card{ flex-direction:row; gap:12px; padding:18px; align-items:center; }
+      .left{ flex:0 0 84px }
+      .pin{ width:70px; height:70px }
+      .headline{ font-size:1.4rem }
+    }
+
+    /* reduced motion: minimal animations */
+    @media (prefers-reduced-motion: reduce) {
+      .bg, .float-dot, .pin, .pin-shadow, .headline .char, .subtitle, .cta::after { animation: none !important; transition: none !important; opacity:1 !important; transform:none !important; }
     }
   </style>
 </head>
 <body>
-  <main class="hero" id="hero">
-    <div class="floating" aria-hidden="true">
+  <main class="hero" id="hero" role="main" aria-label="Landing Geoportal">
+    <div class="bg" aria-hidden="true"></div>
+
+    <div class="float-layer" aria-hidden="true">
+      <div class="float-dot x1"></div>
       <div class="float-dot x2"></div>
       <div class="float-dot x3"></div>
     </div>
 
-    <section class="card" id="card" role="region" aria-label="Selamat datang">
-      <div class="left" aria-hidden="true">
-        <!-- PIN SVG (simple marker) -->
-        <svg class="pin" viewBox="0 0 64 64" aria-hidden="true">
-          <defs>
-            <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0" stop-color="#FF8A65"/>
-              <stop offset="1" stop-color="#F2994A"/>
-            </linearGradient>
-          </defs>
-          <path d="M32 4c-7.2 0-13 5.8-13 13 0 10.2 13 29 13 29s13-18.8 13-29c0-7.2-5.8-13-13-13z" fill="url(#g1)"/>
-          <circle cx="32" cy="17" r="6.6" fill="#fff" />
-        </svg>
-        <div class="pin-shadow" aria-hidden="true"></div>
-      </div>
+    <div class="card-wrap">
+      <section class="card" id="card" role="region" aria-label="Selamat datang">
+        <div class="left">
+          <!-- PIN SVG -->
+          <svg class="pin" viewBox="0 0 64 64" aria-hidden="true" role="img" focusable="false">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#FF8A65"/>
+                <stop offset="1" stop-color="#F2994A"/>
+              </linearGradient>
+            </defs>
+            <path d="M32 4c-7.2 0-13 5.8-13 13 0 10.2 13 29 13 29s13-18.8 13-29c0-7.2-5.8-13-13-13z" fill="url(#g1)"/>
+            <circle cx="32" cy="17" r="6.6" fill="#fff" />
+          </svg>
+          <div class="pin-shadow" aria-hidden="true"></div>
+        </div>
 
-      <div class="content">
-        <h1>Selamat Datang di Geoportal Bumiayu Pruwatan</h1>
-        <p>Data spasial — peta interaktif, pencarian lokasi, dan unduhan data. Halaman akan diarahkan otomatis.</p>
+        <div class="content">
+          <!-- headline will be split into characters by JS for stagger -->
+          <h1 class="headline" id="headline">Selamat Datang di Geoportal Bumiayu Pruwatan</h1>
+          <p class="subtitle" id="subtitle">Peta interaktif, pencarian lokasi, unduh data—semua pada satu tempat.</p>
 
-        <a id="enterBtn" class="cta" href="./Beranda/" role="link">Masuk ke Beranda →</a>
-        <div class="meta" id="countdownMeta">Mengalihkan dalam <strong id="count">4</strong> detik. Klik tombol untuk langsung masuk.</div>
-      </div>
-    </section>
+          <a id="enterBtn" class="cta" href="./Beranda/" role="link" aria-label="Masuk ke Beranda">Masuk ke Beranda →</a>
+          <div class="meta" id="meta">Mengalihkan dalam <strong id="count">7</strong> detik. Klik tombol untuk langsung masuk.</div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <script>
-    // JS redirect after animation (4s). Meta fallback is 6s.
     (function(){
-      // countdown UI
-      let t = 4;
-      const countEl = document.getElementById('count');
-      const interval = setInterval(()=> {
-        t--; if(t<=0){ clearInterval(interval); }
-        if(countEl) countEl.textContent = Math.max(0,t);
-      }, 1000);
+      // Redirect after 7s (meta is 8s as fallback)
+      const REDIRECT_MS = 7000;
+      setTimeout(()=> { window.location.href = './Beranda/'; }, REDIRECT_MS);
 
-      // redirect after 4s (shows animation)
-      setTimeout(()=> { window.location.href = './Beranda/'; }, 4000);
+      // nice stagger for headline letters (tween-y feel)
+      function splitAndAnimateHeadline() {
+        const el = document.getElementById('headline');
+        if(!el) return;
+        const text = el.textContent.trim();
+        el.textContent = '';
+        // create spans for each character (preserve spaces)
+        for(let i=0;i<text.length;i++){
+          const ch = text[i];
+          const span = document.createElement('span');
+          span.className = 'char';
+          span.textContent = ch;
+          // staggered delay (CSS-based)
+          const delay = 0.05 * i; // seconds
+          span.style.animationDelay = `${delay}s`;
+          el.appendChild(span);
+        }
+      }
 
-      // parallax effect (simple, very light)
-      const card = document.getElementById('card');
-      const hero = document.getElementById('hero');
-      let supportsPointer = window.matchMedia('(pointer:fine)').matches;
+      // subtitle slight word-by-word entrance
+      function animateSubtitle() {
+        const sub = document.getElementById('subtitle');
+        if(!sub) return;
+        // no heavy DOM ops: we just ensure it already has an animation delay in CSS
+        sub.style.opacity = '0';
+        // will fade in from CSS keyframe
+      }
 
-      if (card && supportsPointer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        hero.addEventListener('pointermove', function(ev){
+      // make pin go idle-wiggle after drop finishes
+      function pinIdle() {
+        const pin = document.querySelector('.pin');
+        if(!pin) return;
+        // when drop animation ends, switch to idle wiggle
+        pin.addEventListener('animationend', function handler(e) {
+          if (e.animationName && e.animationName.includes('pinDrop')) {
+            pin.classList.add('idle-wiggle');
+            pin.classList.remove('idle');
+            pin.removeEventListener('animationend', handler);
+          }
+        });
+      }
+
+      // micro parallax for card on pointer move (very subtle)
+      function attachParallax() {
+        const hero = document.getElementById('hero');
+        const card = document.getElementById('card');
+        if(!hero || !card) return;
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const fine = window.matchMedia('(pointer:fine)').matches;
+        if(prefersReduced || !fine) return;
+
+        hero.addEventListener('pointermove', (ev) => {
           const r = hero.getBoundingClientRect();
           const px = (ev.clientX - r.left) / r.width - 0.5;
           const py = (ev.clientY - r.top) / r.height - 0.5;
-          // small translate/rotate based on pointer
-          card.style.transform = `translate3d(${px * 8}px, ${py * 8}px, 0)`;
+          const tx = px * 8; // small translate
+          const ty = py * 8;
+          card.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
         });
-        hero.addEventListener('pointerleave', function(){ card.style.transform = 'translate3d(0,0,0)'; });
+        hero.addEventListener('pointerleave', ()=> card.style.transform = '');
       }
 
-      // accessibility: focus CTA then blur so keyboard users can tab
+      // countdown visible
+      function startCountdown(ms) {
+        const el = document.getElementById('count');
+        if(!el) return;
+        let t = Math.ceil(ms/1000);
+        el.textContent = t;
+        const iv = setInterval(()=> {
+          t--;
+          el.textContent = Math.max(0,t);
+          if(t<=0) clearInterval(iv);
+        }, 1000);
+      }
+
+      // init
+      splitAndAnimateHeadline();
+      animateSubtitle();
+      pinIdle();
+      attachParallax();
+      startCountdown(REDIRECT_MS);
+
+      // accessibility: focus CTA so keyboard users can find it quickly
       const enterBtn = document.getElementById('enterBtn');
-      if (enterBtn) {
+      if(enterBtn) {
         enterBtn.focus({preventScroll:true});
       }
     })();
