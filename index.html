@@ -3,22 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Geoportal Bumiayu Pruwatan — Celestial Observatory</title>
+  <title>Geoportal Bumiayu Pruwatan — Earth Navigation</title>
   <link rel="canonical" href="https://dragon-learn.github.io/geoportal-bumiayu_pruwatan/Beranda/">
   
   <!-- Cosmic Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&family=Rajdhani:wght@500;600&display=swap" rel="stylesheet">
   
   <style>
-    /* CELESTIAL OBSERVATORY VARIABLES */
+    /* COSMIC EARTH VARIABLES */
     :root {
       --cosmic-deep: #0a0e17;
-      --nebula-purple: #5d3fd3;
-      --star-blue: #4cc9f0;
-      --nova-pink: #f72585;
-      --comet-gold: #ff9e00;
-      --void-black: #000000;
-      --starlight: rgba(255, 255, 255, 0.9);
+      --earth-blue: #1e90ff;
+      --earth-green: #32cd32;
+      --earth-brown: #8b4513;
+      --earth-cloud: rgba(255, 255, 255, 0.8);
+      --star-light: #ffffff;
+      --indonesia-glow: #ff4444;
+      --asteroid-color: #8b7355;
     }
 
     * {
@@ -31,20 +32,8 @@
       height: 100%;
       overflow: hidden;
       font-family: 'Exo 2', sans-serif;
-      background: var(--cosmic-deep);
-      color: var(--starlight);
-    }
-
-    /* COSMIC BACKGROUND */
-    .cosmic-bg {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(93, 63, 211, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(76, 201, 240, 0.08) 0%, transparent 50%),
-        linear-gradient(180deg, #0a0e17 0%, #000000 100%);
-      z-index: 0;
+      background: #000000;
+      color: var(--star-light);
     }
 
     /* STARFIELD */
@@ -52,7 +41,7 @@
       position: fixed;
       width: 100%;
       height: 100%;
-      z-index: 1;
+      z-index: 0;
     }
 
     .star {
@@ -67,149 +56,196 @@
       50% { opacity: 1; transform: scale(1.1); }
     }
 
-    /* CELESTIAL BUBBLES (Cosmic Bodies) */
-    .celestial-body {
+    /* ROTATING EARTH CONTAINER */
+    .earth-container {
       position: fixed;
-      border-radius: 50%;
-      z-index: 2;
-      pointer-events: none;
-      transition: all 1.2s cubic-bezier(0.2, 0.8, 0.3, 1);
-      filter: blur(var(--blur));
-      mix-blend-mode: screen;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      z-index: 1;
+      transition: all 3s cubic-bezier(0.2, 0.8, 0.3, 1);
     }
 
-    .body-planet {
-      background: radial-gradient(circle at 30% 30%, var(--color-primary), transparent 70%);
-      box-shadow: 
-        0 0 80px var(--color-glow),
-        inset 0 0 60px rgba(255, 255, 255, 0.1);
-    }
-
-    .body-nebula {
-      background: radial-gradient(circle, var(--color-primary), transparent 80%);
-      opacity: 0.4;
-    }
-
-    /* CONSTELLATION LINES */
-    .constellation {
-      position: fixed;
+    .earth {
+      position: absolute;
       width: 100%;
       height: 100%;
-      z-index: 1;
+      border-radius: 50%;
+      background: 
+        radial-gradient(circle at 30% 30%, var(--earth-blue) 0%, #0a3d62 70%),
+        repeating-radial-gradient(circle at 30% 30%, transparent 0, rgba(32, 178, 170, 0.1) 2px);
+      box-shadow: 
+        inset 0 0 100px rgba(255, 255, 255, 0.3),
+        0 0 100px rgba(30, 144, 255, 0.5);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      animation: rotateEarth 120s linear infinite;
     }
 
-    .constellation-line {
+    @keyframes rotateEarth {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
+    }
+
+    /* EARTH DETAILS */
+    .earth-continent {
       position: absolute;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--star-blue), transparent);
-      transform-origin: left center;
+      background: var(--earth-green);
+      border-radius: 50% / 30%;
+      opacity: 0.7;
+    }
+
+    .earth-cloud {
+      position: absolute;
+      background: var(--earth-cloud);
+      border-radius: 50%;
+      filter: blur(2px);
       opacity: 0.3;
     }
 
-    /* OBSERVATORY INTERFACE */
-    .observatory-container {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      z-index: 3;
+    /* INDONESIA HIGHLIGHT */
+    .indonesia-highlight {
+      position: absolute;
+      width: 60px;
+      height: 30px;
+      background: rgba(255, 68, 68, 0.3);
+      border-radius: 50% / 40%;
+      top: 52%;
+      left: 73%;
+      transform: translate(-50%, -50%);
+      box-shadow: 
+        0 0 40px var(--indonesia-glow),
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      z-index: 2;
+      transition: opacity 1s;
     }
 
-    .observatory-panel {
-      background: rgba(10, 14, 23, 0.6);
+    .earth-container.zoom-in .indonesia-highlight {
+      opacity: 1;
+      animation: pulseIndonesia 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseIndonesia {
+      0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    /* ASTEROIDS */
+    .asteroid {
+      position: fixed;
+      width: var(--size);
+      height: var(--size);
+      background: radial-gradient(circle at 30% 30%, 
+        var(--asteroid-color), 
+        #5d4037 70%);
+      border-radius: 50%;
+      z-index: 3;
+      pointer-events: auto;
+      cursor: pointer;
+      box-shadow: 
+        0 0 20px rgba(139, 115, 85, 0.5),
+        inset 0 0 10px rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+      transform: rotate(0deg);
+    }
+
+    .asteroid::after {
+      content: '';
+      position: absolute;
+      width: 30%;
+      height: 30%;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      top: 20%;
+      left: 20%;
+      filter: blur(1px);
+    }
+
+    .asteroid:hover {
+      transform: scale(1.2);
+      box-shadow: 
+        0 0 40px rgba(255, 193, 7, 0.8),
+        0 0 80px rgba(255, 193, 7, 0.3);
+      filter: brightness(1.5);
+    }
+
+    .asteroid-hit {
+      animation: asteroidFlyAway 1.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards !important;
+      pointer-events: none;
+    }
+
+    @keyframes asteroidFlyAway {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--fly-x, 200px), var(--fly-y, -200px)) scale(0); opacity: 0; }
+    }
+
+    /* CONTROL PANEL */
+    .control-panel {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 14, 23, 0.8);
       backdrop-filter: blur(20px);
-      border-radius: 24px;
-      padding: 60px;
-      max-width: 800px;
-      width: 90%;
-      border: 1px solid rgba(76, 201, 240, 0.2);
+      border-radius: 20px;
+      padding: 30px 50px;
+      z-index: 10;
+      border: 1px solid rgba(30, 144, 255, 0.3);
       box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      position: relative;
-      overflow: hidden;
+      text-align: center;
+      min-width: 500px;
+      transition: opacity 1s;
     }
 
-    .observatory-panel::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, 
-        transparent, 
-        var(--star-blue), 
-        var(--nova-pink),
-        var(--comet-gold),
-        transparent);
+    .earth-container.zoom-in .control-panel {
+      opacity: 0;
+      pointer-events: none;
     }
 
-    /* COSMIC TYPOGRAPHY */
-    .cosmic-title {
+    .panel-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      background: linear-gradient(135deg, var(--starlight) 0%, var(--star-blue) 100%);
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--star-light) 0%, var(--earth-blue) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       letter-spacing: 1px;
-      position: relative;
     }
 
-    .cosmic-subtitle {
-      font-size: 1.3rem;
+    .panel-subtitle {
+      font-size: 1.1rem;
       color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 40px;
-      line-height: 1.6;
+      margin-bottom: 30px;
       font-weight: 300;
     }
 
-    /* TELESCOPE CURSOR */
-    .telescope-cursor {
-      position: fixed;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 2px solid rgba(76, 201, 240, 0.3);
-      pointer-events: none;
-      z-index: 10;
-      mix-blend-mode: screen;
-      transition: transform 0.1s;
-      opacity: 0;
-      box-shadow: 
-        0 0 40px rgba(76, 201, 240, 0.2),
-        inset 0 0 40px rgba(76, 201, 240, 0.1);
-    }
-
-    .telescope-cursor.active {
-      opacity: 1;
-    }
-
-    /* COSMIC CTA */
-    .cosmic-cta {
+    /* NAVIGATION CTA */
+    .nav-cta {
       display: inline-flex;
       align-items: center;
       gap: 15px;
-      background: rgba(10, 14, 23, 0.8);
-      color: var(--star-blue);
-      padding: 20px 40px;
+      background: rgba(10, 14, 23, 0.9);
+      color: var(--earth-blue);
+      padding: 18px 40px;
       border-radius: 12px;
       text-decoration: none;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 500;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
       letter-spacing: 1px;
       transition: all 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
-      border: 1px solid rgba(76, 201, 240, 0.3);
+      border: 1px solid rgba(30, 144, 255, 0.5);
       position: relative;
       overflow: hidden;
     }
 
-    .cosmic-cta::before {
+    .nav-cta::before {
       content: '';
       position: absolute;
       top: 0;
@@ -218,183 +254,190 @@
       height: 100%;
       background: linear-gradient(90deg, 
         transparent, 
-        rgba(76, 201, 240, 0.2), 
+        rgba(30, 144, 255, 0.2), 
         transparent);
       transition: left 0.7s ease;
     }
 
-    .cosmic-cta:hover::before {
+    .nav-cta:hover::before {
       left: 100%;
     }
 
-    .cosmic-cta:hover {
-      transform: translateY(-2px);
+    .nav-cta:hover {
+      transform: translateY(-3px);
       box-shadow: 
-        0 10px 40px rgba(76, 201, 240, 0.3),
-        0 0 60px rgba(76, 201, 240, 0.1);
-      border-color: var(--star-blue);
-      background: rgba(10, 14, 23, 0.9);
+        0 15px 40px rgba(30, 144, 255, 0.3),
+        0 0 60px rgba(30, 144, 255, 0.2);
+      border-color: var(--earth-blue);
+      background: rgba(20, 30, 48, 0.9);
     }
 
-    .cta-icon {
+    .nav-icon {
       font-size: 1.4rem;
       transition: transform 0.5s;
     }
 
-    .cosmic-cta:hover .cta-icon {
-      transform: rotate(45deg) scale(1.2);
+    .nav-cta:hover .nav-icon {
+      transform: rotate(90deg) scale(1.2);
     }
 
-    /* FLOATING DATA ORBS (Subtle Version) */
-    .data-orb {
+    /* LOADING BAR */
+    .loading-bar {
       position: fixed;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, 
-        var(--orb-color), 
-        transparent 70%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      z-index: 2;
-      opacity: 0.7;
-      transition: all 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
-      pointer-events: none;
-      filter: blur(0.5px);
-    }
-
-    .data-orb:hover {
-      opacity: 1;
-      transform: scale(1.3);
-    }
-
-    /* EVENT HORIZON EFFECT */
-    .event-horizon {
-      position: fixed;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
       width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, 
-        transparent 60%, 
-        rgba(93, 63, 211, 0.1) 80%, 
-        transparent 100%);
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .earth-container.zoom-in .loading-bar {
+      opacity: 1;
+    }
+
+    .loading-progress {
+      position: absolute;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--earth-blue), var(--indonesia-glow));
+      border-radius: 3px;
+      transition: width 3s cubic-bezier(0.2, 0.8, 0.3, 1);
+    }
+
+    /* ZOOMED VIEW */
+    .zoomed-view {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 2s;
+    }
+
+    .zoomed-view.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .indonesia-map {
+      position: absolute;
+      width: 80%;
+      height: 80%;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-      animation: pulseHorizon 8s ease-in-out infinite;
+      transform: translate(-50%, -50%) scale(0.5);
+      background: 
+        url('beranda-snapshot.png') center/cover,
+        radial-gradient(circle at center, #0a3d62 0%, #000000 100%);
+      border-radius: 20px;
+      box-shadow: 
+        0 0 200px rgba(30, 144, 255, 0.3),
+        inset 0 0 100px rgba(255, 255, 255, 0.1);
+      transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+      opacity: 0;
     }
 
-    @keyframes pulseHorizon {
-      0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.05); }
+    .zoomed-view.active .indonesia-map {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
     }
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      .observatory-panel {
-        padding: 40px 30px;
-        width: 95%;
+      .earth-container {
+        width: 300px;
+        height: 300px;
       }
       
-      .cosmic-title {
-        font-size: 2.2rem;
+      .control-panel {
+        min-width: 90%;
+        padding: 20px;
+        bottom: 30px;
       }
       
-      .data-orb {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
+      .panel-title {
+        font-size: 1.5rem;
       }
       
-      .telescope-cursor {
-        display: none;
+      .loading-bar {
+        width: 80%;
+      }
+      
+      .asteroid {
+        pointer-events: none; /* Disable on mobile for better UX */
       }
     }
 
     /* REDUCED MOTION */
     @media (prefers-reduced-motion: reduce) {
-      .star,
-      .celestial-body,
-      .event-horizon,
-      .cosmic-cta,
-      .data-orb {
+      .earth,
+      .asteroid,
+      .star {
         animation: none !important;
+      }
+      
+      .asteroid-hit,
+      .nav-cta:hover {
         transition: none !important;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Cosmic Background -->
-  <div class="cosmic-bg"></div>
-  
   <!-- Starfield -->
   <div class="starfield" id="starfield"></div>
   
-  <!-- Constellation Lines -->
-  <div class="constellation" id="constellation"></div>
-  
-  <!-- Event Horizon -->
-  <div class="event-horizon"></div>
-  
-  <!-- Telescope Cursor -->
-  <div class="telescope-cursor" id="telescopeCursor"></div>
-  
-  <!-- Celestial Bodies will be generated by JS -->
-  
-  <!-- Floating Data Orbs -->
-  <div class="data-orb" style="--orb-color: #4cc9f0; top: 30%; left: 15%;" data-info="Satellite Data">
-    🛰️
-  </div>
-  <div class="data-orb" style="--orb-color: #f72585; top: 70%; left: 85%;" data-info="Terrain Maps">
-    🗺️
-  </div>
-  <div class="data-orb" style="--orb-color: #ff9e00; top: 85%; left: 20%;" data-info="Population Data">
-    👥
-  </div>
-  <div class="data-orb" style="--orb-color: #5d3fd3; top: 20%; left: 80%;" data-info="Infrastructure">
-    🏗️
+  <!-- Earth Container -->
+  <div class="earth-container" id="earthContainer">
+    <div class="earth" id="earth"></div>
+    <div class="indonesia-highlight" id="indonesiaHighlight"></div>
   </div>
   
-  <!-- Main Observatory Interface -->
-  <main class="observatory-container">
-    <div class="observatory-panel">
-      <h1 class="cosmic-title">
-        Geoportal Bumiayu Pruwatan
-      </h1>
-      
-      <p class="cosmic-subtitle">
-        Sebuah observatorium digital untuk mengeksplorasi ruang geografis. 
-        Setiap titik data adalah bintang dalam konstelasi pengetahuan spasial.
-      </p>
-      
-      <p class="cosmic-subtitle">
-        Bergeraklah melintasi nebula data dan amati interkoneksi yang terbentuk 
-        di antara informasi geografis.
-      </p>
-      
-      <a href="./Beranda/" class="cosmic-cta" id="enterBtn">
-        <span class="cta-icon">✨</span>
-        Mulai Observasi
-        <span class="cta-icon">⇝</span>
-      </a>
-    </div>
-  </main>
+  <!-- Asteroids will be generated by JS -->
+  
+  <!-- Zoomed View (Initially Hidden) -->
+  <div class="zoomed-view" id="zoomedView">
+    <div class="indonesia-map"></div>
+  </div>
+  
+  <!-- Loading Bar -->
+  <div class="loading-bar">
+    <div class="loading-progress" id="loadingProgress"></div>
+  </div>
+  
+  <!-- Control Panel -->
+  <div class="control-panel">
+    <h1 class="panel-title">Geoportal Bumiayu Pruwatan</h1>
+    <p class="panel-subtitle">Navigate through space to explore geographic data</p>
+    
+    <button class="nav-cta" id="navigateBtn">
+      <span class="nav-icon">🚀</span>
+      Navigate to Indonesia
+      <span class="nav-icon">⇝</span>
+    </button>
+  </div>
 
   <script>
     (function() {
-      // No countdown, just redirect after 30 seconds (increased from 7)
-      const REDIRECT_MS = 30000;
-      setTimeout(() => { 
-        window.location.href = './Beranda/'; 
-      }, REDIRECT_MS);
+      // Get elements
+      const earthContainer = document.getElementById('earthContainer');
+      const earth = document.getElementById('earth');
+      const starfield = document.getElementById('starfield');
+      const navigateBtn = document.getElementById('navigateBtn');
+      const loadingProgress = document.getElementById('loadingProgress');
+      const indonesiaHighlight = document.getElementById('indonesiaHighlight');
+      const zoomedView = document.getElementById('zoomedView');
       
       // Create starfield
-      const starfield = document.getElementById('starfield');
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 150; i++) {
         const star = document.createElement('div');
         star.className = 'star';
         
@@ -415,198 +458,210 @@
         starfield.appendChild(star);
       }
       
-      // Create celestial bodies (bubbles)
-      const celestialBodies = [
-        { type: 'planet', size: 120, color: '#5d3fd3', x: 15, y: 25, blur: 0 },
-        { type: 'planet', size: 80, color: '#4cc9f0', x: 85, y: 35, blur: 0 },
-        { type: 'nebula', size: 200, color: '#f72585', x: 25, y: 75, blur: 20 },
-        { type: 'planet', size: 100, color: '#ff9e00', x: 75, y: 65, blur: 0 },
-        { type: 'nebula', size: 150, color: '#4cc9f0', x: 90, y: 15, blur: 15 },
-        { type: 'nebula', size: 180, color: '#5d3fd3', x: 10, y: 85, blur: 25 }
-      ];
-      
-      celestialBodies.forEach(body => {
-        const celestial = document.createElement('div');
-        celestial.className = `celestial-body body-${body.type}`;
+      // Create Earth details
+      function createEarthDetails() {
+        // Continents (simplified)
+        const continents = [
+          { width: '25%', height: '40%', left: '30%', top: '30%', color: 'var(--earth-green)' },
+          { width: '15%', height: '30%', left: '15%', top: '50%', color: 'var(--earth-brown)' },
+          { width: '20%', height: '35%', left: '60%', top: '40%', color: 'var(--earth-green)' },
+          { width: '12%', height: '25%', left: '75%', top: '55%', color: 'var(--earth-green)' } // Asia/Indonesia area
+        ];
         
-        celestial.style.width = `${body.size}px`;
-        celestial.style.height = `${body.size}px`;
-        celestial.style.left = `${body.x}%`;
-        celestial.style.top = `${body.y}%`;
-        celestial.style.setProperty('--color-primary', body.color);
-        celestial.style.setProperty('--color-glow', body.color);
-        celestial.style.setProperty('--blur', `${body.blur}px`);
-        
-        // Subtle floating animation
-        celestial.style.animation = `float ${15 + Math.random() * 10}s ease-in-out infinite`;
-        
-        document.body.appendChild(celestial);
-      });
-      
-      // Add floating animation
-      const styleSheet = document.createElement('style');
-      styleSheet.textContent = `
-        @keyframes float {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          25% { transform: translateY(-20px) translateX(10px); }
-          50% { transform: translateY(10px) translateX(-10px); }
-          75% { transform: translateY(-10px) translateX(20px); }
-        }
-      `;
-      document.head.appendChild(styleSheet);
-      
-      // Create constellation lines
-      const constellation = document.getElementById('constellation');
-      const points = [
-        { x: 20, y: 30 },
-        { x: 40, y: 25 },
-        { x: 60, y: 40 },
-        { x: 75, y: 30 },
-        { x: 85, y: 50 },
-        { x: 30, y: 70 },
-        { x: 50, y: 80 },
-        { x: 70, y: 75 }
-      ];
-      
-      // Connect some points
-      const connections = [[0,1], [1,2], [2,3], [3,4], [5,6], [6,7], [1,5], [2,6]];
-      
-      connections.forEach(conn => {
-        const p1 = points[conn[0]];
-        const p2 = points[conn[1]];
-        
-        const dx = p2.x - p1.x;
-        const dy = p2.y - p1.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-        
-        const line = document.createElement('div');
-        line.className = 'constellation-line';
-        line.style.left = `${p1.x}%`;
-        line.style.top = `${p1.y}%`;
-        line.style.width = `${distance}%`;
-        line.style.transform = `rotate(${angle}deg)`;
-        line.style.opacity = `${0.1 + Math.random() * 0.2}`;
-        
-        constellation.appendChild(line);
-      });
-      
-      // Telescope cursor effect
-      const telescopeCursor = document.getElementById('telescopeCursor');
-      let mouseX = window.innerWidth / 2;
-      let mouseY = window.innerHeight / 2;
-      let cursorX = mouseX;
-      let cursorY = mouseY;
-      
-      // Only show telescope cursor on desktop
-      if (window.innerWidth > 768) {
-        document.addEventListener('mousemove', (e) => {
-          mouseX = e.clientX;
-          mouseY = e.clientY;
-          telescopeCursor.classList.add('active');
+        continents.forEach(continent => {
+          const continentEl = document.createElement('div');
+          continentEl.className = 'earth-continent';
+          continentEl.style.width = continent.width;
+          continentEl.style.height = continent.height;
+          continentEl.style.left = continent.left;
+          continentEl.style.top = continent.top;
+          continentEl.style.background = continent.color;
+          earth.appendChild(continentEl);
         });
         
-        function updateTelescope() {
-          // Smooth follow
-          cursorX += (mouseX - cursorX) * 0.1;
-          cursorY += (mouseY - cursorY) * 0.1;
+        // Clouds
+        for (let i = 0; i < 8; i++) {
+          const cloud = document.createElement('div');
+          cloud.className = 'earth-cloud';
           
-          telescopeCursor.style.left = `${cursorX - 60}px`;
-          telescopeCursor.style.top = `${cursorY - 60}px`;
+          const size = Math.random() * 60 + 30;
+          const x = Math.random() * 100;
+          const y = Math.random() * 100;
           
-          // Make celestial bodies react to cursor proximity
-          document.querySelectorAll('.celestial-body').forEach(body => {
-            const rect = body.getBoundingClientRect();
-            const bodyX = rect.left + rect.width / 2;
-            const bodyY = rect.top + rect.height / 2;
-            const distance = Math.sqrt(
-              Math.pow(bodyX - cursorX, 2) + 
-              Math.pow(bodyY - cursorY, 2)
-            );
-            
-            if (distance < 200) {
-              const scale = 1 + (200 - distance) / 400;
-              const brightness = 0.7 + (200 - distance) / 300;
-              body.style.transform = `scale(${scale})`;
-              body.style.filter = `blur(var(--blur)) brightness(${brightness})`;
-            } else {
-              body.style.transform = 'scale(1)';
-              body.style.filter = 'blur(var(--blur)) brightness(0.7)';
-            }
-          });
+          cloud.style.width = `${size}px`;
+          cloud.style.height = `${size * 0.6}px`;
+          cloud.style.left = `${x}%`;
+          cloud.style.top = `${y}%`;
+          cloud.style.animation = `moveCloud ${30 + Math.random() * 30}s linear infinite`;
           
-          // Make data orbs react
-          document.querySelectorAll('.data-orb').forEach(orb => {
-            const rect = orb.getBoundingClientRect();
-            const orbX = rect.left + rect.width / 2;
-            const orbY = rect.top + rect.height / 2;
-            const distance = Math.sqrt(
-              Math.pow(orbX - cursorX, 2) + 
-              Math.pow(orbY - cursorY, 2)
-            );
-            
-            if (distance < 150) {
-              const scale = 1 + (150 - distance) / 200;
-              orb.style.transform = `scale(${scale})`;
-              orb.style.opacity = '0.9';
-            } else {
-              orb.style.transform = 'scale(1)';
-              orb.style.opacity = '0.7';
-            }
-          });
-          
-          requestAnimationFrame(updateTelescope);
+          earth.appendChild(cloud);
         }
         
-        updateTelescope();
+        // Add cloud animation
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+          @keyframes moveCloud {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100px); }
+          }
+        `;
+        document.head.appendChild(styleSheet);
       }
       
-      // Data orb hover info
-      document.querySelectorAll('.data-orb').forEach(orb => {
-        // Create info tooltip
-        const info = document.createElement('div');
-        info.className = 'orb-info';
-        info.textContent = orb.dataset.info;
-        info.style.position = 'fixed';
-        info.style.background = 'rgba(10, 14, 23, 0.9)';
-        info.style.color = 'var(--star-blue)';
-        info.style.padding = '8px 12px';
-        info.style.borderRadius = '6px';
-        info.style.fontSize = '0.9rem';
-        info.style.pointerEvents = 'none';
-        info.style.opacity = '0';
-        info.style.transition = 'opacity 0.3s';
-        info.style.zIndex = '100';
-        info.style.border = '1px solid rgba(76, 201, 240, 0.3)';
+      // Create asteroids
+      function createAsteroids(count) {
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => {
+            const asteroid = document.createElement('div');
+            asteroid.className = 'asteroid';
+            
+            const size = Math.random() * 40 + 20;
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100;
+            const speed = Math.random() * 2 + 1;
+            const angle = Math.random() * Math.PI * 2;
+            
+            asteroid.style.setProperty('--size', `${size}px`);
+            asteroid.style.left = `${startX}%`;
+            asteroid.style.top = `${startY}%`;
+            asteroid.dataset.speed = speed;
+            asteroid.dataset.angle = angle;
+            
+            // Add random rotation
+            asteroid.style.animation = `rotateAsteroid ${5 + Math.random() * 10}s linear infinite`;
+            
+            // Add click handler
+            asteroid.addEventListener('click', handleAsteroidClick);
+            
+            document.body.appendChild(asteroid);
+            
+            // Start movement
+            moveAsteroid(asteroid);
+            
+          }, i * 500); // Stagger creation
+        }
         
-        document.body.appendChild(info);
-        
-        orb.addEventListener('mouseenter', () => {
-          const rect = orb.getBoundingClientRect();
-          info.style.left = `${rect.left + rect.width / 2}px`;
-          info.style.top = `${rect.top - 10}px`;
-          info.style.transform = 'translate(-50%, -100%)';
-          info.style.opacity = '1';
-        });
-        
-        orb.addEventListener('mouseleave', () => {
-          info.style.opacity = '0';
-        });
-      });
-      
-      // Gentle background pulsation
-      function cosmicPulse() {
-        const intensity = Math.sin(Date.now() / 8000) * 0.05 + 0.95;
-        document.querySelector('.cosmic-bg').style.filter = `brightness(${intensity})`;
-        requestAnimationFrame(cosmicPulse);
+        // Add rotation animation
+        const asteroidStyleSheet = document.createElement('style');
+        asteroidStyleSheet.textContent = `
+          @keyframes rotateAsteroid {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+        `;
+        document.head.appendChild(asteroidStyleSheet);
       }
       
-      cosmicPulse();
+      // Move asteroid in random direction
+      function moveAsteroid(asteroid) {
+        let x = parseFloat(asteroid.style.left);
+        let y = parseFloat(asteroid.style.top);
+        let speed = parseFloat(asteroid.dataset.speed);
+        let angle = parseFloat(asteroid.dataset.angle);
+        
+        function updatePosition() {
+          // Update position
+          x += Math.cos(angle) * speed;
+          y += Math.sin(angle) * speed;
+          
+          // Bounce off edges
+          if (x < 0 || x > 100) {
+            angle = Math.PI - angle;
+            x = x < 0 ? 0 : 100;
+          }
+          
+          if (y < 0 || y > 100) {
+            angle = -angle;
+            y = y < 0 ? 0 : 100;
+          }
+          
+          // Apply new position
+          asteroid.style.left = `${x}%`;
+          asteroid.style.top = `${y}%`;
+          
+          // Continue animation if asteroid is still active
+          if (!asteroid.classList.contains('asteroid-hit')) {
+            requestAnimationFrame(updatePosition);
+          }
+        }
+        
+        updatePosition();
+      }
+      
+      // Handle asteroid click
+      function handleAsteroidClick(e) {
+        const asteroid = e.target;
+        
+        // Don't trigger if already hit
+        if (asteroid.classList.contains('asteroid-hit')) return;
+        
+        // Mark as hit
+        asteroid.classList.add('asteroid-hit');
+        
+        // Random fly away direction
+        const flyX = (Math.random() - 0.5) * 400;
+        const flyY = (Math.random() - 0.5) * 400;
+        
+        asteroid.style.setProperty('--fly-x', `${flyX}px`);
+        asteroid.style.setProperty('--fly-y', `${flyY}px`);
+        
+        // Remove after animation
+        setTimeout(() => {
+          if (asteroid.parentNode) {
+            asteroid.parentNode.removeChild(asteroid);
+          }
+        }, 1500);
+      }
+      
+      // Navigate to Indonesia
+      function navigateToIndonesia() {
+        // Disable button during animation
+        navigateBtn.disabled = true;
+        
+        // Stop Earth rotation and zoom
+        earth.style.animation = 'none';
+        earthContainer.classList.add('zoom-in');
+        
+        // Calculate rotation to show Indonesia (approx 110° E)
+        // Since Earth starts at 0° and Indonesia is at ~110° East
+        const indonesiaRotation = 110; // degrees
+        
+        // Rotate Earth to show Indonesia
+        earth.style.transform = `rotateY(${indonesiaRotation}deg)`;
+        
+        // Zoom in
+        setTimeout(() => {
+          earthContainer.style.transform = 'translate(-50%, -50%) scale(2.5)';
+          
+          // Show loading progress
+          setTimeout(() => {
+            loadingProgress.style.width = '100%';
+            
+            // After loading complete, show zoomed view
+            setTimeout(() => {
+              zoomedView.classList.add('active');
+              
+              // After showing Indonesia view, redirect to Beranda
+              setTimeout(() => {
+                window.location.href = './Beranda/';
+              }, 3000); // 3 seconds to view Indonesia
+              
+            }, 1000); // Wait for loading bar to complete
+          }, 500);
+        }, 1000); // Wait for Earth to rotate
+      }
+      
+      // Initialize
+      createEarthDetails();
+      createAsteroids(12); // Create 12 asteroids
+      
+      // Event listeners
+      navigateBtn.addEventListener('click', navigateToIndonesia);
       
       // Keyboard navigation
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
-          document.getElementById('enterBtn').click();
+          navigateBtn.click();
         }
         if (e.key === 'Escape') {
           window.location.href = './Beranda/';
@@ -614,72 +669,35 @@
       });
       
       // Focus management
-      const enterBtn = document.getElementById('enterBtn');
-      if (enterBtn) {
-        enterBtn.focus({ preventScroll: true });
-        
-        enterBtn.addEventListener('focus', () => {
-          enterBtn.style.outline = '2px solid var(--star-blue)';
-          enterBtn.style.outlineOffset = '4px';
-        });
-        
-        enterBtn.addEventListener('blur', () => {
-          enterBtn.style.outline = 'none';
-        });
-      }
+      navigateBtn.focus({ preventScroll: true });
       
-      // Create occasional shooting stars
-      function createShootingStar() {
-        const star = document.createElement('div');
-        star.style.position = 'fixed';
-        star.style.width = '100px';
-        star.style.height = '2px';
-        star.style.background = 'linear-gradient(90deg, transparent, var(--star-blue), transparent)';
-        star.style.zIndex = '1';
-        star.style.pointerEvents = 'none';
-        star.style.opacity = '0';
-        star.style.filter = 'blur(1px)';
-        
-        const startX = Math.random() * 100;
-        const startY = Math.random() * 30;
-        
-        star.style.left = `${startX}%`;
-        star.style.top = `${startY}%`;
-        
-        document.body.appendChild(star);
-        
-        // Animate
-        star.animate([
-          { 
-            transform: 'translateX(0) rotate(45deg)',
-            opacity: 0 
-          },
-          { 
-            transform: `translateX(${window.innerWidth}px) rotate(45deg)`,
-            opacity: 1 
-          },
-          { 
-            transform: `translateX(${window.innerWidth * 1.5}px) rotate(45deg)`,
-            opacity: 0 
-          }
-        ], {
-          duration: 2000 + Math.random() * 2000,
-          easing: 'cubic-bezier(0.2, 0.8, 0.3, 1)'
-        });
-        
-        setTimeout(() => {
-          document.body.removeChild(star);
-        }, 4000);
-      }
+      navigateBtn.addEventListener('focus', () => {
+        navigateBtn.style.outline = '2px solid var(--earth-blue)';
+        navigateBtn.style.outlineOffset = '4px';
+      });
       
-      // Create shooting stars occasionally
-      setInterval(createShootingStar, 5000);
-      // Start with a few
+      navigateBtn.addEventListener('blur', () => {
+        navigateBtn.style.outline = 'none';
+      });
+      
+      // Auto-navigate after 45 seconds (increased for viewing)
       setTimeout(() => {
-        for (let i = 0; i < 3; i++) {
-          setTimeout(createShootingStar, i * 800);
+        if (!earthContainer.classList.contains('zoom-in')) {
+          navigateToIndonesia();
         }
-      }, 1000);
+      }, 45000);
+      
+      // Create occasional new asteroids
+      setInterval(() => {
+        // Count current asteroids
+        const asteroidCount = document.querySelectorAll('.asteroid:not(.asteroid-hit)').length;
+        
+        // Add more if we're running low
+        if (asteroidCount < 6) {
+          createAsteroids(3);
+        }
+      }, 10000);
+      
     })();
   </script>
 </body>
