@@ -491,12 +491,12 @@
         const loader = new THREE.GLTFLoader();
         
         loader.load(
-            './assets/3d-models/low-poly_earth.glb',
+            './assets/3d-models/earth-8.glb',
             function(gltf) {
                 earth = gltf.scene;
                 
                 // Adjust scale
-                earth.scale.set(1.5, 1.5, 1.5);
+                earth.scale.set(0.75, 0.75, 0.75);
                 earth.position.set(0, 0, 0);
                 
                 // Initial rotation - we need to adjust based on your model
