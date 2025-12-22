@@ -496,7 +496,7 @@
                 earth = gltf.scene;
                 
                 // Adjust scale
-                earth.scale.set(0.5, 0.5, 0.5);
+                earth.scale.set(0.75, 0.75, 0.75);
                 earth.position.set(0, 0, 0);
                 
                 // Initial rotation - we need to adjust based on your model
@@ -892,7 +892,7 @@
             // Indonesia is at approximately 110° East longitude
             // Convert to radians and adjust for model orientation
             
-            const targetRotationY = Math.PI + (110 * Math.PI / 190); // 180° + 110°
+            const targetRotationY = Math.PI + (110 * Math.PI / 230); // 180° + 110°
             
             // Animate camera and Earth
             const startTime = Date.now();
