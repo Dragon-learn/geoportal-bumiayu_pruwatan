@@ -496,7 +496,7 @@
                 earth = gltf.scene;
                 
                 // Adjust scale
-                earth.scale.set(0.75, 0.75, 0.75);
+                earth.scale.set(0.9, 0.9, 0.9);
                 earth.position.set(0, 0, 0);
                 
                 // Initial rotation - we need to adjust based on your model
@@ -892,7 +892,7 @@
             // Indonesia is at approximately 110° East longitude
             // Convert to radians and adjust for model orientation
             
-            const targetRotationY = Math.PI + (110 * Math.PI / 230); // 180° + 110°
+            const targetRotationY = Math.PI + (110 * Math.PI / 250); // 180° + 110°
             
             // Animate camera and Earth
             const startTime = Date.now();
@@ -911,7 +911,7 @@
                 }
                 
                 // Zoom camera in
-                camera.position.z = earthInitialPosition.z - (earthInitialPosition.z * 0.7) * ease;
+                camera.position.z = earthInitialPosition.z - (earthInitialPosition.z * 0.5) * ease;
                 
                 if (progress < 1) {
                     requestAnimationFrame(zoomAnimation);
