@@ -24,7 +24,7 @@
             --cosmic-pink: #f72585;
             --cosmic-gold: #ffcc00;
             --cosmic-light: #f8f9fa;
-            --cosmic-card: rgba(10, 14, 23, 0.85);
+            --cosmic-card: rgba(10, 14, 23, 0.9);
         }
 
         /* ===== BASE RESETS ===== */
@@ -43,33 +43,73 @@
             scroll-behavior: smooth;
         }
 
-        /* ===== 3D GLOBE CONTAINER ===== */
+        /* ===== GLOBE HERO SECTION ===== */
+        .globe-hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.8) 0%,
+                rgba(10, 14, 23, 0.6) 100%
+            );
+        }
+
         #earthContainer {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            z-index: 1;
         }
 
-        #earthContainer canvas {
-            display: block;
-        }
-
-        /* ===== COSMIC BACKGROUND EFFECTS ===== */
-        .cosmic-overlay {
-            position: fixed;
+        .hero-overlay {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(30, 144, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(76, 201, 240, 0.03) 0%, transparent 50%);
-            z-index: 0;
+            background: radial-gradient(
+                circle at center,
+                transparent 0%,
+                rgba(0, 0, 0, 0.7) 100%
+            );
+            z-index: 2;
             pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .hero-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--cosmic-light) 0%, var(--cosmic-cyan) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(76, 201, 240, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* ===== HEADER & NAVIGATION ===== */
@@ -78,17 +118,17 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(10, 14, 23, 0.9);
+            background: rgba(10, 14, 23, 0.95);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(30, 144, 255, 0.3);
+            border-bottom: 1px solid rgba(30, 144, 255, 0.2);
             z-index: 1000;
             padding: 1rem 0;
             transition: all 0.3s ease;
         }
 
         .header-scrolled {
-            background: rgba(10, 14, 23, 0.95);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(10, 14, 23, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
         }
 
         .header-container {
@@ -107,14 +147,14 @@
         }
 
         .logo img {
-            height: 50px;
+            height: 45px;
             width: auto;
             filter: drop-shadow(0 0 10px rgba(30, 144, 255, 0.5));
         }
 
         .logo h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             background: linear-gradient(135deg, var(--cosmic-light) 0%, var(--cosmic-cyan) 100%);
             -webkit-background-clip: text;
             background-clip: text;
@@ -160,8 +200,8 @@
         }
 
         nav a.active {
-            background: rgba(30, 144, 255, 0.2);
-            border: 1px solid rgba(30, 144, 255, 0.5);
+            background: rgba(30, 144, 255, 0.15);
+            border: 1px solid rgba(30, 144, 255, 0.4);
         }
 
         nav i {
@@ -169,89 +209,16 @@
             color: var(--cosmic-cyan);
         }
 
-        /* ===== HERO SECTION ===== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding: 0 2rem;
-            margin-top: 80px;
-        }
-
-        .hero-content {
-            max-width: 800px;
+        /* ===== INTERACTIVE MAP SECTION ===== */
+        .maps-section {
             position: relative;
             z-index: 10;
-        }
-
-        .hero h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--cosmic-light) 0%, var(--cosmic-cyan) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 2.5rem;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 600px;
-        }
-
-        .btn-hero {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            background: rgba(10, 14, 23, 0.9);
-            color: var(--cosmic-cyan);
-            padding: 1rem 2.5rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border: 1px solid rgba(30, 144, 255, 0.5);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(30, 144, 255, 0.2), transparent);
-            transition: left 0.7s ease;
-        }
-
-        .btn-hero:hover::before {
-            left: 100%;
-        }
-
-        .btn-hero:hover {
-            transform: translateY(-3px);
-            box-shadow: 
-                0 15px 40px rgba(30, 144, 255, 0.3),
-                0 0 60px rgba(30, 144, 255, 0.2);
-            border-color: var(--cosmic-blue);
-            background: rgba(20, 30, 48, 0.9);
-        }
-
-        /* ===== MAIN CONTENT SECTIONS ===== */
-        .content-section {
-            position: relative;
-            z-index: 10;
-            margin: 6rem 0;
-            padding: 0 2rem;
+            padding: 5rem 2rem;
+            background: linear-gradient(
+                to bottom,
+                rgba(10, 14, 23, 0.8) 0%,
+                rgba(10, 14, 23, 1) 100%
+            );
         }
 
         .section-title {
@@ -261,83 +228,188 @@
             color: var(--cosmic-cyan);
             position: relative;
             display: inline-block;
+            text-align: center;
+            width: 100%;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
             bottom: -10px;
-            left: 0;
-            width: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
             height: 3px;
-            background: linear-gradient(90deg, var(--cosmic-blue), var(--cosmic-cyan));
+            background: linear-gradient(90deg, transparent, var(--cosmic-cyan), transparent);
             border-radius: 2px;
         }
 
-        /* ===== MAP PREVIEW ===== */
-        .map-preview {
-            background: var(--cosmic-card);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 3rem;
-            border: 1px solid rgba(30, 144, 255, 0.3);
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            margin-bottom: 4rem;
+        /* ===== MAP CARDS LAYOUT ===== */
+        .map-cards-container {
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .map-preview h3 {
+        .map-card {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 4rem;
+            margin-bottom: 8rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+        }
+
+        .map-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .map-card.exiting {
+            opacity: 0.3;
+            transform: translateY(-30px);
+        }
+
+        .map-card:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .card-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
             margin-bottom: 1.5rem;
             color: var(--cosmic-cyan);
+            position: relative;
+            display: inline-block;
         }
 
-        .map-preview a {
-            display: block;
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--cosmic-blue), var(--cosmic-cyan));
+        }
+
+        .card-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 2rem;
+        }
+
+        .card-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .card-features li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-features i {
+            color: var(--cosmic-cyan);
+            font-size: 1.1rem;
+        }
+
+        .card-image {
+            flex: 1;
             position: relative;
             overflow: hidden;
-            border-radius: 12px;
-            transition: transform 0.3s ease;
+            border-radius: 15px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(30, 144, 255, 0.3),
+                0 0 50px rgba(30, 144, 255, 0.2);
+            transition: all 0.5s ease;
+            height: 400px;
         }
 
-        .map-preview img {
+        .card-image:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(30, 144, 255, 0.5),
+                0 0 80px rgba(30, 144, 255, 0.4);
+        }
+
+        .card-image img {
             width: 100%;
-            height: auto;
-            display: block;
+            height: 100%;
+            object-fit: cover;
             transition: transform 0.5s ease;
         }
 
-        .map-preview a:hover {
-            transform: translateY(-5px);
+        .card-image:hover img {
+            transform: scale(1.05);
         }
 
-        .map-preview a:hover img {
-            transform: scale(1.02);
+        .map-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(30, 144, 255, 0.1);
+            color: var(--cosmic-cyan);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .map-button:hover {
+            background: rgba(30, 144, 255, 0.2);
+            transform: translateY(-3px);
+            border-color: var(--cosmic-blue);
+            box-shadow: 0 10px 30px rgba(30, 144, 255, 0.2);
         }
 
         /* ===== FEATURE CARDS ===== */
+        .feature-section {
+            padding: 5rem 2rem;
+            background: rgba(10, 14, 23, 0.95);
+        }
+
         .feature-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .card {
+        .feature-card {
             background: var(--cosmic-card);
             backdrop-filter: blur(20px);
             border-radius: 15px;
             padding: 2.5rem 2rem;
-            border: 1px solid rgba(30, 144, 255, 0.3);
+            border: 1px solid rgba(30, 144, 255, 0.2);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        .card::before {
+        .feature-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -347,7 +419,7 @@
             background: linear-gradient(90deg, var(--cosmic-blue), var(--cosmic-cyan));
         }
 
-        .card:hover {
+        .feature-card:hover {
             transform: translateY(-10px);
             border-color: var(--cosmic-blue);
             box-shadow: 
@@ -355,31 +427,30 @@
                 0 0 60px rgba(30, 144, 255, 0.1);
         }
 
-        .card i {
-            font-size: 3rem;
+        .feature-card i {
+            font-size: 2.5rem;
             color: var(--cosmic-cyan);
             margin-bottom: 1.5rem;
             display: block;
         }
 
-        .card h4 {
+        .feature-card h4 {
             font-family: 'Rajdhani', sans-serif;
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: var(--cosmic-light);
         }
 
-        .card p {
+        .feature-card p {
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
         }
 
         /* ===== FOOTER ===== */
         footer {
-            background: rgba(10, 14, 23, 0.95);
-            border-top: 1px solid rgba(30, 144, 255, 0.3);
+            background: rgba(5, 9, 16, 0.98);
+            border-top: 1px solid rgba(30, 144, 255, 0.2);
             padding: 3rem 2rem;
-            margin-top: 6rem;
             position: relative;
             z-index: 10;
         }
@@ -391,7 +462,7 @@
         }
 
         footer p {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.7);
             margin-bottom: 1rem;
             line-height: 1.6;
         }
@@ -408,6 +479,16 @@
         }
 
         /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1200px) {
+            .map-card {
+                gap: 3rem;
+            }
+            
+            .card-image {
+                height: 350px;
+            }
+        }
+
         @media (max-width: 992px) {
             .header-container {
                 flex-direction: column;
@@ -420,23 +501,27 @@
                 justify-content: center;
             }
             
-            .hero {
-                margin-top: 140px;
-                text-align: center;
+            .map-card {
+                flex-direction: column !important;
+                gap: 3rem;
+                margin-bottom: 5rem;
             }
             
-            .hero-content {
-                margin: 0 auto;
+            .card-content {
+                padding: 1rem;
             }
             
-            .hero h2 {
-                text-align: center;
+            .card-image {
+                height: 300px;
+                width: 100%;
             }
             
-            .hero p {
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .card-title {
+                font-size: 1.8rem;
             }
         }
 
@@ -454,29 +539,28 @@
                 font-size: 0.9rem;
             }
             
-            .hero {
-                padding: 1rem;
-                margin-top: 160px;
-            }
-            
-            .hero h2 {
+            .hero-content h2 {
                 font-size: 2rem;
             }
             
-            .content-section {
-                padding: 1rem;
+            .hero-content p {
+                font-size: 1.1rem;
             }
             
-            .section-title {
-                font-size: 2rem;
+            .maps-section {
+                padding: 3rem 1rem;
             }
             
-            .map-preview {
-                padding: 2rem 1rem;
+            .feature-section {
+                padding: 3rem 1rem;
             }
             
             .feature-cards {
                 grid-template-columns: 1fr;
+            }
+            
+            .feature-card {
+                padding: 2rem 1.5rem;
             }
         }
 
@@ -485,17 +569,45 @@
                 font-size: 1.2rem;
             }
             
-            .hero h2 {
+            .hero-content h2 {
                 font-size: 1.8rem;
             }
             
-            .hero p {
+            .hero-content p {
                 font-size: 1rem;
             }
             
-            .btn-hero {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .card-image {
+                height: 250px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
             }
         }
 
@@ -516,35 +628,9 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--cosmic-cyan);
         }
-
-        /* ===== ANIMATIONS ===== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fade-in {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .delay-1 { animation-delay: 0.2s; opacity: 0; }
-        .delay-2 { animation-delay: 0.4s; opacity: 0; }
-        .delay-3 { animation-delay: 0.6s; opacity: 0; }
     </style>
 </head>
 <body>
-    <!-- 3D Globe Container -->
-    <div id="earthContainer"></div>
-    
-    <!-- Cosmic Overlay -->
-    <div class="cosmic-overlay"></div>
-    
     <!-- Header -->
     <header id="mainHeader">
         <div class="header-container">
@@ -561,54 +647,98 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content animate-fade-in">
-            <h2 class="animate-fade-in delay-1">Satu Peta untuk Data Spasial Terpadu</h2>
-            <p class="animate-fade-in delay-2">Portal ini menyajikan peta interaktif dan data geospasial wilayah Bumiayu dan Pruwatan untuk perencanaan dan pengembangan wilayah Kecamatan Bumiayu dan beserta Desa Pruwatan</p>
-            <a href="../Pruwatan/" class="btn-hero animate-fade-in delay-3">
-                <i class="fas fa-rocket"></i>
+    <!-- Globe Hero Section -->
+    <section class="globe-hero">
+        <div id="earthContainer"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2>Satu Peta untuk Data Spasial Terpadu</h2>
+            <p>Portal ini menyajikan peta interaktif dan data geospasial wilayah Bumiayu dan Pruwatan untuk perencanaan dan pengembangan wilayah dalam pengalaman 3D cosmic.</p>
+            <a href="#maps" class="map-button">
+                <i class="fas fa-chevron-down"></i>
                 Jelajahi Peta
-                <i class="fas fa-arrow-right"></i>
             </a>
         </div>
     </section>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Map Preview -->
-        <section class="content-section">
-            <div class="map-preview">
-                <h3 class="section-title"><i class="fas fa-globe-asia"></i> Peta Interaktif 3D</h3>
-                <p>Klik thumbnail di bawah untuk membuka peta penuh dengan pengalaman 3D yang imersif.</p>
-                <a href="../Pruwatan/">
-                    <img src="images/map-thumbnail.png" alt="Preview Peta Pruwatan">
-                </a>
+    <!-- Interactive Maps Section -->
+    <section class="maps-section" id="maps">
+        <h2 class="section-title">Peta Interaktif 3D</h2>
+        
+        <div class="map-cards-container">
+            <!-- Kecamatan Bumiayu Card -->
+            <div class="map-card" id="card1">
+                <div class="card-content">
+                    <h3 class="card-title">Kecamatan Bumiayu</h3>
+                    <p class="card-description">
+                        Kecamatan Bumiayu merupakan wilayah administratif yang terletak di Kabupaten Brebes, Jawa Tengah. 
+                        Dengan luas wilayah 12.456 hektar, kecamatan ini terdiri dari 15 desa yang kaya akan potensi pertanian, 
+                        perkebunan, dan pariwisata alam.
+                    </p>
+                    <ul class="card-features">
+                        <li><i class="fas fa-check-circle"></i> Data batas administratif lengkap</li>
+                        <li><i class="fas fa-check-circle"></i> Informasi penggunaan lahan</li>
+                        <li><i class="fas fa-check-circle"></i> Fasilitas publik dan infrastruktur</li>
+                        <li><i class="fas fa-check-circle"></i> Data demografi dan sosial</li>
+                    </ul>
+                    <a href="../Bumiayu/" class="map-button">
+                        <i class="fas fa-map"></i>
+                        Buka Peta Bumiayu
+                    </a>
+                </div>
+                <div class="card-image">
+                    <img src="images/map-thumbnail.png" alt="Peta Kecamatan Bumiayu">
+                </div>
             </div>
-        </section>
 
-        <!-- Features -->
-        <section class="content-section">
-            <h3 class="section-title"><i class="fas fa-star"></i> Fitur Unggulan</h3>
-            <div class="feature-cards">
-                <div class="card animate-fade-in delay-1">
-                    <i class="fas fa-layer-group"></i>
-                    <h4>Layers Berlapis 3D</h4>
-                    <p>Tampilkan lapisan peta seperti batas administrasi, jalan, dan penggunaan lahan dalam pengalaman 3D interaktif.</p>
+            <!-- Desa Pruwatan Card -->
+            <div class="map-card" id="card2">
+                <div class="card-content">
+                    <h3 class="card-title">Desa Pruwatan</h3>
+                    <p class="card-description">
+                        Desa Pruwatan adalah salah satu desa di Kecamatan Bumiayu yang memiliki karakteristik geografis 
+                        unik dengan perbukitan dan lahan pertanian yang subur. Desa ini berkembang pesat dalam sektor 
+                        pertanian dan memiliki potensi wisata alam yang menarik.
+                    </p>
+                    <ul class="card-features">
+                        <li><i class="fas fa-check-circle"></i> Detail penggunaan lahan pertanian</li>
+                        <li><i class="fas fa-check-circle"></i> Jaringan irigasi dan sumber air</li>
+                        <li><i class="fas fa-check-circle"></i> Fasilitas pendidikan dan kesehatan</li>
+                        <li><i class="fas fa-check-circle"></i> Potensi wisata alam</li>
+                    </ul>
+                    <a href="../Pruwatan/" class="map-button">
+                        <i class="fas fa-map-marked-alt"></i>
+                        Buka Peta Pruwatan
+                    </a>
                 </div>
-                <div class="card animate-fade-in delay-2">
-                    <i class="fas fa-download"></i>
-                    <h4>Unduh Data Spasial</h4>
-                    <p>Data geospasial tersedia dalam format Shapefile, GeoJSON, atau KML dengan metadata lengkap.</p>
-                </div>
-                <div class="card animate-fade-in delay-3">
-                    <i class="fas fa-search-location"></i>
-                    <h4>Pencarian Lokasi Cerdas</h4>
-                    <p>Cari lokasi berdasarkan nama desa, kecamatan, atau koordinat dengan sistem pencarian real-time.</p>
+                <div class="card-image">
+                    <img src="images/map-thumbnail.png" alt="Peta Desa Pruwatan">
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="feature-section">
+        <h2 class="section-title">Fitur Unggulan</h2>
+        <div class="feature-cards">
+            <div class="feature-card" id="feature1">
+                <i class="fas fa-layer-group"></i>
+                <h4>Layers Berlapis 3D</h4>
+                <p>Tampilkan lapisan peta seperti batas administrasi, jalan, dan penggunaan lahan dalam pengalaman 3D interaktif.</p>
+            </div>
+            <div class="feature-card" id="feature2">
+                <i class="fas fa-download"></i>
+                <h4>Unduh Data Spasial</h4>
+                <p>Data geospasial tersedia dalam format Shapefile, GeoJSON, atau KML dengan metadata lengkap.</p>
+            </div>
+            <div class="feature-card" id="feature3">
+                <i class="fas fa-search-location"></i>
+                <h4>Pencarian Lokasi Cerdas</h4>
+                <p>Cari lokasi berdasarkan nama desa, kecamatan, atau koordinat dengan sistem pencarian real-time.</p>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
@@ -631,9 +761,9 @@
             // 1. Create scene
             scene = new THREE.Scene();
             
-            // 2. Create camera (using user's adjusted values)
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 3; // User's adjustment: 5 - (5 * 0.4) = 3
+            // 2. Create camera
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 3; // Adjust zoom level
             
             // 3. Create renderer
             renderer = new THREE.WebGLRenderer({ 
@@ -648,7 +778,7 @@
             earthContainer.appendChild(renderer.domElement);
             
             // 4. Add enhanced lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
             scene.add(ambientLight);
             
             const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1);
@@ -673,15 +803,21 @@
                     // Apply user's adjustments
                     earth.scale.set(0.4, 0.4, 0.4);
                     
-                    // User's rotation adjustment for Indonesia
+                    // Apply Indonesia rotation
                     const targetRotationY = Math.PI + (155 * Math.PI / 190);
                     earth.rotation.y = targetRotationY;
+                    
+                    // Center the earth
+                    earth.position.set(0, 0, 0);
                     
                     // Enable shadows
                     earth.traverse(function(node) {
                         if (node.isMesh) {
                             node.castShadow = true;
                             node.receiveShadow = true;
+                            // Add subtle glow effect
+                            node.material.emissive = new THREE.Color(0x0a0e17);
+                            node.material.emissiveIntensity = 0.1;
                         }
                     });
                     
@@ -691,14 +827,22 @@
                     controls = new THREE.OrbitControls(camera, renderer.domElement);
                     controls.enableDamping = true;
                     controls.dampingFactor = 0.05;
-                    controls.enableZoom = true;
+                    controls.enableZoom = false; // Disable zoom to maintain position
                     controls.enablePan = false;
-                    controls.minDistance = 2;
-                    controls.maxDistance = 10;
+                    controls.enableRotate = true;
                     controls.rotateSpeed = 0.5;
+                    controls.maxPolarAngle = Math.PI;
+                    controls.minPolarAngle = 0;
                     
                     // Start animation
                     animate();
+                    
+                    // Add subtle auto-rotation
+                    setTimeout(() => {
+                        if (earth) {
+                            earth.rotation.y += 0.0005;
+                        }
+                    }, 1000);
                 },
                 function(xhr) {
                     console.log((xhr.loaded / xhr.total * 100) + '% loaded');
@@ -730,32 +874,30 @@
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
-            controls.enableZoom = true;
+            controls.enableZoom = false;
             controls.enablePan = false;
-            controls.minDistance = 2;
-            controls.maxDistance = 10;
             
             animate();
         }
         
         function createStarfield() {
             const starGeometry = new THREE.BufferGeometry();
-            const starCount = 1000;
+            const starCount = 800;
             const positions = new Float32Array(starCount * 3);
             
             for (let i = 0; i < starCount * 3; i += 3) {
-                positions[i] = (Math.random() - 0.5) * 1000;
-                positions[i + 1] = (Math.random() - 0.5) * 1000;
-                positions[i + 2] = (Math.random() - 0.5) * 1000;
+                positions[i] = (Math.random() - 0.5) * 2000;
+                positions[i + 1] = (Math.random() - 0.5) * 2000;
+                positions[i + 2] = (Math.random() - 0.5) * 2000;
             }
             
             starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
             
             const starMaterial = new THREE.PointsMaterial({
                 color: 0xffffff,
-                size: 0.7,
+                size: 0.5,
                 transparent: true,
-                opacity: 0.8
+                opacity: 0.7
             });
             
             const stars = new THREE.Points(starGeometry, starMaterial);
@@ -771,8 +913,8 @@
         function animate() {
             requestAnimationFrame(animate);
             
-            // Very slow auto-rotation if no user interaction
-            if (earth && !controls.autoRotate) {
+            // Very slow auto-rotation
+            if (earth) {
                 earth.rotation.y += 0.0001;
             }
             
@@ -781,7 +923,7 @@
         }
         
         // ======================
-        // UI INTERACTIONS
+        // SCROLL ANIMATIONS
         // ======================
         
         // Header scroll effect
@@ -792,52 +934,74 @@
             } else {
                 header.classList.remove('header-scrolled');
             }
+            
+            // Card entrance/exit animations
+            updateCardAnimations();
         });
         
-        // Initialize animations on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fade-in');
+        function updateCardAnimations() {
+            const cards = document.querySelectorAll('.map-card');
+            const features = document.querySelectorAll('.feature-card');
+            const scrollPosition = window.scrollY + window.innerHeight;
+            
+            // Map Cards Animation
+            cards.forEach((card, index) => {
+                const cardPosition = card.offsetTop;
+                const cardHeight = card.offsetHeight;
+                
+                if (scrollPosition > cardPosition + cardHeight * 0.3) {
+                    card.classList.add('active');
+                    card.classList.remove('exiting');
+                } else if (scrollPosition < cardPosition - window.innerHeight * 0.5) {
+                    card.classList.remove('active');
+                    card.classList.add('exiting');
+                } else {
+                    card.classList.remove('exiting');
+                }
+                
+                // Parallax effect for images
+                const image = card.querySelector('.card-image');
+                const speed = 0.1;
+                const yPos = -(scrollPosition - cardPosition) * speed;
+                image.style.transform = `translateY(${yPos}px) scale(1.02)`;
+            });
+            
+            // Feature Cards Animation
+            features.forEach((feature, index) => {
+                const featurePosition = feature.offsetTop;
+                
+                if (scrollPosition > featurePosition + 100) {
+                    feature.classList.add('active');
+                    // Stagger the animation
+                    feature.style.transitionDelay = `${index * 0.2}s`;
                 }
             });
-        }, observerOptions);
+        }
         
-        // Observe elements for scroll animations
+        // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize 3D Earth
             initEarth3D();
             
-            // Set up scroll animations
-            document.querySelectorAll('.card, .map-preview, .section-title').forEach(el => {
-                observer.observe(el);
-            });
-            
             // Smooth scroll for navigation links
-            document.querySelectorAll('nav a').forEach(anchor => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href.startsWith('#')) {
-                        e.preventDefault();
-                        const target = document.querySelector(href);
-                        if (target) {
-                            target.scrollIntoView({ behavior: 'smooth' });
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId !== '#') {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
                         }
                     }
                 });
             });
             
-            // Add click sound effect (optional)
-            document.querySelectorAll('a, button').forEach(element => {
-                element.addEventListener('click', () => {
-                    // You can add a subtle sound effect here if desired
-                });
-            });
+            // Initialize card animations
+            updateCardAnimations();
             
             // Auto-hide header on scroll down
             let lastScrollTop = 0;
@@ -846,7 +1010,7 @@
             window.addEventListener('scroll', () => {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 
-                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                if (scrollTop > lastScrollTop && scrollTop > 200) {
                     // Scrolling down
                     header.style.transform = 'translateY(-100%)';
                 } else {
@@ -856,9 +1020,20 @@
                 
                 lastScrollTop = scrollTop;
             });
+            
+            // Add hover effect to cards
+            document.querySelectorAll('.card-image').forEach(image => {
+                image.addEventListener('mouseenter', () => {
+                    image.style.transform = 'scale(1.05)';
+                });
+                
+                image.addEventListener('mouseleave', () => {
+                    image.style.transform = 'scale(1)';
+                });
+            });
         });
         
-        // Keyboard shortcuts
+        // Add keyboard controls
         document.addEventListener('keydown', (e) => {
             // Space to pause/play earth rotation
             if (e.key === ' ') {
@@ -867,11 +1042,13 @@
                 }
             }
             
-            // R to reset view
-            if (e.key === 'r' || e.key === 'R') {
-                if (controls) {
-                    controls.reset();
-                }
+            // Arrow keys to navigate cards
+            if (e.key === 'ArrowDown') {
+                window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' });
+            }
+            
+            if (e.key === 'ArrowUp') {
+                window.scrollBy({ top: -window.innerHeight * 0.8, behavior: 'smooth' });
             }
         });
     </script>
