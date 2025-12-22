@@ -892,7 +892,7 @@
             // Indonesia is at approximately 110° East longitude
             // Convert to radians and adjust for model orientation
             
-            const targetRotationY = Math.PI + (110 * Math.PI / 200); // 180° + 110°
+            const targetRotationY = Math.PI + (110 * Math.PI / 190); // 180° + 110°
             
             // Animate camera and Earth
             const startTime = Date.now();
@@ -911,7 +911,7 @@
                 }
                 
                 // Zoom camera in
-                camera.position.z = earthInitialPosition.z - (earthInitialPosition.z * 0.6) * ease;
+                camera.position.z = earthInitialPosition.z - (earthInitialPosition.z * 0.7) * ease;
                 
                 if (progress < 1) {
                     requestAnimationFrame(zoomAnimation);
