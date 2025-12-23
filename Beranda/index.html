@@ -219,13 +219,14 @@
                 rgba(10, 14, 23, 0.95) 0%,
                 rgba(10, 14, 23, 1) 100%
             );
-            min-height: 100vh;
+            min-height: auto;
+            overflow: visible;
         }
 
         .section-title {
             font-family: 'Orbitron', sans-serif;
             font-size: 3rem;
-            margin-bottom: 4rem;
+            margin-bottom: 2rem;
             color: var(--cosmic-cyan);
             position: relative;
             display: inline-block;
@@ -255,24 +256,31 @@
             text-align: center;
             font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 5rem;
+            margin-bottom: 4rem;
             font-weight: 300;
             letter-spacing: 1px;
             animation: fadeIn 2s ease-out;
         }
 
         /* ===== ENHANCED MAP CARDS LAYOUT ===== */
-        /* GANTI kode .map-card yang ada dengan ini: */
+        .map-cards-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 6rem;
+        }
+
         .map-card {
             display: flex;
             align-items: center;
-            gap: 3rem; /* Kurangi dari 5rem */
-            margin-bottom: 6rem; /* Kurangi dari 10rem */
+            gap: 4rem;
             opacity: 0;
-            transform: translateY(80px); /* Kurangi dari 100px */
+            transform: translateY(80px);
             transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 20px;
             background: linear-gradient(
                 145deg,
@@ -280,39 +288,28 @@
                 rgba(10, 14, 23, 0.6) 100%
             );
             overflow: hidden;
-            min-height: 450px; /* Tambahkan tinggi minimum */
+            min-height: 450px;
+            width: 100%;
+            border: 1px solid rgba(30, 144, 255, 0.1);
+            will-change: transform, opacity;
         }
-        
-        /* Tambahkan class ini di CSS: */
-        .maps-section {
-            min-height: auto !important; /* Ubah dari 100vh */
-            padding-bottom: 4rem !important;
-        }
-        
-        .map-cards-container {
-            padding-bottom: 4rem;
-        }
-        
-        /* Pastikan card-image memiliki fallback */
-        .card-image {
-            background: linear-gradient(45deg, #0a0e17, #1a1f2e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .card-image::before {
-            content: "Preview Peta";
+
+        .map-card::before {
+            content: '';
             position: absolute;
-            color: rgba(255,255,255,0.5);
-            font-size: 1.2rem;
-            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                transparent 0%, 
+                rgba(30, 144, 255, 0.05) 50%, 
+                transparent 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.6s ease;
         }
-        
-        .card-image img {
-            position: relative;
-            z-index: 2;
-        }
+
         .map-card:hover::before {
             opacity: 1;
         }
@@ -332,15 +329,16 @@
 
         .card-content {
             flex: 1;
-            padding: 3rem;
+            padding: 2rem;
             position: relative;
             z-index: 2;
+            min-width: 0;
         }
 
         .card-title {
             font-family: 'Orbitron', sans-serif;
             font-size: 2.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             color: var(--cosmic-cyan);
             position: relative;
             display: inline-block;
@@ -376,23 +374,23 @@
         }
 
         .card-description {
-            font-size: 1.2rem;
-            line-height: 1.8;
+            font-size: 1.1rem;
+            line-height: 1.7;
             color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             font-weight: 300;
         }
 
         .card-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
         }
 
         .stat-item {
             background: rgba(20, 25, 35, 0.5);
-            padding: 1.5rem;
+            padding: 1.2rem;
             border-radius: 10px;
             text-align: center;
             transition: transform 0.3s ease;
@@ -405,13 +403,13 @@
 
         .stat-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--cosmic-cyan);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.7);
         }
 
@@ -419,35 +417,31 @@
             flex: 1;
             position: relative;
             overflow: hidden;
-            border-radius: 20px;
-            height: 450px;
-            transform-style: preserve-3d;
-            perspective: 1000px;
+            border-radius: 15px;
+            height: 400px;
+            min-width: 400px;
             box-shadow: 
-                0 25px 80px rgba(0, 0, 0, 0.8),
-                0 0 0 2px rgba(30, 144, 255, 0.4),
-                inset 0 0 30px rgba(0, 0, 0, 0.5);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(30, 144, 255, 0.4);
+            transition: all 0.5s ease;
         }
 
         .card-image:hover {
-            transform: scale(1.05) rotateY(5deg);
+            transform: scale(1.02);
             box-shadow: 
-                0 40px 120px rgba(0, 0, 0, 1),
-                0 0 0 3px rgba(30, 144, 255, 0.6),
-                0 0 100px rgba(30, 144, 255, 0.3),
-                inset 0 0 50px rgba(0, 0, 0, 0.7);
+                0 30px 80px rgba(0, 0, 0, 0.9),
+                0 0 0 2px rgba(30, 144, 255, 0.6);
         }
 
         .card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 1s ease;
         }
 
         .card-image:hover img {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .image-overlay {
@@ -455,11 +449,11 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            padding: 2rem;
+            padding: 1.5rem;
             background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.6s ease;
+            transition: all 0.4s ease;
         }
 
         .card-image:hover .image-overlay {
@@ -475,14 +469,14 @@
                 rgba(30, 144, 255, 0.2) 0%,
                 rgba(76, 201, 240, 0.1) 100%);
             color: var(--cosmic-cyan);
-            padding: 1.2rem 2.5rem;
-            border-radius: 12px;
+            padding: 1rem 2rem;
+            border-radius: 10px;
             text-decoration: none;
             font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 1rem;
             border: 2px solid rgba(30, 144, 255, 0.4);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
@@ -498,7 +492,7 @@
                 transparent, 
                 rgba(255, 255, 255, 0.2), 
                 transparent);
-            transition: left 0.8s ease;
+            transition: left 0.6s ease;
         }
 
         .map-button:hover::before {
@@ -506,14 +500,14 @@
         }
 
         .map-button:hover {
-            transform: translateY(-5px) scale(1.05);
+            transform: translateY(-3px);
             background: linear-gradient(135deg, 
                 rgba(30, 144, 255, 0.3) 0%,
                 rgba(76, 201, 240, 0.2) 100%);
             border-color: var(--cosmic-blue);
             box-shadow: 
-                0 15px 40px rgba(30, 144, 255, 0.3),
-                0 0 60px rgba(30, 144, 255, 0.2);
+                0 10px 20px rgba(30, 144, 255, 0.2),
+                0 0 30px rgba(30, 144, 255, 0.1);
         }
 
         /* ===== FEATURE CARDS ===== */
@@ -542,7 +536,7 @@
         .feature-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 3rem;
+            gap: 2.5rem;
             max-width: 1400px;
             margin: 4rem auto 0;
         }
@@ -554,14 +548,14 @@
                 rgba(10, 14, 23, 0.6) 100%
             );
             backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 3rem 2.5rem;
+            border-radius: 15px;
+            padding: 2.5rem 2rem;
             border: 1px solid rgba(30, 144, 255, 0.3);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(30px);
         }
 
         .feature-card.active {
@@ -575,36 +569,29 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: linear-gradient(90deg, var(--cosmic-blue), var(--cosmic-cyan));
         }
 
         .feature-card:hover {
-            transform: translateY(-15px) scale(1.02);
+            transform: translateY(-10px);
             border-color: var(--cosmic-blue);
             box-shadow: 
-                0 30px 80px rgba(0, 0, 0, 0.5),
-                0 0 80px rgba(30, 144, 255, 0.2);
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 50px rgba(30, 144, 255, 0.1);
         }
 
         .feature-card i {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             color: var(--cosmic-cyan);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             display: block;
-            text-shadow: 0 0 20px rgba(76, 201, 240, 0.5);
-            animation: iconFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.1); }
         }
 
         .feature-card h4 {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
             color: var(--cosmic-light);
             position: relative;
             display: inline-block;
@@ -615,15 +602,15 @@
             position: absolute;
             bottom: -5px;
             left: 0;
-            width: 60px;
+            width: 50px;
             height: 2px;
             background: var(--cosmic-cyan);
         }
 
         .feature-card p {
-            color: rgba(255, 255, 255, 0.85);
-            line-height: 1.7;
-            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            font-size: 1rem;
             font-weight: 300;
         }
 
@@ -631,7 +618,7 @@
         footer {
             background: rgba(5, 9, 16, 0.98);
             border-top: 1px solid rgba(30, 144, 255, 0.2);
-            padding: 4rem 2rem;
+            padding: 3rem 2rem;
             position: relative;
             z-index: 10;
         }
@@ -644,8 +631,9 @@
 
         footer p {
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 1rem;
-            line-height: 1.6;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
         }
 
         footer a {
@@ -666,7 +654,8 @@
             }
             
             .card-image {
-                height: 400px;
+                height: 350px;
+                min-width: 350px;
             }
             
             .card-stats {
@@ -677,47 +666,51 @@
         @media (max-width: 992px) {
             .header-container {
                 flex-direction: column;
-                gap: 1.5rem;
+                gap: 1rem;
                 padding: 1rem;
             }
             
             nav {
                 flex-wrap: wrap;
                 justify-content: center;
+                gap: 1rem;
             }
             
             .map-card {
                 flex-direction: column !important;
-                gap: 3rem;
-                margin-bottom: 6rem;
-                padding: 2rem 1.5rem;
+                gap: 2.5rem;
+                min-height: auto;
+                padding: 2rem;
             }
             
             .card-content {
-                padding: 2rem 1rem;
+                padding: 1rem;
             }
             
             .card-image {
-                height: 350px;
+                height: 300px;
+                min-width: auto;
                 width: 100%;
             }
             
             .section-title {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
+                margin-bottom: 1.5rem;
             }
             
             .card-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .feature-cards {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
             }
         }
 
         @media (max-width: 768px) {
             .header-container {
-                padding: 1rem;
+                padding: 0.8rem;
             }
             
             nav {
@@ -725,16 +718,16 @@
             }
             
             nav a {
-                padding: 0.5rem;
+                padding: 0.4rem 0.8rem;
                 font-size: 0.9rem;
             }
             
             .hero-content h2 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .hero-content p {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             
             .maps-section {
@@ -747,36 +740,15 @@
             
             .feature-cards {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
             
             .feature-card {
-                padding: 2.5rem 2rem;
+                padding: 2rem 1.5rem;
             }
             
             .card-image {
-                height: 300px;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .card-title {
-                font-size: 1.8rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo h1 {
-                font-size: 1.2rem;
-            }
-            
-            .hero-content h2 {
-                font-size: 1.8rem;
-            }
-            
-            .hero-content p {
-                font-size: 1rem;
+                height: 250px;
             }
             
             .section-title {
@@ -787,21 +759,47 @@
                 font-size: 1.6rem;
             }
             
+            .map-cards-container {
+                gap: 4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.1rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 0.9rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .card-title {
+                font-size: 1.4rem;
+            }
+            
             .card-image {
-                height: 250px;
+                height: 200px;
             }
             
             .map-button {
-                padding: 1rem 2rem;
-                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
             }
             
             .stat-item {
-                padding: 1rem;
+                padding: 0.8rem;
             }
             
             .stat-value {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
         }
 
@@ -822,35 +820,13 @@
             }
         }
 
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
         .animate-fade-in {
             animation: fadeIn 1s ease-out forwards;
         }
 
         /* ===== SCROLLBAR STYLING ===== */
         ::-webkit-scrollbar {
-            width: 12px;
+            width: 10px;
         }
 
         ::-webkit-scrollbar-track {
@@ -859,7 +835,7 @@
 
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(var(--cosmic-blue), var(--cosmic-cyan));
-            border-radius: 6px;
+            border-radius: 5px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -899,14 +875,13 @@
     </section>
 
     <!-- Enhanced Interactive Maps Section -->
-    <!-- Enhanced Interactive Maps Section -->
     <section class="maps-section" id="maps">
         <h2 class="section-title">Peta Interaktif 3D</h2>
         <p class="title-subtext">Jelajahi data geospasial wilayah Bumiayu dan Pruwatan dengan pengalaman visual yang imersif</p>
         
         <div class="map-cards-container">
             <!-- Kecamatan Bumiayu Card -->
-            <div class="map-card active" id="bumiayu-card" style="opacity: 1; transform: translateY(0);">
+            <div class="map-card" id="bumiayu-card">
                 <div class="card-content">
                     <span class="location-badge">
                         <i class="fas fa-map-marker-alt"></i> KECAMATAN
@@ -943,14 +918,15 @@
                     </a>
                 </div>
                 <div class="card-image">
-                    <div style="width:100%;height:100%;background:linear-gradient(45deg,#1a237e,#0d47a1);display:flex;align-items:center;justify-content:center;color:white;">
-                        <span>Peta Bumiayu Preview</span>
+                    <img src="images/map-thumbnail.png" alt="Peta Kecamatan Bumiayu">
+                    <div class="image-overlay">
+                        <p style="color: white; font-size: 0.9rem;">Klik gambar untuk detail peta Bumiayu</p>
                     </div>
                 </div>
             </div>
-    
+
             <!-- Desa Pruwatan Card -->
-            <div class="map-card active" id="pruwatan-card" style="opacity: 1; transform: translateY(0); margin-top: 4rem;">
+            <div class="map-card" id="pruwatan-card">
                 <div class="card-content">
                     <span class="location-badge">
                         <i class="fas fa-map-pin"></i> DESA
@@ -987,14 +963,15 @@
                     </a>
                 </div>
                 <div class="card-image">
-                    <div style="width:100%;height:100%;background:linear-gradient(45deg,#004d40,#00796b);display:flex;align-items:center;justify-content:center;color:white;">
-                        <span>Peta Pruwatan Preview</span>
+                    <img src="images/map-thumbnail.png" alt="Peta Desa Pruwatan">
+                    <div class="image-overlay">
+                        <p style="color: white; font-size: 0.9rem;">Klik gambar untuk detail peta Pruwatan</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- Features Section -->
     <section class="feature-section">
         <h2 class="section-title">Fitur Unggulan</h2>
@@ -1201,8 +1178,55 @@
         }
         
         // ======================
-        // ENHANCED SCROLL ANIMATIONS
+        // SCROLL ANIMATIONS
         // ======================
+        
+        // Initialize Intersection Observer for cards
+        function initScrollAnimations() {
+            // Card animation observer
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Get the card index for staggered animation
+                        const card = entry.target;
+                        const index = Array.from(document.querySelectorAll('.map-card')).indexOf(card);
+                        
+                        setTimeout(() => {
+                            card.classList.add('active');
+                        }, index * 300);
+                    } else {
+                        // Optional: Remove active class when card leaves viewport
+                        // entry.target.classList.remove('active');
+                    }
+                });
+            }, {
+                threshold: 0.2,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            // Feature card observer
+            const featureObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('active');
+                        }, 200);
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+            
+            // Observe all cards
+            document.querySelectorAll('.map-card').forEach(card => {
+                cardObserver.observe(card);
+            });
+            
+            // Observe all feature cards
+            document.querySelectorAll('.feature-card').forEach(card => {
+                featureObserver.observe(card);
+            });
+        }
         
         // Header scroll effect
         window.addEventListener('scroll', () => {
@@ -1212,74 +1236,15 @@
             } else {
                 header.classList.remove('header-scrolled');
             }
-            
-            // Enhanced card animations
-            updateEnhancedAnimations();
         });
         
-        // GANTI fungsi updateEnhancedAnimations() dengan ini:
-        function updateEnhancedAnimations() {
-            const cards = document.querySelectorAll('.map-card');
-            const features = document.querySelectorAll('.feature-card');
-            const scrollPosition = window.scrollY + window.innerHeight;
-            
-            console.log(`Total cards found: ${cards.length}`); // Debug
-            
-            cards.forEach((card, index) => {
-                const cardPosition = card.offsetTop;
-                const cardHeight = card.offsetHeight;
-                
-                console.log(`Card ${index + 1}: pos=${cardPosition}, height=${cardHeight}, visible=${scrollPosition > cardPosition + 100}`); // Debug
-                
-                if (scrollPosition > cardPosition + 100) {
-                    if (!card.classList.contains('active')) {
-                        setTimeout(() => {
-                            card.style.opacity = 1;
-                            card.style.transform = 'translateY(0)';
-                            card.classList.add('active');
-                            console.log(`Card ${index + 1} activated`); // Debug
-                        }, index * 400);
-                    }
-                } else if (scrollPosition < cardPosition - 300) {
-                    // Reset jika scroll ke atas
-                    if (card.classList.contains('active')) {
-                        card.style.opacity = 0;
-                        card.style.transform = 'translateY(80px)';
-                        card.classList.remove('active');
-                    }
-                }
-            });
-            
-            // Feature cards
-            features.forEach((feature, index) => {
-                const featurePosition = feature.offsetTop;
-                if (scrollPosition > featurePosition + 100) {
-                    if (!feature.classList.contains('active')) {
-                        setTimeout(() => {
-                            feature.classList.add('active');
-                        }, index * 200);
-                    }
-                }
-            });
-        }
-        
-        // Tambahkan di DOMContentLoaded untuk debug:
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("DOM Loaded - Checking cards...");
-            const cards = document.querySelectorAll('.map-card');
-            cards.forEach((card, i) => {
-                console.log(`Card ${i}:`, {
-                    offsetTop: card.offsetTop,
-                    offsetHeight: card.offsetHeight,
-                    parent: card.parentElement.className
-                });
-            });
-        });
-        
-        // Initialize everything
+        // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize 3D Earth
             initEarth3D();
+            
+            // Initialize scroll animations
+            initScrollAnimations();
             
             // Smooth scroll for navigation links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1290,7 +1255,7 @@
                         const targetElement = document.querySelector(targetId);
                         if (targetElement) {
                             window.scrollTo({
-                                top: targetElement.offsetTop - 80,
+                                top: targetElement.offsetTop - 100,
                                 behavior: 'smooth'
                             });
                         }
@@ -1298,17 +1263,14 @@
                 });
             });
             
-            // Initialize animations
-            updateEnhancedAnimations();
-            
-            // Add hover effect to cards with enhanced feedback
+            // Add hover effect to cards
             document.querySelectorAll('.card-image').forEach(image => {
                 image.addEventListener('mouseenter', () => {
-                    image.style.transform = 'scale(1.05) rotateY(5deg)';
+                    image.style.transform = 'scale(1.02)';
                 });
                 
                 image.addEventListener('mouseleave', () => {
-                    image.style.transform = 'scale(1) rotateY(0)';
+                    image.style.transform = 'scale(1)';
                 });
             });
             
@@ -1353,83 +1315,6 @@
                 }
             `;
             document.head.appendChild(style);
-        });
-        
-        // Add keyboard controls
-        document.addEventListener('keydown', (e) => {
-            // Space to navigate to first card
-            if (e.key === ' ' && !e.target.matches('input, textarea')) {
-                e.preventDefault();
-                document.querySelector('#bumiayu-card').scrollIntoView({ behavior: 'smooth' });
-            }
-            
-            // Arrow down to scroll
-            if (e.key === 'ArrowDown') {
-                window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' });
-            }
-            
-            if (e.key === 'ArrowUp') {
-                window.scrollBy({ top: -window.innerHeight * 0.8, behavior: 'smooth' });
-            }
-        });
-        
-        // Add scroll indicator
-        function createScrollIndicator() {
-            const indicator = document.createElement('div');
-            indicator.id = 'scrollIndicator';
-            indicator.innerHTML = '<i class="fas fa-chevron-down"></i>';
-            indicator.style.cssText = `
-                position: fixed;
-                bottom: 30px;
-                left: 50%;
-                transform: translateX(-50%);
-                color: var(--cosmic-cyan);
-                font-size: 2rem;
-                animation: bounce 2s infinite;
-                z-index: 1000;
-                cursor: pointer;
-                opacity: 0.7;
-                transition: opacity 0.3s;
-            `;
-            
-            indicator.addEventListener('click', () => {
-                document.querySelector('#maps').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            indicator.addEventListener('mouseenter', () => {
-                indicator.style.opacity = '1';
-            });
-            
-            indicator.addEventListener('mouseleave', () => {
-                indicator.style.opacity = '0.7';
-            });
-            
-            document.body.appendChild(indicator);
-            
-            // Add bounce animation
-            const bounceStyle = document.createElement('style');
-            bounceStyle.textContent = `
-                @keyframes bounce {
-                    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-                    40% { transform: translateX(-50%) translateY(-10px); }
-                    60% { transform: translateX(-50%) translateY(-5px); }
-                }
-            `;
-            document.head.appendChild(bounceStyle);
-            
-            // Hide indicator when scrolling down
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 100) {
-                    indicator.style.opacity = '0';
-                } else {
-                    indicator.style.opacity = '0.7';
-                }
-            });
-        }
-        
-        // Initialize scroll indicator after page loads
-        window.addEventListener('load', () => {
-            setTimeout(createScrollIndicator, 1000);
         });
     </script>
 </body>
