@@ -262,47 +262,57 @@
         }
 
         /* ===== ENHANCED MAP CARDS LAYOUT ===== */
-        .map-cards-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-        }
-
+        /* GANTI kode .map-card yang ada dengan ini: */
         .map-card {
             display: flex;
             align-items: center;
-            gap: 5rem;
-            margin-bottom: 10rem;
+            gap: 3rem; /* Kurangi dari 5rem */
+            margin-bottom: 6rem; /* Kurangi dari 10rem */
             opacity: 0;
-            transform: translateY(100px);
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(80px); /* Kurangi dari 100px */
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             padding: 2rem;
             border-radius: 20px;
             background: linear-gradient(
                 145deg,
-                rgba(20, 25, 35, 0.6) 0%,
-                rgba(10, 14, 23, 0.4) 100%
+                rgba(20, 25, 35, 0.8) 0%,
+                rgba(10, 14, 23, 0.6) 100%
             );
             overflow: hidden;
+            min-height: 450px; /* Tambahkan tinggi minimum */
         }
-
-        .map-card::before {
-            content: '';
+        
+        /* Tambahkan class ini di CSS: */
+        .maps-section {
+            min-height: auto !important; /* Ubah dari 100vh */
+            padding-bottom: 4rem !important;
+        }
+        
+        .map-cards-container {
+            padding-bottom: 4rem;
+        }
+        
+        /* Pastikan card-image memiliki fallback */
+        .card-image {
+            background: linear-gradient(45deg, #0a0e17, #1a1f2e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-image::before {
+            content: "Preview Peta";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, 
-                transparent 0%, 
-                rgba(30, 144, 255, 0.05) 50%, 
-                transparent 100%);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.6s ease;
+            color: rgba(255,255,255,0.5);
+            font-size: 1.2rem;
+            z-index: 1;
         }
-
+        
+        .card-image img {
+            position: relative;
+            z-index: 2;
+        }
         .map-card:hover::before {
             opacity: 1;
         }
@@ -1208,41 +1218,44 @@
             updateEnhancedAnimations();
         });
         
+        // GANTI fungsi updateEnhancedAnimations() dengan ini:
         function updateEnhancedAnimations() {
             const cards = document.querySelectorAll('.map-card');
             const features = document.querySelectorAll('.feature-card');
             const scrollPosition = window.scrollY + window.innerHeight;
             
-            // Map Cards Animation with staggered timing
+            console.log(`Total cards found: ${cards.length}`); // Debug
+            
             cards.forEach((card, index) => {
                 const cardPosition = card.offsetTop;
                 const cardHeight = card.offsetHeight;
                 
-                if (scrollPosition > cardPosition + cardHeight * 0.2) {
-                    if (!card.classList.contains('active')) {
-                        // Stagger the animation
-                        setTimeout(() => {
-                            card.classList.add('active');
-                        }, index * 300);
-                    }
-                }
+                console.log(`Card ${index + 1}: pos=${cardPosition}, height=${cardHeight}, visible=${scrollPosition > cardPosition + 100}`); // Debug
                 
-                // Enhanced parallax effect for images
-                const image = card.querySelector('.card-image');
-                const speed = 0.15;
-                const yPos = -(scrollPosition - cardPosition) * speed;
-                if (scrollPosition > cardPosition && scrollPosition < cardPosition + cardHeight) {
-                    image.style.transform = `translateY(${yPos}px) scale(1.02)`;
+                if (scrollPosition > cardPosition + 100) {
+                    if (!card.classList.contains('active')) {
+                        setTimeout(() => {
+                            card.style.opacity = 1;
+                            card.style.transform = 'translateY(0)';
+                            card.classList.add('active');
+                            console.log(`Card ${index + 1} activated`); // Debug
+                        }, index * 400);
+                    }
+                } else if (scrollPosition < cardPosition - 300) {
+                    // Reset jika scroll ke atas
+                    if (card.classList.contains('active')) {
+                        card.style.opacity = 0;
+                        card.style.transform = 'translateY(80px)';
+                        card.classList.remove('active');
+                    }
                 }
             });
             
-            // Feature Cards Animation with cascading effect
+            // Feature cards
             features.forEach((feature, index) => {
                 const featurePosition = feature.offsetTop;
-                
                 if (scrollPosition > featurePosition + 100) {
                     if (!feature.classList.contains('active')) {
-                        // Stagger the animation
                         setTimeout(() => {
                             feature.classList.add('active');
                         }, index * 200);
@@ -1250,6 +1263,19 @@
                 }
             });
         }
+        
+        // Tambahkan di DOMContentLoaded untuk debug:
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM Loaded - Checking cards...");
+            const cards = document.querySelectorAll('.map-card');
+            cards.forEach((card, i) => {
+                console.log(`Card ${i}:`, {
+                    offsetTop: card.offsetTop,
+                    offsetHeight: card.offsetHeight,
+                    parent: card.parentElement.className
+                });
+            });
+        });
         
         // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
