@@ -301,7 +301,6 @@
 
         .profile-card {
             display: flex;
-            flex-wrap: wrap;
             gap: 3rem;
             align-items: center;
             justify-content: center;
@@ -310,6 +309,7 @@
             border-radius: 15px;
             border: 1px solid rgba(30, 144, 255, 0.2);
             width: 100%;
+            position: relative;
         }
 
         .profile-image-container {
@@ -325,14 +325,30 @@
             box-shadow: 
                 0 0 30px rgba(76, 201, 240, 0.3),
                 0 0 60px rgba(76, 201, 240, 0.1);
-            transition: all 0.3s ease;
+            animation: floating 6s ease-in-out infinite;
         }
 
-        .profile-image:hover {
-            transform: scale(1.05);
-            box-shadow: 
-                0 0 40px rgba(76, 201, 240, 0.4),
-                0 0 80px rgba(76, 201, 240, 0.2);
+        .university-logo {
+            width: 180px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(30, 144, 255, 0.3));
+            animation: floating 7s ease-in-out infinite reverse;
+        }
+
+        @keyframes floating {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-8px) rotate(0.5deg);
+            }
+            50% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            75% {
+                transform: translateY(-5px) rotate(-0.5deg);
+            }
         }
 
         .profile-info {
@@ -366,13 +382,6 @@
             width: 20px;
         }
 
-        .institution-logo {
-            height: 100px;
-            width: auto;
-            filter: drop-shadow(0 0 10px rgba(30, 144, 255, 0.3));
-            margin-top: 1.5rem;
-        }
-
         /* ===== TECHNOLOGY GRID ===== */
         .tech-grid {
             display: grid;
@@ -390,6 +399,17 @@
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            animation: techFloat 5s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+
+        @keyframes techFloat {
+            0%, 100% {
+                transform: translateY(0px) rotateX(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotateX(5deg);
+            }
         }
 
         .tech-card::before {
@@ -408,7 +428,8 @@
         }
 
         .tech-card:hover {
-            transform: translateY(-10px);
+            animation-play-state: paused;
+            transform: translateY(-10px) scale(1.05);
             border-color: var(--cosmic-blue);
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.3),
@@ -450,11 +471,26 @@
             align-items: center;
             gap: 1rem;
             transition: all 0.3s ease;
+            animation: sourceFloat 8s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.3s);
+        }
+
+        @keyframes sourceFloat {
+            0%, 100% {
+                transform: translateX(0px);
+            }
+            33% {
+                transform: translateX(3px);
+            }
+            66% {
+                transform: translateX(-3px);
+            }
         }
 
         .sources-list li:hover {
             background: rgba(30, 144, 255, 0.1);
             transform: translateX(10px);
+            animation-play-state: paused;
         }
 
         .sources-list i {
@@ -462,71 +498,46 @@
             font-size: 1.2rem;
         }
 
-        /* ===== TIMELINE ===== */
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 3rem auto 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(to bottom, 
-                transparent,
-                var(--cosmic-blue),
-                var(--cosmic-cyan),
-                transparent
-            );
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3rem;
-            width: 45%;
-        }
-
-        .timeline-item:nth-child(odd) {
-            left: 0;
-        }
-
-        .timeline-item:nth-child(even) {
-            left: 55%;
-        }
-
-        .timeline-dot {
-            position: absolute;
+        /* ===== FLOATING ASTEROIDS ===== */
+        .floating-asteroids {
+            position: fixed;
             top: 0;
-            right: -11px;
-            width: 20px;
-            height: 20px;
-            background: var(--cosmic-cyan);
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .asteroid {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(76, 201, 240, 0.3) 0%,
+                rgba(30, 144, 255, 0.1) 70%,
+                transparent 100%);
             border-radius: 50%;
-            border: 3px solid var(--cosmic-blue);
-            box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+            filter: blur(2px);
+            animation: asteroidFloat 20s linear infinite;
+            opacity: 0.3;
         }
 
-        .timeline-item:nth-child(even) .timeline-dot {
-            left: -11px;
-            right: auto;
-        }
-
-        .timeline-content {
-            background: rgba(20, 25, 35, 0.7);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border: 1px solid rgba(30, 144, 255, 0.3);
-        }
-
-        .timeline-date {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--cosmic-cyan);
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+        @keyframes asteroidFloat {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translate(calc(100vw - 100px), calc(100vh - 100px)) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* ===== FOOTER ===== */
@@ -636,20 +647,6 @@
             .profile-details li {
                 justify-content: center;
             }
-            
-            .timeline::before {
-                left: 30px;
-            }
-            
-            .timeline-item {
-                width: 100%;
-                left: 0 !important;
-                padding-left: 60px;
-            }
-            
-            .timeline-dot {
-                left: 21px !important;
-            }
         }
 
         @media (max-width: 768px) {
@@ -677,6 +674,12 @@
             .hero-subtitle {
                 font-size: 1.1rem;
             }
+            
+            .profile-image,
+            .university-logo {
+                width: 140px;
+                height: 140px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -699,9 +702,15 @@
                 grid-template-columns: 1fr;
             }
             
-            .profile-image {
-                width: 150px;
-                height: 150px;
+            .profile-image,
+            .university-logo {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-card {
+                padding: 1.5rem;
+                gap: 2rem;
             }
         }
     </style>
@@ -718,6 +727,9 @@
         <div class="star"></div>
         <div class="star"></div>
     </div>
+
+    <!-- Floating Asteroids -->
+    <div class="floating-asteroids" id="asteroids"></div>
 
     <!-- Header -->
     <header id="mainHeader">
@@ -796,49 +808,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-                <img src="./images/logo-universitas.png" alt="Universitas AMIKOM Purwokerto" class="institution-logo">
-            </div>
-        </section>
-
-        <!-- Project Timeline -->
-        <section class="section-card" id="timeline-card">
-            <h2 class="section-title">
-                <i class="fas fa-rocket"></i>
-                Timeline Pengembangan
-            </h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">Maret 2024</div>
-                        <h4>Perencanaan & Analisis</h4>
-                        <p>Identifikasi kebutuhan, studi literatur, dan perancangan arsitektur sistem.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">April 2024</div>
-                        <h4>Pengumpulan Data</h4>
-                        <p>Survei lapangan, pengumpulan data spasial, dan pemrosesan awal dengan QGIS.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">Mei 2024</div>
-                        <h4>Pengembangan Frontend</h4>
-                        <p>Implementasi antarmuka web dengan HTML5, CSS3, dan JavaScript interaktif.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">Juni 2024</div>
-                        <h4>Integrasi & Testing</h4>
-                        <p>Integrasi komponen, pengujian sistem, dan optimasi performa.</p>
-                    </div>
+                    <img src="./images/logo-universitas.png" alt="Universitas AMIKOM Purwokerto" class="university-logo">
                 </div>
             </div>
         </section>
@@ -854,32 +824,32 @@
             </p>
             
             <div class="tech-grid">
-                <div class="tech-card">
+                <div class="tech-card" style="--i: 0;">
                     <i class="fas fa-globe-americas tech-icon" style="color: #2c5530;"></i>
                     <h4 class="tech-name">QGIS</h4>
                     <p class="tech-desc">Sistem Informasi Geografis untuk pemrosesan dan analisis data spasial.</p>
                 </div>
-                <div class="tech-card">
+                <div class="tech-card" style="--i: 1;">
                     <i class="fab fa-html5 tech-icon" style="color: #e34c26;"></i>
                     <h4 class="tech-name">HTML5</h4>
                     <p class="tech-desc">Struktur dasar dan semantik untuk halaman web modern.</p>
                 </div>
-                <div class="tech-card">
+                <div class="tech-card" style="--i: 2;">
                     <i class="fab fa-css3-alt tech-icon" style="color: #264de4;"></i>
                     <h4 class="tech-name">CSS3</h4>
                     <p class="tech-desc">Styling advanced dengan animasi dan efek visual cosmic.</p>
                 </div>
-                <div class="tech-card">
+                <div class="tech-card" style="--i: 3;">
                     <i class="fab fa-js-square tech-icon" style="color: #f0db4f;"></i>
                     <h4 class="tech-name">JavaScript</h4>
                     <p class="tech-desc">Logika interaktif dan integrasi komponen 3D.</p>
                 </div>
-                <div class="tech-card">
+                <div class="tech-card" style="--i: 4;">
                     <i class="fas fa-cube tech-icon" style="color: #4cc9f0;"></i>
                     <h4 class="tech-name">Three.js</h4>
                     <p class="tech-desc">Library 3D untuk visualisasi globe dan elemen interaktif.</p>
                 </div>
-                <div class="tech-card">
+                <div class="tech-card" style="--i: 5;">
                     <i class="fab fa-github tech-icon" style="color: #ffffff;"></i>
                     <h4 class="tech-name">GitHub</h4>
                     <p class="tech-desc">Version control dan hosting untuk deployment.</p>
@@ -896,21 +866,21 @@
             <div class="section-content">
                 <p>Data geospasial yang disajikan berasal dari berbagai sumber terpercaya:</p>
                 <ul class="sources-list">
-                    <li>
+                    <li style="--i: 0;">
                         <i class="fas fa-map-marked-alt"></i>
                         <div>
                             <strong>Survei Lapangan Langsung</strong>
                             <p>Pengukuran dan pemetaan langsung di wilayah Bumiayu dan Pruwatan.</p>
                         </div>
                     </li>
-                    <li>
+                    <li style="--i: 1;">
                         <i class="fas fa-satellite"></i>
                         <div>
                             <strong>OpenStreetMap</strong>
                             <p>Data jalan, sungai, dan infrastruktur dasar dari platform open-source.</p>
                         </div>
                     </li>
-                    <li>
+                    <li style="--i: 2;">
                         <i class="fas fa-landmark"></i>
                         <div>
                             <strong>Pemerintah Daerah</strong>
@@ -980,43 +950,36 @@
             });
         }
         
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', () => {
-            initScrollAnimations();
-            
-            // Add hover effects to tech cards
-            document.querySelectorAll('.tech-card').forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    card.style.transform = 'translateY(-10px) scale(1.02)';
-                });
+        // Create floating asteroids
+        function createAsteroids(count) {
+            const container = document.getElementById('asteroids');
+            for (let i = 0; i < count; i++) {
+                const asteroid = document.createElement('div');
+                asteroid.className = 'asteroid';
                 
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'translateY(0) scale(1)';
-                });
-            });
-            
-            // Smooth scroll for navigation
-            document.querySelectorAll('nav a').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href.startsWith('#')) {
-                        e.preventDefault();
-                        const target = document.querySelector(href);
-                        if (target) {
-                            window.scrollTo({
-                                top: target.offsetTop - 100,
-                                behavior: 'smooth'
-                            });
-                        }
-                    }
-                });
-            });
-            
-            // Create additional stars dynamically
-            createStars(20);
-        });
+                // Random position
+                const startX = Math.random() * 100;
+                const startY = Math.random() * 100;
+                asteroid.style.left = `${startX}%`;
+                asteroid.style.top = `${startY}%`;
+                
+                // Random size
+                const size = Math.random() * 60 + 40;
+                asteroid.style.width = `${size}px`;
+                asteroid.style.height = `${size}px`;
+                
+                // Random animation duration
+                const duration = Math.random() * 30 + 20;
+                asteroid.style.animationDuration = `${duration}s`;
+                
+                // Random animation delay
+                asteroid.style.animationDelay = `${Math.random() * 10}s`;
+                
+                container.appendChild(asteroid);
+            }
+        }
         
-        // Create dynamic stars
+        // Create additional stars dynamically
         function createStars(count) {
             const cosmicBg = document.querySelector('.cosmic-bg');
             for (let i = 0; i < count; i++) {
@@ -1063,10 +1026,47 @@
             animateGlow();
         }
         
-        // Create some floating glows
-        for (let i = 0; i < 3; i++) {
-            setTimeout(createRandomGlow, i * 1000);
-        }
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initScrollAnimations();
+            
+            // Add hover effects to tech cards
+            document.querySelectorAll('.tech-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.animationPlayState = 'paused';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.animationPlayState = 'running';
+                });
+            });
+            
+            // Smooth scroll for navigation
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            window.scrollTo({
+                                top: target.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Create cosmic elements
+            createStars(20);
+            createAsteroids(5);
+            
+            // Create floating glows
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createRandomGlow, i * 1000);
+            }
+        });
         
         // Add parallax effect to stars
         window.addEventListener('scroll', () => {
