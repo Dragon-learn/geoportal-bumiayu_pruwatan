@@ -209,55 +209,102 @@
             color: var(--cosmic-cyan);
         }
 
-        /* ===== INTERACTIVE MAP SECTION ===== */
+        /* ===== ENHANCED INTERACTIVE MAP SECTION ===== */
         .maps-section {
             position: relative;
             z-index: 10;
-            padding: 5rem 2rem;
+            padding: 6rem 2rem;
             background: linear-gradient(
                 to bottom,
-                rgba(10, 14, 23, 0.8) 0%,
+                rgba(10, 14, 23, 0.95) 0%,
                 rgba(10, 14, 23, 1) 100%
             );
+            min-height: 100vh;
         }
 
         .section-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
+            font-size: 3rem;
+            margin-bottom: 4rem;
             color: var(--cosmic-cyan);
             position: relative;
             display: inline-block;
             text-align: center;
             width: 100%;
+            animation: titleFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
-            height: 3px;
+            width: 300px;
+            height: 4px;
             background: linear-gradient(90deg, transparent, var(--cosmic-cyan), transparent);
             border-radius: 2px;
         }
 
-        /* ===== MAP CARDS LAYOUT ===== */
+        .title-subtext {
+            text-align: center;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* ===== ENHANCED MAP CARDS LAYOUT ===== */
         .map-cards-container {
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
         }
 
         .map-card {
             display: flex;
             align-items: center;
-            gap: 4rem;
-            margin-bottom: 8rem;
+            gap: 5rem;
+            margin-bottom: 10rem;
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s ease-out;
+            transform: translateY(100px);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 2rem;
+            border-radius: 20px;
+            background: linear-gradient(
+                145deg,
+                rgba(20, 25, 35, 0.6) 0%,
+                rgba(10, 14, 23, 0.4) 100%
+            );
+            overflow: hidden;
+        }
+
+        .map-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                transparent 0%, 
+                rgba(30, 144, 255, 0.05) 50%, 
+                transparent 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .map-card:hover::before {
+            opacity: 1;
         }
 
         .map-card.active {
@@ -265,9 +312,8 @@
             transform: translateY(0);
         }
 
-        .map-card.exiting {
-            opacity: 0.3;
-            transform: translateY(-30px);
+        .map-card:nth-child(odd) {
+            flex-direction: row;
         }
 
         .map-card:nth-child(even) {
@@ -276,132 +322,236 @@
 
         .card-content {
             flex: 1;
-            padding: 2rem;
+            padding: 3rem;
+            position: relative;
+            z-index: 2;
         }
 
         .card-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
             color: var(--cosmic-cyan);
             position: relative;
             display: inline-block;
+            text-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
         }
 
         .card-title::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: -10px;
             left: 0;
             width: 100%;
-            height: 2px;
+            height: 3px;
             background: linear-gradient(90deg, var(--cosmic-blue), var(--cosmic-cyan));
+            border-radius: 2px;
+        }
+
+        .location-badge {
+            display: inline-block;
+            background: rgba(30, 144, 255, 0.1);
+            color: var(--cosmic-cyan);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 0 rgba(30, 144, 255, 0); }
+            50% { box-shadow: 0 0 20px rgba(30, 144, 255, 0.3); }
         }
 
         .card-description {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             line-height: 1.8;
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
         }
 
-        .card-features {
-            list-style: none;
-            margin-bottom: 2rem;
+        .card-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
-        .card-features li {
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
+        .stat-item {
+            background: rgba(20, 25, 35, 0.5);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
         }
 
-        .card-features i {
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(30, 144, 255, 0.1);
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
             color: var(--cosmic-cyan);
-            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .card-image {
             flex: 1;
             position: relative;
             overflow: hidden;
-            border-radius: 15px;
+            border-radius: 20px;
+            height: 450px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
             box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(30, 144, 255, 0.3),
-                0 0 50px rgba(30, 144, 255, 0.2);
-            transition: all 0.5s ease;
-            height: 400px;
+                0 25px 80px rgba(0, 0, 0, 0.8),
+                0 0 0 2px rgba(30, 144, 255, 0.4),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card-image:hover {
-            transform: translateY(-10px);
+            transform: scale(1.05) rotateY(5deg);
             box-shadow: 
-                0 30px 80px rgba(0, 0, 0, 0.8),
-                0 0 0 1px rgba(30, 144, 255, 0.5),
-                0 0 80px rgba(30, 144, 255, 0.4);
+                0 40px 120px rgba(0, 0, 0, 1),
+                0 0 0 3px rgba(30, 144, 255, 0.6),
+                0 0 100px rgba(30, 144, 255, 0.3),
+                inset 0 0 50px rgba(0, 0, 0, 0.7);
         }
 
         .card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card-image:hover img {
-            transform: scale(1.05);
+            transform: scale(1.1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .card-image:hover .image-overlay {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .map-button {
             display: inline-flex;
             align-items: center;
-            gap: 0.8rem;
-            background: rgba(30, 144, 255, 0.1);
+            gap: 1rem;
+            background: linear-gradient(135deg, 
+                rgba(30, 144, 255, 0.2) 0%,
+                rgba(76, 201, 240, 0.1) 100%);
             color: var(--cosmic-cyan);
-            padding: 1rem 2rem;
-            border-radius: 8px;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
             text-decoration: none;
             font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            border: 1px solid rgba(30, 144, 255, 0.3);
-            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: 2px solid rgba(30, 144, 255, 0.4);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.8s ease;
+        }
+
+        .map-button:hover::before {
+            left: 100%;
         }
 
         .map-button:hover {
-            background: rgba(30, 144, 255, 0.2);
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.05);
+            background: linear-gradient(135deg, 
+                rgba(30, 144, 255, 0.3) 0%,
+                rgba(76, 201, 240, 0.2) 100%);
             border-color: var(--cosmic-blue);
-            box-shadow: 0 10px 30px rgba(30, 144, 255, 0.2);
+            box-shadow: 
+                0 15px 40px rgba(30, 144, 255, 0.3),
+                0 0 60px rgba(30, 144, 255, 0.2);
         }
 
         /* ===== FEATURE CARDS ===== */
         .feature-section {
-            padding: 5rem 2rem;
-            background: rgba(10, 14, 23, 0.95);
+            padding: 6rem 2rem;
+            background: rgba(10, 14, 23, 0.98);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at 30% 50%,
+                rgba(30, 144, 255, 0.05) 0%,
+                transparent 50%
+            );
+            pointer-events: none;
         }
 
         .feature-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
             max-width: 1400px;
-            margin: 0 auto;
+            margin: 4rem auto 0;
         }
 
         .feature-card {
-            background: var(--cosmic-card);
+            background: linear-gradient(
+                145deg,
+                rgba(20, 25, 35, 0.8) 0%,
+                rgba(10, 14, 23, 0.6) 100%
+            );
             backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 2.5rem 2rem;
-            border: 1px solid rgba(30, 144, 255, 0.2);
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(50px);
         }
 
         .feature-card.active {
@@ -415,42 +565,63 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
+            height: 5px;
             background: linear-gradient(90deg, var(--cosmic-blue), var(--cosmic-cyan));
         }
 
         .feature-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-15px) scale(1.02);
             border-color: var(--cosmic-blue);
             box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 60px rgba(30, 144, 255, 0.1);
+                0 30px 80px rgba(0, 0, 0, 0.5),
+                0 0 80px rgba(30, 144, 255, 0.2);
         }
 
         .feature-card i {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             color: var(--cosmic-cyan);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: block;
+            text-shadow: 0 0 20px rgba(76, 201, 240, 0.5);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.1); }
         }
 
         .feature-card h4 {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
             color: var(--cosmic-light);
+            position: relative;
+            display: inline-block;
+        }
+
+        .feature-card h4::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--cosmic-cyan);
         }
 
         .feature-card p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            font-weight: 300;
         }
 
         /* ===== FOOTER ===== */
         footer {
             background: rgba(5, 9, 16, 0.98);
             border-top: 1px solid rgba(30, 144, 255, 0.2);
-            padding: 3rem 2rem;
+            padding: 4rem 2rem;
             position: relative;
             z-index: 10;
         }
@@ -485,7 +656,11 @@
             }
             
             .card-image {
-                height: 350px;
+                height: 400px;
+            }
+            
+            .card-stats {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -504,24 +679,29 @@
             .map-card {
                 flex-direction: column !important;
                 gap: 3rem;
-                margin-bottom: 5rem;
+                margin-bottom: 6rem;
+                padding: 2rem 1.5rem;
             }
             
             .card-content {
-                padding: 1rem;
+                padding: 2rem 1rem;
             }
             
             .card-image {
-                height: 300px;
+                height: 350px;
                 width: 100%;
             }
             
             .section-title {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .card-title {
-                font-size: 1.8rem;
+                font-size: 2rem;
+            }
+            
+            .feature-cards {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -548,11 +728,11 @@
             }
             
             .maps-section {
-                padding: 3rem 1rem;
+                padding: 4rem 1rem;
             }
             
             .feature-section {
-                padding: 3rem 1rem;
+                padding: 4rem 1rem;
             }
             
             .feature-cards {
@@ -560,7 +740,19 @@
             }
             
             .feature-card {
-                padding: 2rem 1.5rem;
+                padding: 2.5rem 2rem;
+            }
+            
+            .card-image {
+                height: 300px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .card-title {
+                font-size: 1.8rem;
             }
         }
 
@@ -582,15 +774,33 @@
             }
             
             .card-title {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
             
             .card-image {
                 height: 250px;
             }
+            
+            .map-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            
+            .stat-item {
+                padding: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
         }
 
         /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -602,18 +812,35 @@
             }
         }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
             }
-            50% {
-                transform: translateY(-10px);
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
         }
 
         /* ===== SCROLLBAR STYLING ===== */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 12px;
         }
 
         ::-webkit-scrollbar-track {
@@ -621,12 +848,12 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--cosmic-blue);
-            border-radius: 5px;
+            background: linear-gradient(var(--cosmic-blue), var(--cosmic-cyan));
+            border-radius: 6px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--cosmic-cyan);
+            background: linear-gradient(var(--cosmic-cyan), var(--cosmic-blue));
         }
     </style>
 </head>
@@ -661,58 +888,99 @@
         </div>
     </section>
 
-    <!-- Interactive Maps Section -->
+    <!-- Enhanced Interactive Maps Section -->
     <section class="maps-section" id="maps">
         <h2 class="section-title">Peta Interaktif 3D</h2>
+        <p class="title-subtext">Jelajahi data geospasial wilayah Bumiayu dan Pruwatan dengan pengalaman visual yang imersif</p>
         
         <div class="map-cards-container">
             <!-- Kecamatan Bumiayu Card -->
-            <div class="map-card" id="card1">
+            <div class="map-card" id="bumiayu-card">
                 <div class="card-content">
-                    <h3 class="card-title">Kecamatan Bumiayu</h3>
+                    <span class="location-badge">
+                        <i class="fas fa-map-marker-alt"></i> KECAMATAN
+                    </span>
+                    <h3 class="card-title">Bumiayu</h3>
                     <p class="card-description">
-                        Kecamatan Bumiayu merupakan wilayah administratif yang terletak di Kabupaten Brebes, Jawa Tengah. 
-                        Dengan luas wilayah 12.456 hektar, kecamatan ini terdiri dari 15 desa yang kaya akan potensi pertanian, 
-                        perkebunan, dan pariwisata alam.
+                        Kecamatan Bumiayu merupakan pusat pemerintahan dan aktivitas ekonomi di wilayah selatan Kabupaten Brebes. 
+                        Dengan luas wilayah 12.456 hektar, kecamatan ini memiliki 15 desa yang kaya akan potensi pertanian, 
+                        perkebunan, dan pariwisata alam yang tersebar di dataran tinggi dan lereng gunung.
                     </p>
-                    <ul class="card-features">
-                        <li><i class="fas fa-check-circle"></i> Data batas administratif lengkap</li>
-                        <li><i class="fas fa-check-circle"></i> Informasi penggunaan lahan</li>
-                        <li><i class="fas fa-check-circle"></i> Fasilitas publik dan infrastruktur</li>
-                        <li><i class="fas fa-check-circle"></i> Data demografi dan sosial</li>
-                    </ul>
+                    
+                    <div class="card-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">15</div>
+                            <div class="stat-label">Desa</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">12,456</div>
+                            <div class="stat-label">Hektar Luas</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Lahan Pertanian</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">7</div>
+                            <div class="stat-label">Fasilitas Wisata</div>
+                        </div>
+                    </div>
+                    
                     <a href="../Bumiayu/" class="map-button">
                         <i class="fas fa-map"></i>
-                        Buka Peta Bumiayu
+                        Jelajahi Peta Bumiayu
                     </a>
                 </div>
                 <div class="card-image">
                     <img src="images/map-thumbnail.png" alt="Peta Kecamatan Bumiayu">
+                    <div class="image-overlay">
+                        <p style="color: white; font-size: 0.9rem;">Klik gambar untuk detail peta Bumiayu</p>
+                    </div>
                 </div>
             </div>
 
             <!-- Desa Pruwatan Card -->
-            <div class="map-card" id="card2">
+            <div class="map-card" id="pruwatan-card">
                 <div class="card-content">
-                    <h3 class="card-title">Desa Pruwatan</h3>
+                    <span class="location-badge">
+                        <i class="fas fa-map-pin"></i> DESA
+                    </span>
+                    <h3 class="card-title">Pruwatan</h3>
                     <p class="card-description">
-                        Desa Pruwatan adalah salah satu desa di Kecamatan Bumiayu yang memiliki karakteristik geografis 
-                        unik dengan perbukitan dan lahan pertanian yang subur. Desa ini berkembang pesat dalam sektor 
-                        pertanian dan memiliki potensi wisata alam yang menarik.
+                        Desa Pruwatan adalah desa yang berkembang pesat di Kecamatan Bumiayu dengan karakteristik geografis 
+                        unik berupa perbukitan dan lahan pertanian yang subur. Desa ini dikenal dengan hasil pertanian 
+                        berkualitas tinggi dan memiliki potensi wisata alam yang menarik dengan panorama perbukitan yang memukau.
                     </p>
-                    <ul class="card-features">
-                        <li><i class="fas fa-check-circle"></i> Detail penggunaan lahan pertanian</li>
-                        <li><i class="fas fa-check-circle"></i> Jaringan irigasi dan sumber air</li>
-                        <li><i class="fas fa-check-circle"></i> Fasilitas pendidikan dan kesehatan</li>
-                        <li><i class="fas fa-check-circle"></i> Potensi wisata alam</li>
-                    </ul>
+                    
+                    <div class="card-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">4</div>
+                            <div class="stat-label">Dusun</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">2,345</div>
+                            <div class="stat-label">Hektar Luas</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">Lahan Produktif</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Spot Wisata</div>
+                        </div>
+                    </div>
+                    
                     <a href="../Pruwatan/" class="map-button">
                         <i class="fas fa-map-marked-alt"></i>
-                        Buka Peta Pruwatan
+                        Jelajahi Peta Pruwatan
                     </a>
                 </div>
                 <div class="card-image">
                     <img src="images/map-thumbnail.png" alt="Peta Desa Pruwatan">
+                    <div class="image-overlay">
+                        <p style="color: white; font-size: 0.9rem;">Klik gambar untuk detail peta Pruwatan</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -721,21 +989,23 @@
     <!-- Features Section -->
     <section class="feature-section">
         <h2 class="section-title">Fitur Unggulan</h2>
+        <p class="title-subtext">Teknologi canggih untuk pengalaman geospasial terbaik</p>
+        
         <div class="feature-cards">
             <div class="feature-card" id="feature1">
                 <i class="fas fa-layer-group"></i>
                 <h4>Layers Berlapis 3D</h4>
-                <p>Tampilkan lapisan peta seperti batas administrasi, jalan, dan penggunaan lahan dalam pengalaman 3D interaktif.</p>
+                <p>Tampilkan lapisan peta seperti batas administrasi, jalan, dan penggunaan lahan dalam pengalaman 3D interaktif dengan kontrol penuh atas setiap layer.</p>
             </div>
             <div class="feature-card" id="feature2">
                 <i class="fas fa-download"></i>
                 <h4>Unduh Data Spasial</h4>
-                <p>Data geospasial tersedia dalam format Shapefile, GeoJSON, atau KML dengan metadata lengkap.</p>
+                <p>Akses dan unduh data geospasial dalam berbagai format (Shapefile, GeoJSON, KML) dengan metadata lengkap dan dokumentasi terstruktur.</p>
             </div>
             <div class="feature-card" id="feature3">
                 <i class="fas fa-search-location"></i>
                 <h4>Pencarian Lokasi Cerdas</h4>
-                <p>Cari lokasi berdasarkan nama desa, kecamatan, atau koordinat dengan sistem pencarian real-time.</p>
+                <p>Cari lokasi berdasarkan nama desa, kecamatan, atau koordinat dengan sistem pencarian real-time yang dilengkapi dengan auto-complete.</p>
             </div>
         </div>
     </section>
@@ -763,7 +1033,7 @@
             
             // 2. Create camera
             camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 3; // Adjust zoom level
+            camera.position.z = 3;
             
             // 3. Create renderer
             renderer = new THREE.WebGLRenderer({ 
@@ -815,7 +1085,6 @@
                         if (node.isMesh) {
                             node.castShadow = true;
                             node.receiveShadow = true;
-                            // Add subtle glow effect
                             node.material.emissive = new THREE.Color(0x0a0e17);
                             node.material.emissiveIntensity = 0.1;
                         }
@@ -827,7 +1096,7 @@
                     controls = new THREE.OrbitControls(camera, renderer.domElement);
                     controls.enableDamping = true;
                     controls.dampingFactor = 0.05;
-                    controls.enableZoom = false; // Disable zoom to maintain position
+                    controls.enableZoom = false;
                     controls.enablePan = false;
                     controls.enableRotate = true;
                     controls.rotateSpeed = 0.5;
@@ -923,7 +1192,7 @@
         }
         
         // ======================
-        // SCROLL ANIMATIONS
+        // ENHANCED SCROLL ANIMATIONS
         // ======================
         
         // Header scroll effect
@@ -935,45 +1204,49 @@
                 header.classList.remove('header-scrolled');
             }
             
-            // Card entrance/exit animations
-            updateCardAnimations();
+            // Enhanced card animations
+            updateEnhancedAnimations();
         });
         
-        function updateCardAnimations() {
+        function updateEnhancedAnimations() {
             const cards = document.querySelectorAll('.map-card');
             const features = document.querySelectorAll('.feature-card');
             const scrollPosition = window.scrollY + window.innerHeight;
             
-            // Map Cards Animation
+            // Map Cards Animation with staggered timing
             cards.forEach((card, index) => {
                 const cardPosition = card.offsetTop;
                 const cardHeight = card.offsetHeight;
                 
-                if (scrollPosition > cardPosition + cardHeight * 0.3) {
-                    card.classList.add('active');
-                    card.classList.remove('exiting');
-                } else if (scrollPosition < cardPosition - window.innerHeight * 0.5) {
-                    card.classList.remove('active');
-                    card.classList.add('exiting');
-                } else {
-                    card.classList.remove('exiting');
+                if (scrollPosition > cardPosition + cardHeight * 0.2) {
+                    if (!card.classList.contains('active')) {
+                        // Stagger the animation
+                        setTimeout(() => {
+                            card.classList.add('active');
+                        }, index * 300);
+                    }
                 }
                 
-                // Parallax effect for images
+                // Enhanced parallax effect for images
                 const image = card.querySelector('.card-image');
-                const speed = 0.1;
+                const speed = 0.15;
                 const yPos = -(scrollPosition - cardPosition) * speed;
-                image.style.transform = `translateY(${yPos}px) scale(1.02)`;
+                if (scrollPosition > cardPosition && scrollPosition < cardPosition + cardHeight) {
+                    image.style.transform = `translateY(${yPos}px) scale(1.02)`;
+                }
             });
             
-            // Feature Cards Animation
+            // Feature Cards Animation with cascading effect
             features.forEach((feature, index) => {
                 const featurePosition = feature.offsetTop;
                 
                 if (scrollPosition > featurePosition + 100) {
-                    feature.classList.add('active');
-                    // Stagger the animation
-                    feature.style.transitionDelay = `${index * 0.2}s`;
+                    if (!feature.classList.contains('active')) {
+                        // Stagger the animation
+                        setTimeout(() => {
+                            feature.classList.add('active');
+                        }, index * 200);
+                    }
                 }
             });
         }
@@ -1000,49 +1273,72 @@
                 });
             });
             
-            // Initialize card animations
-            updateCardAnimations();
+            // Initialize animations
+            updateEnhancedAnimations();
             
-            // Auto-hide header on scroll down
-            let lastScrollTop = 0;
-            const header = document.getElementById('mainHeader');
-            
-            window.addEventListener('scroll', () => {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                
-                if (scrollTop > lastScrollTop && scrollTop > 200) {
-                    // Scrolling down
-                    header.style.transform = 'translateY(-100%)';
-                } else {
-                    // Scrolling up
-                    header.style.transform = 'translateY(0)';
-                }
-                
-                lastScrollTop = scrollTop;
-            });
-            
-            // Add hover effect to cards
+            // Add hover effect to cards with enhanced feedback
             document.querySelectorAll('.card-image').forEach(image => {
                 image.addEventListener('mouseenter', () => {
-                    image.style.transform = 'scale(1.05)';
+                    image.style.transform = 'scale(1.05) rotateY(5deg)';
                 });
                 
                 image.addEventListener('mouseleave', () => {
-                    image.style.transform = 'scale(1)';
+                    image.style.transform = 'scale(1) rotateY(0)';
                 });
             });
+            
+            // Add click effect to buttons
+            document.querySelectorAll('.map-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.3);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        width: ${size}px;
+                        height: ${size}px;
+                        top: ${y}px;
+                        left: ${x}px;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Add CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
         });
         
         // Add keyboard controls
         document.addEventListener('keydown', (e) => {
-            // Space to pause/play earth rotation
-            if (e.key === ' ') {
-                if (controls) {
-                    controls.autoRotate = !controls.autoRotate;
-                }
+            // Space to navigate to first card
+            if (e.key === ' ' && !e.target.matches('input, textarea')) {
+                e.preventDefault();
+                document.querySelector('#bumiayu-card').scrollIntoView({ behavior: 'smooth' });
             }
             
-            // Arrow keys to navigate cards
+            // Arrow down to scroll
             if (e.key === 'ArrowDown') {
                 window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' });
             }
@@ -1050,6 +1346,65 @@
             if (e.key === 'ArrowUp') {
                 window.scrollBy({ top: -window.innerHeight * 0.8, behavior: 'smooth' });
             }
+        });
+        
+        // Add scroll indicator
+        function createScrollIndicator() {
+            const indicator = document.createElement('div');
+            indicator.id = 'scrollIndicator';
+            indicator.innerHTML = '<i class="fas fa-chevron-down"></i>';
+            indicator.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: var(--cosmic-cyan);
+                font-size: 2rem;
+                animation: bounce 2s infinite;
+                z-index: 1000;
+                cursor: pointer;
+                opacity: 0.7;
+                transition: opacity 0.3s;
+            `;
+            
+            indicator.addEventListener('click', () => {
+                document.querySelector('#maps').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            indicator.addEventListener('mouseenter', () => {
+                indicator.style.opacity = '1';
+            });
+            
+            indicator.addEventListener('mouseleave', () => {
+                indicator.style.opacity = '0.7';
+            });
+            
+            document.body.appendChild(indicator);
+            
+            // Add bounce animation
+            const bounceStyle = document.createElement('style');
+            bounceStyle.textContent = `
+                @keyframes bounce {
+                    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+                    40% { transform: translateX(-50%) translateY(-10px); }
+                    60% { transform: translateX(-50%) translateY(-5px); }
+                }
+            `;
+            document.head.appendChild(bounceStyle);
+            
+            // Hide indicator when scrolling down
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    indicator.style.opacity = '0';
+                } else {
+                    indicator.style.opacity = '0.7';
+                }
+            });
+        }
+        
+        // Initialize scroll indicator after page loads
+        window.addEventListener('load', () => {
+            setTimeout(createScrollIndicator, 1000);
         });
     </script>
 </body>
