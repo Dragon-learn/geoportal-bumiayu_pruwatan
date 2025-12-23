@@ -4,315 +4,1080 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tentang - Geoportal Bumiayu Pruwatan</title>
-    <!-- Link to Font Awesome for icons -->
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&family=Rajdhani:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* ===== GENERAL STYLES ===== */
+        /* ===== COSMIC THEME VARIABLES ===== */
+        :root {
+            --cosmic-deep: #0a0e17;
+            --cosmic-dark: #111827;
+            --cosmic-blue: #1e90ff;
+            --cosmic-cyan: #4cc9f0;
+            --cosmic-pink: #f72585;
+            --cosmic-gold: #ffcc00;
+            --cosmic-light: #f8f9fa;
+            --cosmic-card: rgba(10, 14, 23, 0.9);
+        }
+
+        /* ===== BASE RESETS ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(
+                135deg,
+                var(--cosmic-deep) 0%,
+                #0c1120 50%,
+                var(--cosmic-dark) 100%
+            );
+            color: var(--cosmic-light);
+            scroll-behavior: smooth;
         }
-        a {
-            color: #2c5530;
-            text-decoration: none;
+
+        /* ===== COSMIC STAR BACKGROUND ===== */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
-        /* ===== HEADER (Consistent with other pages) ===== */
-        #main-header {
-            background-color: #2c5530;
-            color: white;
-            padding: 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .logo-area {
-            display: flex;
-            align-items: center;
-        }
-        .logo-area img {
-            height: 50px;
-            margin-right: 15px;
-        }
-        .logo-area h1 {
-            margin: 0;
-            font-size: 1.5em;
-        }
-        #main-header nav a {
-            color: white;
-            margin: 0 10px;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        #main-header nav a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        #main-header nav a.active {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        /* ===== MAIN CONTENT CARD ===== */
-        .main-container {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 2.5rem;
+
+        .star {
+            position: absolute;
             background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
         }
-        /* ===== SECTION STYLES ===== */
-        section {
-            margin-bottom: 2.5rem;
+
+        .star:nth-child(1) { top: 20%; left: 10%; width: 2px; height: 2px; }
+        .star:nth-child(2) { top: 40%; left: 80%; width: 3px; height: 3px; }
+        .star:nth-child(3) { top: 70%; left: 20%; width: 1px; height: 1px; }
+        .star:nth-child(4) { top: 30%; left: 60%; width: 2px; height: 2px; }
+        .star:nth-child(5) { top: 80%; left: 40%; width: 2px; height: 2px; }
+        .star:nth-child(6) { top: 60%; left: 90%; width: 3px; height: 3px; }
+        .star:nth-child(7) { top: 10%; left: 50%; width: 1px; height: 1px; }
+        .star:nth-child(8) { top: 90%; left: 70%; width: 2px; height: 2px; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
         }
-        h2 {
-            color: #2c5530;
-            border-bottom: 3px solid #ffcc00;
-            padding-bottom: 10px;
-            margin-bottom: 1.5rem;
-            font-size: 2em;
+
+        /* ===== HEADER & NAVIGATION ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(30, 144, 255, 0.2);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
         }
-        h3 {
-            color: #2c5530;
-            margin-bottom: 1rem;
-            font-size: 1.4em;
+
+        .header-scrolled {
+            background: rgba(10, 14, 23, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
         }
-        /* Developer & Logo Section */
-        .dev-intro {
-            text-align: center;
-            padding: 1.5rem;
-            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><path fill="%232c5530" fill-opacity="0.03" d="M0,0 L100,0 L100,100 Z"/></svg>');
-            border-radius: 10px;
-            margin-bottom: 2rem;
-        }
-        .logo-container {
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin: 1.5rem 0;
         }
-        .institution-logo {
-            height: 80px;
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        .logo img {
+            height: 45px;
             width: auto;
+            filter: drop-shadow(0 0 10px rgba(30, 144, 255, 0.5));
         }
-        .profile-pic {
-            height: 120px;
-            width: 120px;
+
+        .logo h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--cosmic-light) 0%, var(--cosmic-cyan) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--cosmic-light);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(30, 144, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover {
+            background: rgba(30, 144, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: rgba(30, 144, 255, 0.15);
+            border: 1px solid rgba(30, 144, 255, 0.4);
+        }
+
+        nav i {
+            margin-right: 0.5rem;
+            color: var(--cosmic-cyan);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .about-hero {
+            position: relative;
+            padding: 12rem 2rem 6rem;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(10, 14, 23, 0.1) 100%
+            );
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(
+                circle,
+                rgba(30, 144, 255, 0.1) 0%,
+                transparent 70%
+            );
+            z-index: -1;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--cosmic-cyan) 0%, var(--cosmic-blue) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(76, 201, 240, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        /* ===== MAIN CONTENT SECTIONS ===== */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        .section-card {
+            background: linear-gradient(
+                145deg,
+                rgba(20, 25, 35, 0.8) 0%,
+                rgba(10, 14, 23, 0.6) 100%
+            );
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cosmic-blue), var(--cosmic-cyan));
+        }
+
+        .section-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--cosmic-cyan);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            font-size: 2.5rem;
+            color: var(--cosmic-blue);
+        }
+
+        .section-content {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* ===== DEVELOPER PROFILE ===== */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 2rem;
+        }
+
+        .profile-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-card {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+            justify-content: center;
+            background: rgba(20, 25, 35, 0.5);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(30, 144, 255, 0.2);
+            width: 100%;
+        }
+
+        .profile-image-container {
+            position: relative;
+        }
+
+        .profile-image {
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #2c5530;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: 3px solid var(--cosmic-cyan);
+            box-shadow: 
+                0 0 30px rgba(76, 201, 240, 0.3),
+                0 0 60px rgba(76, 201, 240, 0.1);
+            transition: all 0.3s ease;
         }
-        .dev-info {
-            margin-top: 1rem;
-            font-size: 1.1em;
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 40px rgba(76, 201, 240, 0.4),
+                0 0 80px rgba(76, 201, 240, 0.2);
         }
-        /* Technology Icons Grid */
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 25px;
+
+        .profile-info {
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+        }
+
+        .profile-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--cosmic-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-details {
+            list-style: none;
             margin-top: 1.5rem;
         }
-        .tech-item {
+
+        .profile-details li {
+            margin-bottom: 0.8rem;
+            color: rgba(255, 255, 255, 0.85);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .profile-details i {
+            color: var(--cosmic-blue);
+            width: 20px;
+        }
+
+        .institution-logo {
+            height: 100px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(30, 144, 255, 0.3));
+            margin-top: 1.5rem;
+        }
+
+        /* ===== TECHNOLOGY GRID ===== */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tech-card {
+            background: rgba(20, 25, 35, 0.5);
+            border-radius: 15px;
+            padding: 2rem;
             text-align: center;
-            padding: 1.5rem 1rem;
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(30, 144, 255, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .tech-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 7px 15px rgba(0,0,0,0.1);
+
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(30, 144, 255, 0.1), transparent);
+            transition: left 0.6s ease;
         }
+
+        .tech-card:hover::before {
+            left: 100%;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--cosmic-blue);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 60px rgba(30, 144, 255, 0.1);
+        }
+
         .tech-icon {
-            font-size: 2.8em;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            margin-bottom: 1.2rem;
             display: block;
         }
-        /* Footer */
-        .page-footer {
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #eee;
-            color: #666;
-            font-size: 0.9em;
+
+        .tech-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            color: var(--cosmic-light);
+            margin-bottom: 0.8rem;
         }
+
+        .tech-desc {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* ===== DATA SOURCES ===== */
+        .sources-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .sources-list li {
+            margin-bottom: 1rem;
+            padding: 1.2rem;
+            background: rgba(20, 25, 35, 0.5);
+            border-radius: 10px;
+            border-left: 3px solid var(--cosmic-cyan);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .sources-list li:hover {
+            background: rgba(30, 144, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .sources-list i {
+            color: var(--cosmic-cyan);
+            font-size: 1.2rem;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                transparent,
+                var(--cosmic-blue),
+                var(--cosmic-cyan),
+                transparent
+            );
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 0;
+            right: -11px;
+            width: 20px;
+            height: 20px;
+            background: var(--cosmic-cyan);
+            border-radius: 50%;
+            border: 3px solid var(--cosmic-blue);
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -11px;
+            right: auto;
+        }
+
+        .timeline-content {
+            background: rgba(20, 25, 35, 0.7);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(30, 144, 255, 0.3);
+        }
+
+        .timeline-date {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--cosmic-cyan);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(5, 9, 16, 0.98);
+            border-top: 1px solid rgba(30, 144, 255, 0.2);
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--cosmic-cyan);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--cosmic-blue);
+            text-decoration: underline;
+        }
+
+        .footer-year {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--cosmic-cyan);
+            font-size: 1rem;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== SCROLLBAR STYLING ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--cosmic-deep);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--cosmic-blue), var(--cosmic-cyan));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--cosmic-cyan), var(--cosmic-blue));
+        }
+
         /* ===== RESPONSIVE DESIGN ===== */
-        @media (max-width: 768px) {
-            #main-header {
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.8rem;
+            }
+            
+            .profile-card {
                 flex-direction: column;
                 text-align: center;
-                gap: 15px;
             }
-            .logo-area {
+            
+            .profile-info {
+                text-align: center;
+                min-width: auto;
+            }
+            
+            .profile-details li {
                 justify-content: center;
             }
-            .main-container {
-                margin: 1rem;
-                padding: 1.5rem;
+            
+            .timeline::before {
+                left: 30px;
             }
+            
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 60px;
+            }
+            
+            .timeline-dot {
+                left: 21px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero {
+                padding: 10rem 1rem 4rem;
+            }
+            
+            .main-content {
+                padding: 0 1rem 4rem;
+            }
+            
+            .section-card {
+                padding: 2rem;
+            }
+            
             .tech-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-image {
+                width: 150px;
+                height: 150px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- MAIN HEADER (Same as other pages) -->
-    <header id="main-header">
-        <div class="logo-area">
-            <!-- Update the logo path if your Tentang folder has its own logo -->
-            <img src="../Beranda/images/logo.png" alt="Logo Geoportal">
-            <h1>Geoportal Bumiayu Pruwatan</h1>
+    <!-- Cosmic Background Stars -->
+    <div class="cosmic-bg">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="mainHeader">
+        <div class="header-container">
+            <div class="logo">
+                <img src="../Beranda/images/logo.png" alt="Logo Geoportal">
+                <h1>Geoportal Bumiayu Pruwatan</h1>
+            </div>
+            <nav>
+                <a href="../Beranda/"><i class="fas fa-home"></i> Beranda</a>
+                <a href="../Bumiayu/"><i class="fas fa-map"></i> Peta Bumiayu</a>
+                <a href="../Pruwatan/"><i class="fas fa-map-marked-alt"></i> Peta Pruwatan</a>
+                <a href="../Tentang/" class="active"><i class="fas fa-info-circle"></i> Tentang</a>
+            </nav>
         </div>
-        <nav>
-            <a href="../Beranda/"><i class="fas fa-home"></i> Beranda</a>
-            <a href="../Bumiayu/"><i class="fas fa-map"></i> Peta Bumiayu</a>
-            <a href="../Pruwatan/"><i class="fas fa-map-marked-alt"></i> Peta Pruwatan</a>
-            <a href="../Tentang/" class="active"><i class="fas fa-info-circle"></i> Tentang</a>
-        </nav>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-container">
-        <h2><i class="fas fa-info-circle"></i> Tentang Geoportal Ini</h2>
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="hero-glow"></div>
+        <h1 class="hero-title">Eksplorasi Data Spasial</h1>
+        <p class="hero-subtitle">
+            Portal geospasial interaktif yang menghadirkan data wilayah Bumiayu dan Pruwatan dalam 
+            pengalaman visual cosmic yang memukau untuk perencanaan dan pengembangan wilayah.
+        </p>
+    </section>
 
-        <!-- 1. PROJECT IDENTITY -->
-        <section>
-            <h3><i class="fas fa-bullseye"></i> Apa Ini?</h3>
-            <p><strong>Geoportal Bumiayu Pruwatan</strong> adalah portal web interaktif yang menyajikan data geospasial terkait wilayah Desa Pruwatan dan Kecamatan Bumiayu. Portal ini bertujuan untuk memudahkan akses terhadap informasi tata ruang, fasilitas umum, dan batas administrasi dalam format yang visual dan mudah dipahami.</p>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- About Section -->
+        <section class="section-card" id="about-card">
+            <h2 class="section-title">
+                <i class="fas fa-bullseye"></i>
+                Tentang Geoportal
+            </h2>
+            <div class="section-content">
+                <p>
+                    <strong>Geoportal Bumiayu Pruwatan</strong> adalah platform digital inovatif yang menyajikan data 
+                    geospasial wilayah Kecamatan Bumiayu dan Desa Pruwatan dalam format interaktif 3D. 
+                    Dibangun dengan teknologi modern, portal ini bertujuan memvisualisasikan informasi 
+                    tata ruang, batas administrasi, dan potensi wilayah dalam satu platform terpadu.
+                </p>
+                <p style="margin-top: 1.5rem;">
+                    Sebagai pusat informasi spasial, geoportal ini tidak hanya menampilkan peta statis, 
+                    tetapi juga memberikan pengalaman eksplorasi data yang mendalam dengan lapisan 
+                    informasi berlapis, analisis spasial, dan visualisasi 3D yang imersif.
+                </p>
+            </div>
         </section>
 
-        <!-- 2. DEVELOPER & INSTITUTION INFO (IN A CARD) -->
-        <section>
-            <div class="info-card" style="
-                border: 1px solid #e0e0e0;
-                border-radius: 12px;
-                padding: 2rem;
-                margin-top: 1rem;
-                background: white;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-                text-align: center;
-            ">
-                <h3 style="color: #2c5530; margin-bottom: 1.5rem;">
-                    <i class="fas fa-user-graduate"></i> Pengembang & Institusi
-                </h3>
-                <p>Proyek akademik ini dikembangkan oleh:</p>
-                
-                <div class="logo-container" style="
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    flex-wrap: wrap;
-                    gap: 30px;
-                    margin: 1.5rem 0;
-                ">
-                    <!-- University/Institution Logo -->
-                    <img src="./images/logo-universitas.png" alt="Logo Universitas" style="height: 80px; width: auto;">
-                    <!-- Your Profile Photo (Optional) -->
-                    <img src="./images/foto-profil.jpg" alt="Foto Haidar Hisyam" style="
-                        height: 120px;
-                        width: 120px;
-                        border-radius: 50%;
-                        object-fit: cover;
-                        border: 4px solid #2c5530;
-                        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-                    ">
+        <!-- Developer Profile -->
+        <section class="section-card" id="profile-card">
+            <h2 class="section-title">
+                <i class="fas fa-user-astronaut"></i>
+                Pengembang & Institusi
+            </h2>
+            <div class="profile-section">
+                <div class="profile-card">
+                    <div class="profile-image-container">
+                        <img src="./images/foto-profil.jpg" alt="Haidar Hisyam Anwar" class="profile-image">
+                    </div>
+                    <div class="profile-info">
+                        <h3 class="profile-name">Haidar Hisyam Anwar</h3>
+                        <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">
+                            Developer & GIS Specialist
+                        </p>
+                        <ul class="profile-details">
+                            <li><i class="fas fa-id-card"></i> NIM: 23SA21A007</li>
+                            <li><i class="fas fa-users"></i> Kelas: SI23B</li>
+                            <li><i class="fas fa-graduation-cap"></i> Program Studi: Sistem Informasi</li>
+                            <li><i class="fas fa-university"></i> Institusi: Universitas AMIKOM Purwokerto</li>
+                            <li><i class="fas fa-envelope"></i> Email: 
+                                <a href="mailto:haidarhisyam1823@gmail.com" style="color: var(--cosmic-cyan);">
+                                    haidarhisyam1823@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-        
-                <div class="dev-info" style="
-                    margin-top: 1.5rem;
-                    padding: 1.5rem;
-                    background-color: #f8f9fa;
-                    border-radius: 8px;
-                    text-align: left;
-                    display: inline-block;
-                ">
-                    <p><strong>Haidar Hisyam Anwar</strong></p>
-                    <p>NIM: 23SA21A007</p>
-                    <p>Kelas: SI23B</p>
-                    <p>Program Studi: Sistem Informassi</p>
-                    <p>Institusi: Universitas AMIKOM Purwokerto</p>
-                    <p>Email: <a href="mailto:haidarhisyam1823@gmail.com">haidarhisyam1823@gmail.com</a></p>
+                <img src="./images/logo-universitas.png" alt="Universitas AMIKOM Purwokerto" class="institution-logo">
+            </div>
+        </section>
+
+        <!-- Project Timeline -->
+        <section class="section-card" id="timeline-card">
+            <h2 class="section-title">
+                <i class="fas fa-rocket"></i>
+                Timeline Pengembangan
+            </h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Maret 2024</div>
+                        <h4>Perencanaan & Analisis</h4>
+                        <p>Identifikasi kebutuhan, studi literatur, dan perancangan arsitektur sistem.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">April 2024</div>
+                        <h4>Pengumpulan Data</h4>
+                        <p>Survei lapangan, pengumpulan data spasial, dan pemrosesan awal dengan QGIS.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Mei 2024</div>
+                        <h4>Pengembangan Frontend</h4>
+                        <p>Implementasi antarmuka web dengan HTML5, CSS3, dan JavaScript interaktif.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Juni 2024</div>
+                        <h4>Integrasi & Testing</h4>
+                        <p>Integrasi komponen, pengujian sistem, dan optimasi performa.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 3. PROJECT PURPOSE -->
-        <section>
-            <h3><i class="fas fa-flag-checkered"></i> Tujuan</h3>
-            <p>Portal ini dibuat untuk memenuhi tugas mata kuliah <strong>Pemrograman GIS</strong>. Selain sebagai syarat akademik, geoportal ini diharapkan dapat menjadi sumber informasi spasial terbuka yang bermanfaat bagi masyarakat, pemerintah desa, dan peneliti dalam proses perencanaan dan pengembangan wilayah.</p>
-        </section>
-
-        <!-- 4. TECHNOLOGY STACK WITH ICONS -->
-        <section>
-            <h3><i class="fas fa-tools"></i> Teknologi yang Digunakan</h3>
-            <p>Geoportal ini dibangun dengan kombinasi beberapa teknologi berikut:</p>
+        <!-- Technology Stack -->
+        <section class="section-card" id="tech-card">
+            <h2 class="section-title">
+                <i class="fas fa-microchip"></i>
+                Teknologi yang Digunakan
+            </h2>
+            <p class="section-content" style="margin-bottom: 2rem;">
+                Geoportal ini dibangun dengan teknologi terdepan dalam pengembangan web dan GIS:
+            </p>
             
             <div class="tech-grid">
-                <div class="tech-item">
+                <div class="tech-card">
                     <i class="fas fa-globe-americas tech-icon" style="color: #2c5530;"></i>
-                    <h4>QGIS</h4>
-                    <p>Pemrosesan & analisis data spasial</p>
+                    <h4 class="tech-name">QGIS</h4>
+                    <p class="tech-desc">Sistem Informasi Geografis untuk pemrosesan dan analisis data spasial.</p>
                 </div>
-                <div class="tech-item">
+                <div class="tech-card">
                     <i class="fab fa-html5 tech-icon" style="color: #e34c26;"></i>
-                    <h4>HTML5</h4>
-                    <p>Struktur dasar halaman web</p>
+                    <h4 class="tech-name">HTML5</h4>
+                    <p class="tech-desc">Struktur dasar dan semantik untuk halaman web modern.</p>
                 </div>
-                <div class="tech-item">
+                <div class="tech-card">
                     <i class="fab fa-css3-alt tech-icon" style="color: #264de4;"></i>
-                    <h4>CSS3</h4>
-                    <p>Styling & tata letak visual</p>
+                    <h4 class="tech-name">CSS3</h4>
+                    <p class="tech-desc">Styling advanced dengan animasi dan efek visual cosmic.</p>
                 </div>
-                <div class="tech-item">
+                <div class="tech-card">
                     <i class="fab fa-js-square tech-icon" style="color: #f0db4f;"></i>
-                    <h4>JavaScript</h4>
-                    <p>Interaktivitas & logika peta</p>
+                    <h4 class="tech-name">JavaScript</h4>
+                    <p class="tech-desc">Logika interaktif dan integrasi komponen 3D.</p>
                 </div>
-                <div class="tech-item">
-                    <i class="fab fa-github tech-icon" style="color: #333;"></i>
-                    <h4>GitHub</h4>
-                    <p>Hosting & version control</p>
+                <div class="tech-card">
+                    <i class="fas fa-cube tech-icon" style="color: #4cc9f0;"></i>
+                    <h4 class="tech-name">Three.js</h4>
+                    <p class="tech-desc">Library 3D untuk visualisasi globe dan elemen interaktif.</p>
+                </div>
+                <div class="tech-card">
+                    <i class="fab fa-github tech-icon" style="color: #ffffff;"></i>
+                    <h4 class="tech-name">GitHub</h4>
+                    <p class="tech-desc">Version control dan hosting untuk deployment.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 5. DATA SOURCES -->
-        <section>
-            <h3><i class="fas fa-database"></i> Sumber Data</h3>
-            <p>Data geospasial yang ditampilkan diperoleh dari:</p>
-            <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
-                <li>Survei lapangan dan pengukuran langsung</li>
-                <li>OpenStreetMap (data jalan dan sungai)</li>
-            </ul>
-            <p style="margin-top: 0.5rem; font-style: italic; color: #555;">*Data mungkin belum lengkap dan akan terus diperbarui.</p>
+        <!-- Data Sources -->
+        <section class="section-card" id="sources-card">
+            <h2 class="section-title">
+                <i class="fas fa-database"></i>
+                Sumber Data
+            </h2>
+            <div class="section-content">
+                <p>Data geospasial yang disajikan berasal dari berbagai sumber terpercaya:</p>
+                <ul class="sources-list">
+                    <li>
+                        <i class="fas fa-map-marked-alt"></i>
+                        <div>
+                            <strong>Survei Lapangan Langsung</strong>
+                            <p>Pengukuran dan pemetaan langsung di wilayah Bumiayu dan Pruwatan.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-satellite"></i>
+                        <div>
+                            <strong>OpenStreetMap</strong>
+                            <p>Data jalan, sungai, dan infrastruktur dasar dari platform open-source.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-landmark"></i>
+                        <div>
+                            <strong>Pemerintah Daerah</strong>
+                            <p>Data administrasi dan batas wilayah dari instansi terkait.</p>
+                        </div>
+                    </li>
+                </ul>
+                <p style="margin-top: 1.5rem; font-style: italic; color: rgba(255,255,255,0.7);">
+                    *Data terus diperbarui untuk memastikan akurasi dan kelengkapan informasi.
+                </p>
+            </div>
         </section>
-
-        <!-- PAGE FOOTER -->
-        <footer class="page-footer">
-            <p>© <span id="current-year"></span> Geoportal Bumiayu Pruwatan. Hak Cipta Dilindungi.</p>
-            <p>Portal ini adalah proyek akademik dan mungkin masih dalam pengembangan.</p>
-        </footer>
     </main>
 
-    <!-- Simple script to update the current year in footer -->
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>© <span class="footer-year" id="current-year"></span> Geoportal Bumiayu Pruwatan. Dibangun dengan teknologi cosmic.</p>
+            <p>Proyek akademik untuk mata kuliah <strong>Pemrograman GIS</strong> - Universitas AMIKOM Purwokerto</p>
+            <p>Kontak: <a href="mailto:haidarhisyam1823@gmail.com">haidarhisyam1823@gmail.com</a></p>
+            <p>Theme: Cosmic Exploration • v2.0</p>
+        </div>
+    </footer>
+
     <script>
+        // ======================
+        // COSMIC THEME ANIMATIONS
+        // ======================
+        
+        // Update current year in footer
         document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+            
+            // Update card animations
+            updateScrollAnimations();
+        });
+        
+        // Scroll animations with Intersection Observer
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('active');
+                        }, 200);
+                    } else {
+                        // Optional: Remove active class when out of view
+                        // entry.target.classList.remove('active');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            // Observe all section cards
+            document.querySelectorAll('.section-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initScrollAnimations();
+            
+            // Add hover effects to tech cards
+            document.querySelectorAll('.tech-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Smooth scroll for navigation
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            window.scrollTo({
+                                top: target.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Create additional stars dynamically
+            createStars(20);
+        });
+        
+        // Create dynamic stars
+        function createStars(count) {
+            const cosmicBg = document.querySelector('.cosmic-bg');
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.width = `${Math.random() * 3 + 1}px`;
+                star.style.height = star.style.width;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                star.style.opacity = Math.random() * 0.7 + 0.3;
+                cosmicBg.appendChild(star);
+            }
+        }
+        
+        // Generate random glow effect
+        function createRandomGlow() {
+            const glow = document.createElement('div');
+            glow.style.position = 'fixed';
+            glow.style.top = `${Math.random() * 100}%`;
+            glow.style.left = `${Math.random() * 100}%`;
+            glow.style.width = '300px';
+            glow.style.height = '300px';
+            glow.style.background = `radial-gradient(circle, 
+                rgba(${Math.random() * 100 + 100}, ${Math.random() * 100 + 150}, 255, 0.1) 0%, 
+                transparent 70%)`;
+            glow.style.zIndex = '-1';
+            glow.style.pointerEvents = 'none';
+            document.body.appendChild(glow);
+            
+            // Animate glow
+            let x = 0;
+            let y = 0;
+            const speedX = Math.random() * 0.2 - 0.1;
+            const speedY = Math.random() * 0.2 - 0.1;
+            
+            function animateGlow() {
+                x += speedX;
+                y += speedY;
+                glow.style.transform = `translate(${x}px, ${y}px)`;
+                requestAnimationFrame(animateGlow);
+            }
+            
+            animateGlow();
+        }
+        
+        // Create some floating glows
+        for (let i = 0; i < 3; i++) {
+            setTimeout(createRandomGlow, i * 1000);
+        }
+        
+        // Add parallax effect to stars
+        window.addEventListener('scroll', () => {
+            const stars = document.querySelectorAll('.star');
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            stars.forEach((star, index) => {
+                star.style.transform = `translateY(${rate * (index % 3 + 1) * 0.1}px)`;
+            });
+        });
     </script>
 </body>
 </html>
