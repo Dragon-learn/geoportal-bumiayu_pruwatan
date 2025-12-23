@@ -314,9 +314,17 @@
             opacity: 1;
         }
 
+        /* ENTRANCE ANIMATION */
         .map-card.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* EXIT ANIMATION */
+        .map-card.exit {
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .map-card:nth-child(odd) {
@@ -561,6 +569,12 @@
         .feature-card.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .feature-card.exit {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
         }
 
         .feature-card::before {
@@ -1178,39 +1192,82 @@
         }
         
         // ======================
-        // SCROLL ANIMATIONS
+        // ENHANCED SCROLL ANIMATIONS WITH ENTRANCE AND EXIT
         // ======================
         
-        // Initialize Intersection Observer for cards
+        // Track which elements have been animated before
+        const animatedElements = new Set();
+        
+        // Initialize enhanced scroll animations
         function initScrollAnimations() {
-            // Card animation observer
+            // Configuration for animations
+            const animationConfig = {
+                threshold: 0.2,
+                rootMargin: '0px 0px -50px 0px',
+                entranceDelay: 300,
+                exitDelay: 100
+            };
+            
+            // Card animation observer with entrance AND exit
             const cardObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
+                    const card = entry.target;
+                    const cardId = card.id;
+                    
                     if (entry.isIntersecting) {
-                        // Get the card index for staggered animation
-                        const card = entry.target;
+                        // ENTRANCE ANIMATION
+                        // Remove exit class if present
+                        card.classList.remove('exit');
+                        
+                        // Calculate delay based on position
                         const index = Array.from(document.querySelectorAll('.map-card')).indexOf(card);
+                        const delay = index * animationConfig.entranceDelay;
                         
                         setTimeout(() => {
                             card.classList.add('active');
-                        }, index * 300);
+                            animatedElements.add(cardId);
+                        }, delay);
                     } else {
-                        // Optional: Remove active class when card leaves viewport
-                        // entry.target.classList.remove('active');
+                        // EXIT ANIMATION - only if element has been animated before
+                        if (animatedElements.has(cardId)) {
+                            // Add exit class first to trigger exit animation
+                            card.classList.add('exit');
+                            
+                            // After exit animation completes, remove active class
+                            setTimeout(() => {
+                                card.classList.remove('active');
+                            }, animationConfig.exitDelay);
+                        }
                     }
                 });
             }, {
-                threshold: 0.2,
-                rootMargin: '0px 0px -50px 0px'
+                threshold: animationConfig.threshold,
+                rootMargin: animationConfig.rootMargin
             });
             
-            // Feature card observer
+            // Feature card observer with entrance AND exit
             const featureObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
+                    const feature = entry.target;
+                    const featureId = feature.id;
+                    
                     if (entry.isIntersecting) {
+                        // ENTRANCE ANIMATION
+                        feature.classList.remove('exit');
+                        
                         setTimeout(() => {
-                            entry.target.classList.add('active');
+                            feature.classList.add('active');
+                            animatedElements.add(featureId);
                         }, 200);
+                    } else {
+                        // EXIT ANIMATION - only if element has been animated before
+                        if (animatedElements.has(featureId)) {
+                            feature.classList.add('exit');
+                            
+                            setTimeout(() => {
+                                feature.classList.remove('active');
+                            }, animationConfig.exitDelay);
+                        }
                     }
                 });
             }, {
@@ -1225,6 +1282,25 @@
             // Observe all feature cards
             document.querySelectorAll('.feature-card').forEach(card => {
                 featureObserver.observe(card);
+            });
+            
+            // Add scroll direction detection for enhanced effects
+            let lastScrollTop = 0;
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollDirection = scrollTop > lastScrollTop ? 'down' : 'up';
+                lastScrollTop = scrollTop;
+                
+                // Optional: Add subtle effects based on scroll direction
+                document.querySelectorAll('.map-card').forEach(card => {
+                    if (scrollDirection === 'down') {
+                        // Slight speed up for entrance when scrolling down
+                        card.style.transitionDuration = '0.8s';
+                    } else {
+                        // Slight slow down for exit when scrolling up
+                        card.style.transitionDuration = '1s';
+                    }
+                });
             });
         }
         
@@ -1243,7 +1319,7 @@
             // Initialize 3D Earth
             initEarth3D();
             
-            // Initialize scroll animations
+            // Initialize scroll animations with entrance and exit
             initScrollAnimations();
             
             // Smooth scroll for navigation links
@@ -1315,6 +1391,69 @@
                 }
             `;
             document.head.appendChild(style);
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                // Space to scroll to next card
+                if (e.key === ' ' && !e.target.matches('input, textarea')) {
+                    e.preventDefault();
+                    const firstCard = document.querySelector('.map-card');
+                    if (firstCard) {
+                        firstCard.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+            
+            // Add scroll progress indicator
+            function createScrollIndicator() {
+                const indicator = document.createElement('div');
+                indicator.id = 'scrollIndicator';
+                indicator.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                indicator.style.cssText = `
+                    position: fixed;
+                    bottom: 30px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    color: var(--cosmic-cyan);
+                    font-size: 2rem;
+                    animation: bounce 2s infinite;
+                    z-index: 1000;
+                    cursor: pointer;
+                    opacity: 0.7;
+                    transition: opacity 0.3s;
+                `;
+                
+                indicator.addEventListener('click', () => {
+                    document.querySelector('#maps').scrollIntoView({ behavior: 'smooth' });
+                });
+                
+                document.body.appendChild(indicator);
+                
+                // Hide when scrolling down
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 100) {
+                        indicator.style.opacity = '0';
+                        indicator.style.pointerEvents = 'none';
+                    } else {
+                        indicator.style.opacity = '0.7';
+                        indicator.style.pointerEvents = 'auto';
+                    }
+                });
+            }
+            
+            // Add bounce animation
+            const bounceStyle = document.createElement('style');
+            bounceStyle.textContent = `
+                @keyframes bounce {
+                    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+                    40% { transform: translateX(-50%) translateY(-10px); }
+                    60% { transform: translateX(-50%) translateY(-5px); }
+                }
+            `;
+            document.head.appendChild(bounceStyle);
+            
+            // Initialize scroll indicator
+            setTimeout(createScrollIndicator, 1000);
         });
     </script>
 </body>
