@@ -890,7 +890,7 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h2>Satu Peta untuk Data Spasial Terpadu</h2>
-            <p>Portal ini menyajikan peta interaktif dan data geospasial wilayah Bumiayu dan Pruwatan untuk perencanaan dan pengembangan wilayah dalam pengalaman 3D cosmic.</p>
+            <p>Portal ini menyajikan peta interaktif dan data geospasial wilayah Bumiayu dan Pruwatan untuk perencanaan dan pengembangan wilayah Kecamatan Bumiayu dan Desa Pruwatan</p>
             <a href="#maps" class="map-button">
                 <i class="fas fa-chevron-down"></i>
                 Jelajahi Peta
@@ -899,13 +899,14 @@
     </section>
 
     <!-- Enhanced Interactive Maps Section -->
+    <!-- Enhanced Interactive Maps Section -->
     <section class="maps-section" id="maps">
         <h2 class="section-title">Peta Interaktif 3D</h2>
         <p class="title-subtext">Jelajahi data geospasial wilayah Bumiayu dan Pruwatan dengan pengalaman visual yang imersif</p>
         
         <div class="map-cards-container">
             <!-- Kecamatan Bumiayu Card -->
-            <div class="map-card" id="bumiayu-card">
+            <div class="map-card active" id="bumiayu-card" style="opacity: 1; transform: translateY(0);">
                 <div class="card-content">
                     <span class="location-badge">
                         <i class="fas fa-map-marker-alt"></i> KECAMATAN
@@ -942,15 +943,14 @@
                     </a>
                 </div>
                 <div class="card-image">
-                    <img src="images/map-thumbnail.png" alt="Peta Kecamatan Bumiayu">
-                    <div class="image-overlay">
-                        <p style="color: white; font-size: 0.9rem;">Klik gambar untuk detail peta Bumiayu</p>
+                    <div style="width:100%;height:100%;background:linear-gradient(45deg,#1a237e,#0d47a1);display:flex;align-items:center;justify-content:center;color:white;">
+                        <span>Peta Bumiayu Preview</span>
                     </div>
                 </div>
             </div>
-
+    
             <!-- Desa Pruwatan Card -->
-            <div class="map-card" id="pruwatan-card">
+            <div class="map-card active" id="pruwatan-card" style="opacity: 1; transform: translateY(0); margin-top: 4rem;">
                 <div class="card-content">
                     <span class="location-badge">
                         <i class="fas fa-map-pin"></i> DESA
@@ -987,15 +987,14 @@
                     </a>
                 </div>
                 <div class="card-image">
-                    <img src="images/map-thumbnail.png" alt="Peta Desa Pruwatan">
-                    <div class="image-overlay">
-                        <p style="color: white; font-size: 0.9rem;">Klik gambar untuk detail peta Pruwatan</p>
+                    <div style="width:100%;height:100%;background:linear-gradient(45deg,#004d40,#00796b);display:flex;align-items:center;justify-content:center;color:white;">
+                        <span>Peta Pruwatan Preview</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <!-- Features Section -->
     <section class="feature-section">
         <h2 class="section-title">Fitur Unggulan</h2>
