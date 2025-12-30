@@ -1,0 +1,1 @@
+var json_RumahHisyam_11 = {"type":"FeatureCollection","name":"RumahHisyam_11","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"id":null,"RT":"RT.2 RW.3","RW":"3","Nama":"Haidar Hisyam Anwar","id_no":"1"},"geometry":{"type":"Point","coordinates":[108.981479071509725,-7.277829955710481]}}]}
