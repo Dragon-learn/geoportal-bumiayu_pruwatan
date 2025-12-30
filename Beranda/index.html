@@ -32,6 +32,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         html, body {
@@ -164,7 +165,7 @@
 
         nav {
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
             align-items: center;
         }
 
@@ -207,6 +208,114 @@
         nav i {
             margin-right: 0.5rem;
             color: var(--cosmic-cyan);
+        }
+
+        /* ===== DROPDOWN NAVIGATION STYLES ===== */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            color: var(--cosmic-light);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background: none;
+            border: none;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropbtn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(30, 144, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .dropbtn:hover::before {
+            left: 100%;
+        }
+
+        .dropbtn:hover {
+            background: rgba(30, 144, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 220px;
+            background: rgba(15, 20, 30, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+
+        .dropdown-content a {
+            color: var(--cosmic-light);
+            padding: 0.8rem 1.2rem;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid rgba(30, 144, 255, 0.1);
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(30, 144, 255, 0.15);
+            color: var(--cosmic-cyan);
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-content a i {
+            width: 20px;
+            text-align: center;
+            margin-right: 0.5rem;
+        }
+
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: dropdownFade 0.3s ease-out;
+        }
+
+        @keyframes dropdownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ===== ENHANCED INTERACTIVE MAP SECTION ===== */
@@ -731,9 +840,22 @@
                 gap: 0.5rem;
             }
             
-            nav a {
+            nav a, .dropbtn {
                 padding: 0.4rem 0.8rem;
                 font-size: 0.9rem;
+            }
+            
+            .dropdown-content {
+                position: fixed;
+                top: auto;
+                left: 50%;
+                transform: translateX(-50%) translateY(-10px);
+                min-width: 90vw;
+                max-width: 300px;
+            }
+            
+            .dropdown:hover .dropdown-content {
+                transform: translateX(-50%) translateY(0);
             }
             
             .hero-content h2 {
@@ -867,8 +989,23 @@
             </div>
             <nav>
                 <a href="../Beranda/" class="active"><i class="fas fa-home"></i> Beranda</a>
-                <a href="../Bumiayu/"><i class="fas fa-map"></i> Peta Bumiayu</a>
-                <a href="../Pruwatan/"><i class="fas fa-map-marked-alt"></i> Peta Pruwatan</a>
+                <a href="../Bumiayu/"><i class="fas fa-map"></i> Peta Kecamatan</a>
+                
+                <!-- DROPDOWN UNTUK DESA -->
+                <div class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">
+                        <i class="fas fa-tree"></i> Desa di Bumiayu <i class="fas fa-caret-down"></i>
+                    </a>
+                    <div class="dropdown-content">
+                        <!-- Hanya ada satu item untuk sekarang -->
+                        <a href="../Pruwatan/"><i class="fas fa-map-pin"></i> Desa Pruwatan</a>
+                        <!-- 
+                            TEMPLATE UNTUK MENAMBAH DESA BARU:
+                            <a href="../[Nama-Desa]/"><i class="fas fa-map-pin"></i> Desa [Nama Desa]</a>
+                        -->
+                    </div>
+                </div>
+                
                 <a href="../Tentang/"><i class="fas fa-info-circle"></i> Tentang</a>
             </nav>
         </div>
@@ -928,7 +1065,7 @@
                     
                     <a href="../Bumiayu/" class="map-button">
                         <i class="fas fa-map"></i>
-                        Jelajahi Peta Bumiayu
+                        Jelajahi Peta Kecamatan
                     </a>
                 </div>
                 <div class="card-image">
@@ -973,7 +1110,7 @@
                     
                     <a href="../Pruwatan/" class="map-button">
                         <i class="fas fa-map-marked-alt"></i>
-                        Jelajahi Peta Pruwatan
+                        Lihat Detail Peta Desa
                     </a>
                 </div>
                 <div class="card-image">
@@ -1454,6 +1591,32 @@
             
             // Initialize scroll indicator
             setTimeout(createScrollIndicator, 1000);
+            
+            // Mobile-friendly dropdown touch support
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const dropbtn = dropdown.querySelector('.dropbtn');
+                const dropdownContent = dropdown.querySelector('.dropdown-content');
+                
+                dropbtn.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        const isActive = dropdownContent.style.display === 'block';
+                        dropdownContent.style.display = isActive ? 'none' : 'block';
+                        dropdownContent.style.opacity = isActive ? '0' : '1';
+                        dropdownContent.style.transform = isActive ? 'translateX(-50%) translateY(-10px)' : 'translateX(-50%) translateY(0)';
+                    }
+                });
+                
+                // Close dropdown when clicking outside on mobile
+                document.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && !dropdown.contains(e.target)) {
+                        dropdownContent.style.display = 'none';
+                        dropdownContent.style.opacity = '0';
+                        dropdownContent.style.transform = 'translateX(-50%) translateY(-10px)';
+                    }
+                });
+            });
         });
     </script>
 </body>
