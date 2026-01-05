@@ -1,0 +1,1 @@
+var json_Kesehatan_Kalisumur_4 = {"type":"FeatureCollection","name":"Kesehatan_Kalisumur_4","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"id":null,"Nama":"RSCS KALISUMUR BUMIAYU\n","Jenis":"Rumah Sunat"},"geometry":{"type":"Point","coordinates":[108.969359764058524,-7.256721003400754]}}]}
