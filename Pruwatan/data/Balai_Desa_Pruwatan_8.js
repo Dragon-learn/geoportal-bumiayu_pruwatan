@@ -1,0 +1,1 @@
+var json_Balai_Desa_Pruwatan_8 = {"type":"FeatureCollection","name":"Balai_Desa_Pruwatan_8","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"id":null,"Nama":"Balai_Desa_Pruwatan"},"geometry":{"type":"Point","coordinates":[108.983440158690186,-7.27787943345528]}}]}
