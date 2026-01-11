@@ -1,1 +1,0 @@
-var json_Balai_desa_Kalisumur_11 = {"type":"FeatureCollection","name":"Balai_desa_Kalisumur_11","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"id":null,"Nama":"Balai desa Kalisumur"},"geometry":{"type":"Point","coordinates":[108.97061961177738,-7.257916382342453]}}]}
